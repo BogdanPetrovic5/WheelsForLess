@@ -3,33 +3,27 @@ $sectionBgColor:#E4572E;
 .container{
     width: 100%;
     height: 100vh;
-    background-color: $backgroundColor;
+    
     display: flex;
     justify-content: center;
     align-items: center;
     section{
-        width: 50%;
-        height: 50%;
-        background-color: $sectionBgColor;
-        box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+        width: 100%;
+        height: 100%;
         display: flex;
-        flex-direction: row;
-        .form, .logo{
-            width: 50%;
-            height: 100%;
-            
+        justify-content: center;
+        align-items: center;
+        .logo, .form{
+            width: 25%;
+            height: 50%;
         }
         .logo{
-            border-left: 1px solid rgb(87, 87, 87);
-            background-position: center;
-            background-repeat: no-repeat;
-            img{
-                width: 100%;
-                height: 100%;
-            }
+            background-color: white;
+
         }
         .form{
-            background-color: white;
+            background-color: $sectionBgColor;
         }
     }
+
 }
