@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "jxMiyK1AhpGVCo18PtIQC8Dn5OZRQwCqbZevHskNyJN2n2wVhaXczlmKuE3H02AOSNdgfD00rX3M0r6cLlrZcA==",
+  "dgSpecHash": "wH05aE/UyTs3dGd6Qug024SyuWDK0nCZdCLq3Q38eHFG35etV9g9+5oVhBwxMzrv2aZT5YF6WN0kBZZE1IU/1g==",
   "success": true,
   "projectFilePath": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\CarWebShop.csproj",
   "expectedPackageFiles": [
@@ -18,6 +18,7 @@
     "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.entityframeworkcore.design\\7.0.11\\microsoft.entityframeworkcore.design.7.0.11.nupkg.sha512",
     "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.11\\microsoft.entityframeworkcore.relational.7.0.11.nupkg.sha512",
     "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\7.0.11\\microsoft.entityframeworkcore.sqlserver.7.0.11.nupkg.sha512",
+    "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\7.0.11\\microsoft.entityframeworkcore.tools.7.0.11.nupkg.sha512",
     "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",
