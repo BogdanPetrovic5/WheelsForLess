@@ -5,5 +5,6 @@ namespace CarWebShop.Interfaces
     public interface ICarRepository
     {
         ICollection<Car> GetCars();
+
     }
 }

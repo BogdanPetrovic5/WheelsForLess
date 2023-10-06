@@ -74,3 +74,9 @@ C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\obj\Debug\net
 C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\obj\Debug\net7.0\CarWebShop.pdb
 C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\obj\Debug\net7.0\CarWebShop.genruntimeconfig.cache
 C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\obj\Debug\net7.0\ref\CarWebShop.dll
+C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\bin\Debug\net7.0\System.Web.Cors.dll
+C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\bin\Debug\net7.0\System.Net.Http.Formatting.dll
+C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\bin\Debug\net7.0\System.Web.Http.dll
+C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\bin\Debug\net7.0\System.Web.Http.Cors.dll
+C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll

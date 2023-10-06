@@ -1,12 +1,21 @@
 <div class="container">
-    <section class="right">
-        <div class="logo">
-
+    <section class="left">
+        
+        <div class="form">
+            <span><h1>REGISTER</h1></span>
+            <section class="inputFields">
+                <input type="text" placeholder="First Name"[(ngModel)] = "RegisterFirstName">
+                <input type="text" placeholder="Last Name"[(ngModel)] = "RegisterLastName">
+                <input type="email"placeholder="Username Name"[(ngModel)] = "RegisterUserName">
+                <input type="email"placeholder="Phone Number" [(ngModel)] = "RegisterPhoneNumber">
+                <input type="password"placeholder="Password" [(ngModel)] = "RegisterPassword">
+            </section>
+            <button (click)="register()">SUBMIT</button>
         </div>
     </section>
-    <section class="left">
-        <div class="form">
-            
+    <section class="right">
+        <div class="logo">
+            <img src="/assets/images/cars.png" alt="">
         </div>
     </section>
 </div>
