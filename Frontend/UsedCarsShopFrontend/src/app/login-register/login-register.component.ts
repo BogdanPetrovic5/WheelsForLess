@@ -7,14 +7,29 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./login-register.component.scss']
 })
 export class LoginRegisterComponent {
+
+
+ChangeFormToLogin() {
+  this.registerForm = false;
+  this.loginForm = true;
+}
+ChangeFormToRegister() {
+  this.registerForm = true;
+  this.loginForm = false;
+}
   /**
    *
    */
-  public RegisterFirstName = ""
-  public RegisterLastName = ""
-  public RegisterUserName = ""
-  public RegisterPhoneNumber = ""
-  public RegisterPassword = ""
+  public RegisterFirstName = "";
+  public RegisterLastName = "";
+  public RegisterUserName = "";
+  public RegisterPhoneNumber = "";
+  public RegisterPassword = "";
+  public LoginPassword= "";
+  public LoginUserName = "";
+  
+  public registerForm = false;
+  public loginForm = true;
   constructor(private auth:AuthenticationService) {
     
     
@@ -36,5 +51,13 @@ export class LoginRegisterComponent {
     },(error:HttpErrorResponse) =>{
       console.error('HTTP error occurred:', error);
     });
+  }
+
+  Login() {
+    this.auth.login(this.LoginUserName, this.LoginPassword).subscribe((response) =>{
+      console.log("Uspesno brt");
+    }, (error:HttpErrorResponse) =>{
+      console.log(error);
+    })
   }
 }

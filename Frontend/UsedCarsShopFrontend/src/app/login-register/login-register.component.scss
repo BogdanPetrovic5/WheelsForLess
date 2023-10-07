@@ -61,6 +61,11 @@ $boxShadow: -15px 0px 23px 3px rgba(181,181,181,1);
                     outline: none;
                 }
             }
+            .loginForm{
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+            }
             button{
                 width: 90%;
                 height: 50px;
@@ -72,7 +77,25 @@ $boxShadow: -15px 0px 23px 3px rgba(181,181,181,1);
                 font-size: 20px;
                 font-family: sans-serif;
                 font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 cursor: pointer;
+                h6{
+                    font-size: 20px;
+                    font-family: sans-serif;
+                    font-weight: 600;
+                    width: 100%;
+                    
+                }
+            }
+            .changeFormBttn{
+                background-color: transparent !important;
+                border: none !important;
+                outline: none !important;
+                h6{
+                    font-size: 16px !important;
+                }
             }
         }
         

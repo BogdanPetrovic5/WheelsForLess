@@ -38,12 +38,12 @@ namespace CarWebShop.Controllers
                         if (reader.HasRows)
                         {
                             // User found, you can perform further actions here
-                            return Ok("Found"); // You can customize this response as needed
+                            return Ok(); // You can customize this response as needed
                         }
                         else
                         {
                             // User not found
-                            return NotFound("Not Found"); // You can customize this response as needed
+                            return NotFound(); // You can customize this response as needed
                         }
                     }
                 }

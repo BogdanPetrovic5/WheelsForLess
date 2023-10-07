@@ -20,5 +20,10 @@ export class AuthenticationService {
           Password:RegisterPassword
       })
   }
-  
+  login(LoginUserName:string, LoginPassword:string):Observable<any>{
+    return this.http.post<any>(environment.apiUrl + "/api/Login/Login",{
+      UserName:LoginUserName,
+      Password:LoginPassword
+    })
+  }
 }

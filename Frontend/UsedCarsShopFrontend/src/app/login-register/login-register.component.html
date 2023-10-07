@@ -2,15 +2,21 @@
     <section class="left">
         
         <div class="form">
-            <span><h1>REGISTER</h1></span>
-            <section class="inputFields">
+            <span><h1 *ngIf="registerForm">REGISTER</h1> <h1 *ngIf="loginForm">LOGIN</h1></span>
+            <section class="inputFields registerForm" *ngIf="registerForm">
                 <input type="text" placeholder="First Name"[(ngModel)] = "RegisterFirstName">
                 <input type="text" placeholder="Last Name"[(ngModel)] = "RegisterLastName">
                 <input type="email"placeholder="Username Name"[(ngModel)] = "RegisterUserName">
                 <input type="email"placeholder="Phone Number" [(ngModel)] = "RegisterPhoneNumber">
                 <input type="password"placeholder="Password" [(ngModel)] = "RegisterPassword">
             </section>
-            <button (click)="register()">SUBMIT</button>
+            <section class="inputFields loginForm" *ngIf="loginForm">
+                <input type="email"placeholder="Username Name"[(ngModel)] = "LoginUserName">
+                <input type="password"placeholder="Password" [(ngModel)] = "LoginPassword">
+            </section>
+            <button (click)="register()"  *ngIf="registerForm"><h6>REGISTER</h6></button>
+            <button *ngIf="loginForm" (click) = "Login()"><h6 >LOGIN</h6></button>
+            <button class="changeFormBttn"><h6 *ngIf="registerForm"  (click)="ChangeFormToLogin()">Already Have An Account?</h6><h6 *ngIf="loginForm"  (click)="ChangeFormToRegister()">Don't Have An Account?</h6></button>
         </div>
     </section>
     <section class="right">
