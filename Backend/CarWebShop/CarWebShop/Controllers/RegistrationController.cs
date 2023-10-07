@@ -18,22 +18,8 @@ namespace CarWebShop.Controllers
         [HttpPost]
         [Route("Registration")]
 
-        /*public string registration(RegisterRequest user)
-        {
-            SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-            SqlCommand command = new SqlCommand
-                ("INSERT INTO Users(FirstName, LastName, UserName, PhoneNumber,Password) values('"+user.FirstName+ "','"+user.LastName+ "', '"+user.UserName+ "', '"+user.PhoneNumber+"', '"+user.Password+"')", connection);
-            connection.Open();
-            int i = command.ExecuteNonQuery();
-            connection.Close();
-            if(i > 0)
-            {
-                return "Data inserted";
-            }else return "Error";
-
-        }*/
-
-        public IActionResult Registration(RegisterRequest user)
+   
+        public IActionResult Registration(RegisterRequestDto user)
         {
             SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             SqlCommand command = new SqlCommand

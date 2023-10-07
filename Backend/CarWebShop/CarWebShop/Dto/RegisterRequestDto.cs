@@ -1,6 +1,6 @@
 ﻿namespace CarWebShop.Dto
 {
-    public class RegisterRequest
+    public class RegisterRequestDto
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
