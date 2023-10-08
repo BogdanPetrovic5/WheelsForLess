@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "CO3Q58EB3uSM1OEElFHagQByaSTdbSC9xCsKg/bup9avHwnKVRPXzlVCkZBSsBkcCIrZ8g9HxRRayXRlPZT/SA==",
+  "dgSpecHash": "RFK5gtSV0paYFFUUYGcXWWi8KkboK9zx3fwNu4WmGzYQPr7YEI2Icxt7H5FyZc6eERUEQLLQ2nMEqJrHYswdLg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\CarWebShop.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,7 @@
     "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.9\\microsoft.aspnet.webapi.client.5.2.9.nupkg.sha512",
     "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.aspnet.webapi.core\\5.2.9\\microsoft.aspnet.webapi.core.5.2.9.nupkg.sha512",
     "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.aspnet.webapi.cors\\5.2.9\\microsoft.aspnet.webapi.cors.5.2.9.nupkg.sha512",
+    "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.11\\microsoft.aspnetcore.authentication.jwtbearer.7.0.11.nupkg.sha512",
     "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.7\\microsoft.aspnetcore.openapi.7.0.7.nupkg.sha512",
     "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\Bogdan\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

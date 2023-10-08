@@ -1,7 +1,10 @@
 ﻿using CarWebShop.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace CarWebShop.Controllers
 {
@@ -14,6 +17,7 @@ namespace CarWebShop.Controllers
         {
             _configuration = configuration;
         }
+
         [HttpPost]
         [Route("Login")]
         public IActionResult Login(LoginRequestDto user)
@@ -37,8 +41,8 @@ namespace CarWebShop.Controllers
                     {
                         if (reader.HasRows)
                         {
-                            // User found, you can perform further actions here
-                            return Ok(); // You can customize this response as needed
+                            var token = Generate(user);
+                            return Ok(token); // You can customize this response as needed
                         }
                         else
                         {
@@ -48,6 +52,20 @@ namespace CarWebShop.Controllers
                     }
                 }
             }
+
+        }
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public string Generate(LoginRequestDto user)
+        {
+            var securutyKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var credentials = new SigningCredentials(securutyKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                 new Claim(ClaimTypes.NameIdentifier, user.UserName)
+             };
+            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, signingCredentials: credentials);
+            return new JwtSecurityTokenHandler().WriteToken(token);
 
         }
     }

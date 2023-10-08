@@ -9,6 +9,7 @@
       "CarWebShop/1.0.0": {
         "dependencies": {
           "Microsoft.AspNet.WebApi.Cors": "5.2.9",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.11",
           "Microsoft.AspNetCore.OpenApi": "7.0.7",
           "Microsoft.EntityFrameworkCore.Design": "7.0.11",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.11",
@@ -101,6 +102,17 @@
           "lib/net45/System.Web.Http.Cors.dll": {
             "assemblyVersion": "5.2.9.0",
             "fileVersion": "5.2.61129.10"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.JwtBearer/7.0.11": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.24.0"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
+            "assemblyVersion": "7.0.11.0",
+            "fileVersion": "7.0.1123.42502"
           }
         }
       },
@@ -1480,6 +1492,13 @@
       "sha512": "sha512-G8gAuv1+m3yCxUD1Ujb3NTHsr3HlZopkNxJ4BsqOaxY1ryW43wR9PQxIzle1GciQrE5pcVzawEgiWcbxoIBpHg==",
       "path": "microsoft.aspnet.webapi.cors/5.2.9",
       "hashPath": "microsoft.aspnet.webapi.cors.5.2.9.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.JwtBearer/7.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xFLgrIjh9DsfSpSRmfb8PWswYSLxkdU/3y2d3yrSA9v+sajnqYP2BARKrxZlO/RlKKMboosAIYP2MajPJilv5w==",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/7.0.11",
+      "hashPath": "microsoft.aspnetcore.authentication.jwtbearer.7.0.11.nupkg.sha512"
     },
     "Microsoft.AspNetCore.OpenApi/7.0.7": {
       "type": "package",

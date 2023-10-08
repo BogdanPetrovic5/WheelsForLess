@@ -80,3 +80,4 @@ C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\bin\Debug\net
 C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\bin\Debug\net7.0\System.Web.Http.Cors.dll
 C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\bin\Debug\net7.0\Newtonsoft.Json.dll
 C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
+C:\Users\Bogdan\Desktop\UsedCarsShop\Backend\CarWebShop\CarWebShop\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
