@@ -42,7 +42,7 @@ namespace CarWebShop.Controllers
                         if (reader.HasRows)
                         {
                             var token = Generate(user);
-                            return Ok(token); // You can customize this response as needed
+                            return Json(Ok(token)); // You can customize this response as needed
                         }
                         else
                         {

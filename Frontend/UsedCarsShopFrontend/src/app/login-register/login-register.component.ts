@@ -54,8 +54,8 @@ ChangeFormToRegister() {
   }
 
   Login() {
-    this.auth.login(this.LoginUserName, this.LoginPassword).subscribe((response) =>{
-      console.log("Uspesno brt");
+    this.auth.login(this.LoginUserName, this.LoginPassword).subscribe((token) =>{
+      localStorage.setItem("Token", token.value)
     }, (error:HttpErrorResponse) =>{
       console.log(error);
     })
