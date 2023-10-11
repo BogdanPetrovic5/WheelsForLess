@@ -3,6 +3,7 @@ using CarWebShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarWebShop.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231011133207_NewMigration")]
+    partial class NewMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,10 +44,8 @@ namespace CarWebShop.Migrations
 
                     b.HasKey("AdverID");
 
-                    b.HasIndex("CarID")
+                    b.HasIndex("UserID")
                         .IsUnique();
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("Advertisement");
                 });
@@ -56,6 +57,9 @@ namespace CarWebShop.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarID"));
+
+                    b.Property<int>("AdverID")
+                        .HasColumnType("int");
 
                     b.Property<string>("CarBrand")
                         .IsRequired()
@@ -124,7 +128,7 @@ namespace CarWebShop.Migrations
                 {
                     b.HasOne("CarWebShop.Models.Car", "Car")
                         .WithOne("Advertisement")
-                        .HasForeignKey("CarWebShop.Models.Advertisement", "CarID")
+                        .HasForeignKey("CarWebShop.Models.Advertisement", "UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

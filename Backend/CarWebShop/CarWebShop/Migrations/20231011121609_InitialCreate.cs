@@ -28,6 +28,26 @@ namespace CarWebShop.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Advertisement",
+                columns: table => new
+                {
+                    AdverID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CarID = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false),
+                    AdverName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Advertisement", x => x.AdverID);
+                    table.ForeignKey(
+                        name: "FK_Advertisement_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cars",
                 columns: table => new
                 {
@@ -37,37 +57,22 @@ namespace CarWebShop.Migrations
                     CarModel = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CarType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CarYear = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OwnerID = table.Column<int>(type: "int", nullable: false)
+                    FuelType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OwnerID = table.Column<int>(type: "int", nullable: false),
+                    AdverID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cars", x => x.CarID);
                     table.ForeignKey(
+                        name: "FK_Cars_Advertisement_AdverID",
+                        column: x => x.AdverID,
+                        principalTable: "Advertisement",
+                        principalColumn: "AdverID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Cars_Users_OwnerID",
                         column: x => x.OwnerID,
-                        principalTable: "Users",
-                        principalColumn: "UserID");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Advertisement",
-                columns: table => new
-                {
-                    AdverID = table.Column<int>(type: "int", nullable: false),
-                    CarID = table.Column<int>(type: "int", nullable: false),
-                    UserID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Advertisement", x => x.AdverID);
-                    table.ForeignKey(
-                        name: "FK_Advertisement_Cars_AdverID",
-                        column: x => x.AdverID,
-                        principalTable: "Cars",
-                        principalColumn: "CarID");
-                    table.ForeignKey(
-                        name: "FK_Advertisement_Users_UserID",
-                        column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID");
                 });
@@ -76,6 +81,12 @@ namespace CarWebShop.Migrations
                 name: "IX_Advertisement_UserID",
                 table: "Advertisement",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cars_AdverID",
+                table: "Cars",
+                column: "AdverID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_OwnerID",
@@ -87,10 +98,10 @@ namespace CarWebShop.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Advertisement");
+                name: "Cars");
 
             migrationBuilder.DropTable(
-                name: "Cars");
+                name: "Advertisement");
 
             migrationBuilder.DropTable(
                 name: "Users");

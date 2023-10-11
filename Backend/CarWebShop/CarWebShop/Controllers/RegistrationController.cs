@@ -18,7 +18,7 @@ namespace CarWebShop.Controllers
         [HttpPost]
         [Route("Registration")]
 
-   
+        
         public IActionResult Registration(RegisterRequestDto user)
         {
             SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));

@@ -42,7 +42,7 @@ namespace CarWebShop.Controllers
                         if (reader.HasRows)
                         {
                             var token = Generate(user);
-                            return Json(Ok(token)); // You can customize this response as needed
+                            return Ok(token); // You can customize this response as needed
                         }
                         else
                         {
@@ -64,7 +64,11 @@ namespace CarWebShop.Controllers
             {
                  new Claim(ClaimTypes.NameIdentifier, user.UserName)
              };
-            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, signingCredentials: credentials);
+            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
+                _configuration["Jwt:Audience"], 
+                claims, 
+                expires:DateTime.Now.AddDays(366),
+                signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
 
         }

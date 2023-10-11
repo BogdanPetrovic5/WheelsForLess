@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarWebShop.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231003133158_InitialCreate")]
+    [Migration("20231011121609_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,7 +27,14 @@ namespace CarWebShop.Migrations
             modelBuilder.Entity("CarWebShop.Models.Advertisement", b =>
                 {
                     b.Property<int>("AdverID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdverID"));
+
+                    b.Property<string>("AdverName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CarID")
                         .HasColumnType("int");
@@ -50,6 +57,9 @@ namespace CarWebShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarID"));
 
+                    b.Property<int>("AdverID")
+                        .HasColumnType("int");
+
                     b.Property<string>("CarBrand")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -66,10 +76,17 @@ namespace CarWebShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FuelType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OwnerID")
                         .HasColumnType("int");
 
                     b.HasKey("CarID");
+
+                    b.HasIndex("AdverID")
+                        .IsUnique();
 
                     b.HasIndex("OwnerID");
 
@@ -111,34 +128,35 @@ namespace CarWebShop.Migrations
 
             modelBuilder.Entity("CarWebShop.Models.Advertisement", b =>
                 {
-                    b.HasOne("CarWebShop.Models.Car", "Car")
-                        .WithOne("Advertisement")
-                        .HasForeignKey("CarWebShop.Models.Advertisement", "AdverID")
-                        .IsRequired();
-
                     b.HasOne("CarWebShop.Models.User", "User")
                         .WithMany("Advertisements")
                         .HasForeignKey("UserID")
                         .IsRequired();
-
-                    b.Navigation("Car");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("CarWebShop.Models.Car", b =>
                 {
+                    b.HasOne("CarWebShop.Models.Advertisement", "Advertisement")
+                        .WithOne("Car")
+                        .HasForeignKey("CarWebShop.Models.Car", "AdverID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CarWebShop.Models.User", "Owner")
                         .WithMany("Cars")
                         .HasForeignKey("OwnerID")
                         .IsRequired();
 
+                    b.Navigation("Advertisement");
+
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("CarWebShop.Models.Car", b =>
+            modelBuilder.Entity("CarWebShop.Models.Advertisement", b =>
                 {
-                    b.Navigation("Advertisement")
+                    b.Navigation("Car")
                         .IsRequired();
                 });
 
