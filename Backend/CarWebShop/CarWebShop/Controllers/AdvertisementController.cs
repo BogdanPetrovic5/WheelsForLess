@@ -1,9 +1,12 @@
 ﻿using CarWebShop.Dto;
+using CarWebShop.Interfaces;
 using CarWebShop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace CarWebShop.Controllers
 {
@@ -12,9 +15,11 @@ namespace CarWebShop.Controllers
     public class AdvertisementController : Controller
     {
         private readonly IConfiguration _configuration;
-        public AdvertisementController(IConfiguration configuration)
+        private readonly IAdverRepository _repository;
+        public AdvertisementController(IConfiguration configuration, IAdverRepository adverRepository)
         {
             _configuration = configuration;
+            _repository = adverRepository;
         }
         [HttpPost("PublishAdvertisement")]
         [Authorize]
@@ -79,5 +84,25 @@ namespace CarWebShop.Controllers
             }
             return null;
         }
+
+        [HttpGet("GetAdvertisements")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Advertisement>))]
+        public ActionResult<IEnumerable<Advertisement>> GetAdvertisements()
+        {
+            var Advers = _repository.GetAdvertisements();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            };
+
+            return Json(Advers);
+        }
     }
+
+    
 }
