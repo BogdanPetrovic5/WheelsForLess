@@ -9,7 +9,27 @@ import { DashboardService } from '../services/dashboard.service';
 export class DasboardComponent {
     public Advertisements = [
       {
-        adverID:Number, userID:Number, adverName:String, carID:Number, userDto:{userID:Number,firstName:String, lastName:String, userName:String, phoneNumber:String}, carDto:{carID:Number, model:String, brand:String, year:String,type:String, fuelType:String}
+        adverID:Number, 
+        userID:Number, 
+        adverName:String, 
+        carID:Number, 
+        userDto:
+        {
+          userID:Number,
+          firstName:String, 
+          lastName:String, 
+          userName:String, 
+          phoneNumber:String
+        }, 
+        carDto:
+        {
+          carID:Number, 
+          model:String, 
+          brand:String, 
+          year:String,
+          type:String, 
+          fuelType:String
+        }
       }
     ]
     constructor(private dashService:DashboardService){
