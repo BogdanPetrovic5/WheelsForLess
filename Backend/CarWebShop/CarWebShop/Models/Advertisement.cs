@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CarWebShop.Dto;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarWebShop.Models
 {
@@ -12,6 +14,10 @@ namespace CarWebShop.Models
         public int CarID { get; set; }
         public Car Car { get; set; }
         public User User { get; set; }
+        [NotMapped]
+        public UserDto UserDto { get; set; }
+        [NotMapped]
+        public CarDto CarDto { get; set; }
         
     }
 }

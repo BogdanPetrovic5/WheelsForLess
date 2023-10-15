@@ -1,4 +1,5 @@
-﻿using CarWebShop.Models;
+﻿using CarWebShop.Dto;
+using CarWebShop.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Metrics;
 
@@ -17,7 +18,8 @@ namespace CarWebShop.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<CarDto>().HasNoKey();
+            modelBuilder.Entity<UserDto>().ToView("UserDto_View").HasNoKey();
             modelBuilder.Entity<Car>().HasKey(c => c.CarID);
             modelBuilder.Entity<User>().HasKey(c => c.UserID);
             modelBuilder.Entity<Advertisement>().HasKey(c => c.AdverID);

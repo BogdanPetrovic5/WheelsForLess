@@ -1,4 +1,6 @@
-﻿namespace CarWebShop.Models
+﻿using CarWebShop.Dto;
+
+namespace CarWebShop.Models
 {
     public class User
     {
@@ -10,6 +12,7 @@
         public string Password { get; set; }
         public ICollection<Advertisement> Advertisements { get; set; }
         public ICollection<Car> Cars { get; set; }
+
        
     }
 }
