@@ -9,13 +9,16 @@ import { DashboardService } from '../services/dashboard.service';
 export class DasboardComponent {
     public Advertisements = [
       {
-        adverID:Number, userID:Number, adverName:String, carID:Number, car: { carID:Number, carBrand:String, carModel:String, carBody:String, carYear:String, ownerID:Number}, user:{userID:Number, firstName:String, lastName:String, userName:String, phoneNumber:String}
+        adverID:Number, userID:Number, adverName:String, carID:Number, userDto:{userID:Number,firstName:String, lastName:String, userName:String, phoneNumber:String}, carDto:{carID:Number, model:String, brand:String, year:String,type:String, fuelType:String}
       }
     ]
     constructor(private dashService:DashboardService){
 
     }
     ngOnInit(){
-
+        this.dashService.getAllAdvers().subscribe(response =>{
+          this.Advertisements = response
+          console.log(this.Advertisements)
+        })
     }
 }

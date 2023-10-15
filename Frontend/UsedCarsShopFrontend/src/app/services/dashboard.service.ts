@@ -9,6 +9,6 @@ export class DashboardService {
 
   constructor(private http:HttpClient) { }
   getAllAdvers():Observable<any>{
-    return this.http.get<any>(environment.apiUrl + "/api/Advertisements/GetAdvertisements")
+    return this.http.get<any>(environment.apiUrl + "/api/Advertisement/GetAdvertisements")
   }
 }
