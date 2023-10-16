@@ -33,6 +33,8 @@ export class DasboardComponent {
       }
     ]
     public username:any
+    public dashboard = false
+    public adverForm = true
     constructor(private dashService:DashboardService){
 
     }
@@ -42,5 +44,9 @@ export class DasboardComponent {
           this.Advertisements = response
           console.log(this.Advertisements)
         })
+    }
+    changeToForm(){
+      this.adverForm = true
+      this.dashboard = false
     }
 }

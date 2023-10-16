@@ -15,46 +15,49 @@
 
             </section>
             <section class="newAdver">
-                <button>
+                <button (click)="changeToForm()">
                     <h1>NEW ADVERTISEMENT</h1>
                 </button>
             </section>
         </section>
     </header>
-    <section class="content">
-        <section class="filter">
-            <div class="filterMenu">
-                 <div class="brandsNModels">
-                     <input type="text" placeholder="Brands">
-                     <input type="text" placeholder="Models">
-                     <input type="text" placeholder="Price range">
-                     <button>SEARCH</button>
-                 </div>
-                 <div class="moreInfo">
-                     <input type="text" placeholder="From Year ">
-                     <input type="text" placeholder="To Year">
-                     <input type="text" placeholder="Car Body">
-                     <input type="text" placeholder="Gas">
-                 </div>
-            </div>
-         </section>
-    </section>
-    <section class="items">
-        <div class="itemsContent">
-            <div class="card" *ngFor="let card of Advertisements">
-                <div class="cardImage">
-                    {{card.adverID}}
+    <section class="dashboardContent" *ngIf="dashboard">
+        <section class="content">
+            <section class="filter">
+                <div class="filterMenu">
+                     <div class="brandsNModels">
+                         <input type="text" placeholder="Brands">
+                         <input type="text" placeholder="Models">
+                         <input type="text" placeholder="Price range">
+                         <button>SEARCH</button>
+                     </div>
+                     <div class="moreInfo">
+                         <input type="text" placeholder="From Year ">
+                         <input type="text" placeholder="To Year">
+                         <input type="text" placeholder="Car Body">
+                         <input type="text" placeholder="Gas">
+                     </div>
                 </div>
-                <div class="info">
-                    <div class="name">
-                        <p class="brand">{{card.carDto.brand}}</p>
-                        <p class="model">{{card.carDto.model}}</p>
+             </section>
+        </section>
+        <section class="items">
+            <div class="itemsContent">
+                <div class="card" *ngFor="let card of Advertisements">
+                    <div class="cardImage">
+                        {{card.adverID}}
                     </div>
-                    <div class="price">
-                        <p>51523</p>
+                    <div class="info">
+                        <div class="name">
+                            <p class="brand">{{card.carDto.brand}}</p>
+                            <p class="model">{{card.carDto.model}}</p>
+                        </div>
+                        <div class="price">
+                            <p>51523</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </section>
+    <app-new-adver-form *ngIf="adverForm" class="form"></app-new-adver-form>
 </section>
