@@ -11,7 +11,7 @@
             </section>
             <section class="profile">
                 <h1>MY PROFILE</h1>
-                <p>example23213</p>
+                <p>{{username}}</p>
 
             </section>
             <section class="newAdver">
@@ -41,12 +41,18 @@
     </section>
     <section class="items">
         <div class="itemsContent">
-            <div class="card">
+            <div class="card" *ngFor="let card of Advertisements">
                 <div class="cardImage">
-
+                    {{card.adverID}}
                 </div>
                 <div class="info">
-                    
+                    <div class="name">
+                        <p class="brand">{{card.carDto.brand}}</p>
+                        <p class="model">{{card.carDto.model}}</p>
+                    </div>
+                    <div class="price">
+                        <p>51523</p>
+                    </div>
                 </div>
             </div>
         </div>

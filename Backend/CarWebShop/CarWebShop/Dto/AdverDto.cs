@@ -12,7 +12,8 @@ namespace CarWebShop.Dto
         public string Year { get; set; }
         public string Type { get; set; }
         public string FuelType { get; set; }
-        public UserDto UserDto { get; set; }
-        public Car Car { get; set; }
+       
+
+       
     }
 }

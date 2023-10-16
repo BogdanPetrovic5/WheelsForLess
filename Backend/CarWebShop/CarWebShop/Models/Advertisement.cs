@@ -8,7 +8,7 @@ namespace CarWebShop.Models
     {
         [Key]
         public int AdverID { get; set; }
-        
+
         public int UserID { get; set; }
         public string AdverName { get; set; }
         public int CarID { get; set; }
@@ -18,6 +18,6 @@ namespace CarWebShop.Models
         public UserDto UserDto { get; set; }
         [NotMapped]
         public CarDto CarDto { get; set; }
-        
+
     }
 }

@@ -32,10 +32,12 @@ export class DasboardComponent {
         }
       }
     ]
+    public username:any
     constructor(private dashService:DashboardService){
 
     }
     ngOnInit(){
+        this.username = localStorage.getItem("Username")
         this.dashService.getAllAdvers().subscribe(response =>{
           this.Advertisements = response
           console.log(this.Advertisements)

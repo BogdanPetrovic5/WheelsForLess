@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login-register',
   templateUrl: './login-register.component.html',
@@ -30,7 +31,7 @@ ChangeFormToRegister() {
   
   public registerForm = false;
   public loginForm = true;
-  constructor(private auth:AuthenticationService) {
+  constructor(private auth:AuthenticationService, private router:Router) {
     
     
   }
@@ -56,6 +57,8 @@ ChangeFormToRegister() {
   Login() {
     this.auth.login(this.LoginUserName, this.LoginPassword).subscribe((token) =>{
       localStorage.setItem("Token", token.value)
+      localStorage.setItem("Username", this.LoginUserName)
+      this.router.navigate(["/Dashboard"])
     }, (error:HttpErrorResponse) =>{
       console.log(error);
     })

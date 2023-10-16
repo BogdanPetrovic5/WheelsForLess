@@ -11,6 +11,7 @@ namespace CarWebShop.Models
         public string CarType { get; set; }
         public string CarYear { get; set; }
         public string FuelType { get; set; }
+        
         public int OwnerID { get; set; }
         public Advertisement Advertisement { get; set; }
         public User Owner { get; set; }

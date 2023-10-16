@@ -35,7 +35,7 @@ namespace CarWebShop.Repository
                 FuelType = car.FuelType,
                 Year = car.CarYear,
                 CarID = car.CarID
-                
+
                 // Exclude the password field
             };
         }
@@ -55,6 +55,6 @@ namespace CarWebShop.Repository
                 .OrderBy(a => a.AdverID)
                 .ToList();
         }
-        
+
     }
 }
