@@ -1,7 +1,7 @@
 .content{
    
     width: 100%;
-    
+    position: relative;
     height: calc(100vh - 120px);
     display: flex;
     align-items: center;
@@ -43,7 +43,12 @@
                 transition: 300ms ease-in-out;
                 width: 85%;
               }
-              
+              h1{
+                font-size: 30px;
+                font-family:'Franklin Gothic Medium', 'ArialNarrow', Arial, sans-serif;
+                font-weight: 900;
+                color: rgb(63, 63, 63);
+              }
               .input:focus {
                 background-color: white;
                 transform: scale(1.05);
@@ -55,6 +60,44 @@
             }
             .input:last-child{
                 margin-bottom: 5%;
+            }
+            .radio-inputs {
+              position: relative;
+              display: flex;
+              flex-wrap: wrap;
+              border-radius: 0.5rem;
+              background-color: #EEE;
+              box-sizing: border-box;
+              box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+              padding: 0.25rem;
+              width: 300px;
+              font-size: 14px;
+            }
+            
+            .radio-inputs .radio {
+              flex: 1 1 auto;
+              text-align: center;
+            }
+            
+            .radio-inputs .radio input {
+              display: none;
+            }
+            
+            .radio-inputs .radio .name {
+              display: flex;
+              cursor: pointer;
+              align-items: center;
+              justify-content: center;
+              border-radius: 0.5rem;
+              border: none;
+              padding: .5rem 0;
+              color: rgba(51, 65, 85, 1);
+              transition: all .15s ease-in-out;
+            }
+            
+            .radio-inputs .radio input:checked + .name {
+              background-color: #fff;
+              font-weight: 600;
             }
             button{
                 height: 50px;

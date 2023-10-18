@@ -63,6 +63,8 @@ namespace CarWebShop.Controllers
             var claims = new[]
             {
                  new Claim(ClaimTypes.NameIdentifier, user.UserName)
+                
+
              };
             var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
                 _configuration["Jwt:Audience"], 

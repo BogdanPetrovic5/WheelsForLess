@@ -35,6 +35,7 @@ export class DasboardComponent {
     public username:any
     public dashboard = false
     public adverForm = true
+
     constructor(private dashService:DashboardService){
 
     }
@@ -48,5 +49,9 @@ export class DasboardComponent {
     changeToForm(){
       this.adverForm = true
       this.dashboard = false
+    }
+    toDashboard(){
+      this.adverForm = false
+      this.dashboard = true
     }
 }

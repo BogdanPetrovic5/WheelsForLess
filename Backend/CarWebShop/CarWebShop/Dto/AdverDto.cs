@@ -6,7 +6,7 @@ namespace CarWebShop.Dto
     {
         public int AdverID { get; set; }
         public string AdverName { get; set; }
-        public int UserID { get; set; }
+        public string UserName { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
         public string Year { get; set; }

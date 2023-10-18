@@ -25,9 +25,10 @@ namespace CarWebShop.Controllers
         [Authorize]
         public IActionResult PublishAdvertisement(AdverDto adverDto)
         {
+            int UserID = GetUserIdByUsername(adverDto.UserName);
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = "INSERT INTO Cars(CarBrand, CarModel, CarYear, CarType, FuelType, OwnerID) VALUES('" + adverDto.Brand + "', '" + adverDto.Model + "', '" + adverDto.Year + "', '" + adverDto.Type + "', '" + adverDto.FuelType + "', '" + adverDto.UserID + "' )";
+            string query = "INSERT INTO Cars(CarBrand, CarModel, CarYear, CarType, FuelType, OwnerID) VALUES('" + adverDto.Brand + "', '" + adverDto.Model + "', '" + adverDto.Year + "', '" + adverDto.Type + "', '" + adverDto.FuelType + "', '" + UserID + "' )";
             SqlCommand command = new SqlCommand(query);
 
             // Associate the SqlCommand with the SqlConnection
@@ -42,7 +43,7 @@ namespace CarWebShop.Controllers
             SqlCommand getIdCommand = new SqlCommand(getIdQuery, connection);
             int newCarID = Convert.ToInt32(getIdCommand.ExecuteScalar());
             connection.Close();
-            InsertIntoAdver(adverDto, newCarID);
+            InsertIntoAdver(adverDto, newCarID, UserID);
             if (i > 0)
             {
                 return Ok();
@@ -51,11 +52,12 @@ namespace CarWebShop.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public IActionResult InsertIntoAdver(AdverDto adverDto, int carID)
+        public IActionResult InsertIntoAdver(AdverDto adverDto, int carID, int UserID)
         {
+            
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = "INSERT INTO Advertisement(AdverName, UserID, CarID) VALUES('" + adverDto.AdverName + "', '" + adverDto.UserID + "', '" + carID + "')";
+            string query = "INSERT INTO Advertisement(AdverName, UserID, CarID) VALUES('" + adverDto.AdverName + "', '" +UserID+ "', '" + carID + "')";
             SqlCommand command = new SqlCommand(query);
             command.Connection = connection;
             connection.Open();
@@ -68,7 +70,27 @@ namespace CarWebShop.Controllers
             else return BadRequest();
 
         }
-        
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public int GetUserIdByUsername(string username)
+        {
+            int userId = 0;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT UserID FROM Users WHERE UserName = @Username";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Username", username);
+                    var result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
+                    {
+                        userId = Convert.ToInt32(result);
+                    }
+                }
+            }
+            return userId;
+        }
         private LoginRequestDto GetCurrentUser()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
