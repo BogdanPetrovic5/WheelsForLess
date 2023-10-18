@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../services/dashboard.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dasboard',
@@ -36,7 +37,8 @@ export class DasboardComponent {
     public dashboard = false
     public adverForm = true
 
-    constructor(private dashService:DashboardService){
+    public options = false
+    constructor(private dashService:DashboardService, private router:Router){
 
     }
     ngOnInit(){
@@ -53,5 +55,16 @@ export class DasboardComponent {
     toDashboard(){
       this.adverForm = false
       this.dashboard = true
+    }
+    showDropdown(){
+      this.options = true
+    }
+    closeDropdown(){
+      this.options = false
+    }
+    logout(){
+      this.router.navigate(["/Login"])
+      localStorage.removeItem("Username")
+      localStorage.removeItem("Token")
     }
 }
