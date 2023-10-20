@@ -99,12 +99,22 @@ namespace CarWebShop.Controllers
         {
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            string query;
             int UserID = GetUserIdByUsername(favoritesDto.UserName);
+            bool duplicate = checkForDuplicates(favoritesDto, UserID);
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // Use parameterized query to prevent SQL injection
-                string query = "INSERT INTO Favorites (AdverID, UserID) VALUES (@AdverID, @UserID)";
-
+                if (duplicate)
+                {
+                    query = "DELETE FROM Favorites WHERE AdverID = @AdverID and UserID = @UserID";
+                }
+                else
+                {
+                    query = "INSERT INTO Favorites (AdverID, UserID) VALUES (@AdverID, @UserID)";
+                }
+                 
+                
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     // Add parameters to the SqlCommand
@@ -121,10 +131,43 @@ namespace CarWebShop.Controllers
                     }
                     else
                     {
-                        return BadRequest("Insertion failed"); // Insertion failed
+                        return BadRequest(); // Insertion failed
                     }
                 }
             }
+        }
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public bool checkForDuplicates(FavoritesDto favoritesDto, int UserID)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT 1 FROM Favorites WHERE AdverID = @AdverID AND UserID = @UserID";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@AdverID", favoritesDto.AdverID);
+                    command.Parameters.AddWithValue("UserID", UserID);
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            // Row with the specified AdverID and UserID exists
+                            return true;
+                        }
+                        else
+                        {
+                            // Row does not exist
+                            return false;
+                        }
+                    }
+                }
+            }
+            
+            
+            
+
         }
         private LoginRequestDto GetCurrentUser()
         {
