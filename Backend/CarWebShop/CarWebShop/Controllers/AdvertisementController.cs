@@ -21,6 +21,7 @@ namespace CarWebShop.Controllers
             _configuration = configuration;
             _repository = adverRepository;
         }
+        
         [HttpPost("PublishAdvertisement")]
         [Authorize]
         public IActionResult PublishAdvertisement(AdverDto adverDto)
@@ -88,8 +89,42 @@ namespace CarWebShop.Controllers
                         userId = Convert.ToInt32(result);
                     }
                 }
+                
             }
             return userId;
+        }
+        [HttpPost("MarkAsFavorite")]
+        [Authorize]
+        public IActionResult markAsFavorite(FavoritesDto favoritesDto)
+        {
+
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            int UserID = GetUserIdByUsername(favoritesDto.UserName);
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Use parameterized query to prevent SQL injection
+                string query = "INSERT INTO Favorites (AdverID, UserID) VALUES (@AdverID, @UserID)";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Add parameters to the SqlCommand
+                    command.Parameters.AddWithValue("@AdverID", favoritesDto.AdverID);
+                    command.Parameters.AddWithValue("@UserID", UserID);
+
+                    connection.Open();
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        return Ok(); // Successfully inserted
+                    }
+                    else
+                    {
+                        return BadRequest("Insertion failed"); // Insertion failed
+                    }
+                }
+            }
         }
         private LoginRequestDto GetCurrentUser()
         {

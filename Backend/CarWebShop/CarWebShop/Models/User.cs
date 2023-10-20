@@ -12,7 +12,7 @@ namespace CarWebShop.Models
         public string Password { get; set; }
         public ICollection<Advertisement> Advertisements { get; set; }
         public ICollection<Car> Cars { get; set; }
+        public ICollection<Favorites> FavoriteAdvertisements { get; set; }
 
-       
     }
 }
