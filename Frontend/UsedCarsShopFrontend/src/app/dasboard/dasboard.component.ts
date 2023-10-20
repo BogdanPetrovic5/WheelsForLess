@@ -1,51 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../services/dashboard.service';
 import { Router } from '@angular/router';
-
+import { Advertisement } from '../Data Transfer Objects/Advertisements';
 @Component({
   selector: 'app-dasboard',
   templateUrl: './dasboard.component.html',
   styleUrls: ['./dasboard.component.scss']
 })
 export class DasboardComponent {
-    public Advertisements = [
-      {
-        adverID:Number, 
-        userID:Number, 
-        adverName:String, 
-        carID:Number, 
-        userDto:
-        {
-          userID:Number,
-          firstName:String, 
-          lastName:String, 
-          userName:String, 
-          phoneNumber:String
-        }, 
-        carDto:
-        {
-          carID:Number, 
-          model:String, 
-          brand:String, 
-          year:String,
-          type:String, 
-          fuelType:String
-        }
-      }
-    ]
+    
+    advertisementObject: Advertisement;
     public username:any
     public dashboard = false
-    public adverForm = true
-
+    public adverForm = false
+    public adver = true
     public options = false
     constructor(private dashService:DashboardService, private router:Router){
-
+      this.advertisementObject = new Advertisement();
     }
     ngOnInit(){
         this.username = localStorage.getItem("Username")
         this.dashService.getAllAdvers().subscribe(response =>{
-          this.Advertisements = response
-          console.log(this.Advertisements)
+          this.advertisementObject.Advertisements = response
+          
         })
     }
     changeToForm(){

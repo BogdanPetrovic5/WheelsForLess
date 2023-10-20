@@ -54,7 +54,7 @@
         </section>
         <section class="items">
             <div class="itemsContent">
-                <div class="card" *ngFor="let card of Advertisements">
+                <div class="card" *ngFor="let card of advertisementObject.Advertisements">
                     <div class="cardImage">
                         {{card.adverID}}
                     </div>
@@ -72,4 +72,5 @@
         </section>
     </section>
     <app-new-adver-form *ngIf="adverForm" class="form"></app-new-adver-form>
+    <app-advertisement *ngIf="adver" class="adver"></app-advertisement>
 </section>
