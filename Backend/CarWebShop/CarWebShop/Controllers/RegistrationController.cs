@@ -10,11 +10,17 @@ namespace CarWebShop.Controllers
     [ApiController]
     public class RegistrationController : ControllerBase
     {
-       private readonly IConfiguration _configuration;
+        public readonly string baseFolderPath;
+        public string userFolderName;
+       
+        private readonly IConfiguration _configuration;
         public RegistrationController(IConfiguration configuration)
         {
             _configuration = configuration;
+            baseFolderPath = Path.Combine("wwwroot", "Photos");
+            
         }
+        
         [HttpPost]
         [Route("Registration")]
 
@@ -25,8 +31,12 @@ namespace CarWebShop.Controllers
             SqlCommand command = new SqlCommand
                 ("INSERT INTO Users(FirstName, LastName, UserName, PhoneNumber,Password) values('" + user.FirstName + "','" + user.LastName + "', '" + user.UserName + "', '" + user.PhoneNumber + "', '" + user.Password + "')", connection);
             connection.Open();
-
-            
+            userFolderName = user.UserName;
+            string userFolderPath = Path.Combine(baseFolderPath, userFolderName);
+            if (!Directory.Exists(userFolderPath))
+            {
+                Directory.CreateDirectory(userFolderPath);
+            }
             int i = command.ExecuteNonQuery();
             connection.Close();
 
