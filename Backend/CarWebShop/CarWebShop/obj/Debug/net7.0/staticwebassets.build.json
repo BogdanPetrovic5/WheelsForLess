@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "nYMzo6cdXADcKTwMZknMnwKhJXuJtBLaLM1vfGvwjnQ=",
+  "Hash": "iaQNQwZC1eDxxF7423BmcvlgiOtqMlmt+8AMgIQ6tCY=",
   "Source": "CarWebShop",
   "BasePath": "_content/CarWebShop",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "CarWebShop\\wwwroot",
+      "Source": "CarWebShop",
+      "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
+      "BasePath": "_content/CarWebShop",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

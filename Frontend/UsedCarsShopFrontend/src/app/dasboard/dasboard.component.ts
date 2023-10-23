@@ -12,8 +12,8 @@ export class DasboardComponent {
     advertisementObject: Advertisement;
     public username:any
     public dashboard = false
-    public adverForm = false
-    public adver = true
+    public adverForm = true
+    public adver = false
     public options = false
     constructor(private dashService:DashboardService, private router:Router){
       this.advertisementObject = new Advertisement();
@@ -28,10 +28,12 @@ export class DasboardComponent {
     changeToForm(){
       this.adverForm = true
       this.dashboard = false
+      this.adver = false
     }
     toDashboard(){
       this.adverForm = false
       this.dashboard = true
+      this.adver = false
     }
     showDropdown(){
       this.options = true

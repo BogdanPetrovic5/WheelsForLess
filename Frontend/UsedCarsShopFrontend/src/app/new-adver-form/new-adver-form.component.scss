@@ -10,9 +10,10 @@
 
         width: 100%;
         display: flex;
+        gap: 50px;
         justify-content: center;
-        align-items: center;
-        flex-direction: column;
+        
+        flex-direction: row;
         border-radius: 5px;
        
         .form{
@@ -99,12 +100,12 @@
               background-color: #fff;
               font-weight: 600;
             }
-            button{
+            button, .label{
                 height: 50px;
                 width: 50%;
                 margin-bottom: 5%;
             }
-            button {
+            button, .label{
                 
                 font-size: 12px;
                 text-transform: uppercase;
@@ -119,8 +120,15 @@
                 cursor: pointer;
                 outline: none;
               }
-              
-              button:hover {
+              .label{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                h1{
+                  font-size: 20px;
+                }
+              }
+              button:hover{
                 background-color: #001524;;
                 box-shadow: 0px 15px 20px #000e18;
                 color: #fff;
@@ -130,6 +138,56 @@
               button:active {
                 transform: translateY(-1px);
               }
+             
+        }
+        .file{
+          display: none;
+        }
+        .label{
+
+        }
+        .custum-file-upload {
+          
+          height: 200px;
+          width: 300px;
+          display: flex;
+          flex-direction: column;
+          align-items: space-between;
+          gap: 20px;
+          cursor: pointer;
+          align-items: center;
+          justify-content: center;
+          border: 2px dashed #cacaca;
+          background-color: rgba(255, 255, 255, 1);
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0px 48px 35px -48px rgba(0,0,0,0.1);
+        }
+        
+        .custum-file-upload .icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .custum-file-upload .icon svg {
+          height: 80px;
+          fill: rgba(75, 85, 99, 1);
+        }
+        
+        .custum-file-upload .text {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .custum-file-upload .text span {
+          font-weight: 400;
+          color: rgba(75, 85, 99, 1);
+        }
+        
+        .custum-file-upload input {
+         
         }
     }
 }
