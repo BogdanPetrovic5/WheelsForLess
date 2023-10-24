@@ -12,7 +12,20 @@
             <input type="text" autocomplete="off" name="text" class="input" placeholder="Fuel Type" [(ngModel)] = "FuelType">
             <input type="text" autocomplete="off" name="text" class="input" placeholder="Price" [(ngModel)] = "Price">
             <label for="file" class="label"><h1>SELECT IMAGES</h1></label>
-            <input type="file" class="file" id="file">
+            <input type="file" class="file" id="file" (change)="onFileSelected($event)">
+            <div class="imagesDiv">
+              <div class="images" *ngFor="let img of selectedFiles">
+                  <div class="image">
+                    <img src="/assets/images/jpg (1).png" alt="" srcset="">
+                  </div>
+                  <div class="details">
+                    <p>
+                      {{img.name}} <br>
+                      {{img.size}}
+                    </p>
+                  </div>
+              </div>
+            </div>
             <div class="radio-inputs">
                 <label class="radio">
                   <input type="radio" name="radio" checked="">

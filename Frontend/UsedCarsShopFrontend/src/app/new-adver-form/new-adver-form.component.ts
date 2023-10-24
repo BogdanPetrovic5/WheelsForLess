@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./new-adver-form.component.scss']
 })
 export class NewAdverFormComponent {
+
   AdverName = "";
   Brand= "";
   Model= "";
@@ -19,8 +20,29 @@ export class NewAdverFormComponent {
   UserID:any
   token:any
   UserName:any
+  selectedFiles: File[] = [];
   constructor(private router:Router, private dashboard: DashboardService){
 
+  }
+
+  
+
+  onFileSelected(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const files = inputElement.files;
+
+    if (files && files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        
+        this.selectedFiles.push(files[i]); 
+        this.convertToMB()
+      }
+    }
+    console.log(this.selectedFiles)
+  }
+
+  convertToMB(){
+    
   }
   placeAdver(){
     this.UserName = localStorage.getItem("Username");
