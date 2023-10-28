@@ -12,14 +12,14 @@ export class DashboardService {
   getAllAdvers():Observable<any>{
     return this.http.get<any>(environment.apiUrl + "/api/Advertisement/GetAdvertisements")
   }
-  placeAdvertisement(Token: string,data:any): Observable<any> {
-  const httpHeaders = new HttpHeaders({
-    Authorization: `Bearer ${Token}` // Include 'Bearer ' prefix for JWT tokens
-  });
+  placeAdvertisement(Token: string,data:FormData): Observable<any> {
+    const httpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${Token}`
+    });
 
-  
+    httpHeaders.set('Content-Type', 'multipart/form-data');
 
-  return this.http.post<any>(environment.apiUrl + "/api/Advertisement/PublishAdvertisement",data, {headers:httpHeaders});
-}
+    return this.http.post<any>(environment.apiUrl + "/api/Advertisement/PublishAdvertisement",data, {headers:httpHeaders});
+  }
 
 }

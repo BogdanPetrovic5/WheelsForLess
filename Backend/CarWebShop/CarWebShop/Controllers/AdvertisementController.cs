@@ -24,7 +24,7 @@ namespace CarWebShop.Controllers
         
         [HttpPost("PublishAdvertisement")]
         [Authorize]
-        public IActionResult PublishAdvertisement(AdverDto adverDto)
+        public IActionResult PublishAdvertisement([FromForm] AdverDto adverDto,  List<IFormFile> selectedImages)
         {
             int UserID = GetUserIdByUsername(adverDto.UserName);
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -44,7 +44,9 @@ namespace CarWebShop.Controllers
             SqlCommand getIdCommand = new SqlCommand(getIdQuery, connection);
             int newCarID = Convert.ToInt32(getIdCommand.ExecuteScalar());
             connection.Close();
-            InsertIntoAdver(adverDto, newCarID, UserID);
+            InsertIntoAdver(adverDto, newCarID, UserID, selectedImages);
+
+
             if (i > 0)
             {
                 return Ok();
@@ -53,7 +55,7 @@ namespace CarWebShop.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public IActionResult InsertIntoAdver(AdverDto adverDto, int carID, int UserID)
+        public IActionResult InsertIntoAdver([FromForm] AdverDto adverDto, int carID, int UserID,  List<IFormFile> selectedImages)
         {
             
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -63,12 +65,40 @@ namespace CarWebShop.Controllers
             command.Connection = connection;
             connection.Open();
             int i = command.ExecuteNonQuery();
+            string getIdQuery = "SELECT @@IDENTITY";
+            SqlCommand getIdCommand = new SqlCommand(getIdQuery, connection);
+            int AdverID = Convert.ToInt32(getIdCommand.ExecuteScalar());
             connection.Close();
+            createFolder(AdverID, adverDto.UserName, adverDto, selectedImages);
             if (i > 0)
             {
                 return Ok();
             }
             else return BadRequest();
+
+        }
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public void createFolder(int adverID, string username, [FromForm] AdverDto adverDto,  List<IFormFile> selectedImages)
+        {
+            string adverFolderName = adverID.ToString();
+            string adverFolderPath = Path.Combine("wwwroot/Photos/" + username, adverFolderName);
+            Directory.CreateDirectory(adverFolderPath);
+
+            foreach (var formFile in selectedImages)
+            {
+                if (formFile.Length > 0)
+                {
+                    string fileName = Path.GetFileName(formFile.FileName);
+                    string filePath = Path.Combine(adverFolderPath, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        formFile.CopyTo(stream);
+                    }
+                }
+            }
+
+            // Process and save each image
 
         }
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -162,6 +192,7 @@ namespace CarWebShop.Controllers
                             return false;
                         }
                     }
+
                 }
             }
             

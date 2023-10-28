@@ -35,7 +35,7 @@ export class NewAdverFormComponent {
       for (let i = 0; i < files.length; i++) {
         
         this.selectedFiles.push(files[i]); 
-        this.convertToMB()
+        
       }
     }
     console.log(this.selectedFiles)
@@ -46,19 +46,33 @@ export class NewAdverFormComponent {
   }
   placeAdver(){
     this.UserName = localStorage.getItem("Username");
-    const data = 
-      {
-        AdverName:this.AdverName,
-        UserName:this.UserName,
-        Brand:this.Brand,
-        Model:this.Model,
-        Year:this.Year,
-        Type:this.BodyType,
-        FuelType:this.FuelType
-      }
+    // const data = 
+    //   {
+    //     AdverName:this.AdverName,
+    //     UserName:this.UserName,
+    //     Brand:this.Brand,
+    //     Model:this.Model,
+    //     Year:this.Year,
+    //     Type:this.BodyType,
+    //     FuelType:this.FuelType,
+    //     SelectedImages:this.selectedFiles
+    //   }
+
+    const formData = new FormData();
+    formData.append("AdverName", this.AdverName);
+    formData.append("UserName", this.UserName);
+    formData.append("Brand", this.Brand);
+    formData.append("Model", this.Model);
+    formData.append("Year", this.Year);
+    formData.append("Type", this.BodyType);
+    formData.append("FuelType", this.FuelType);
+
+    for (let i = 0; i < this.selectedFiles.length; i++) {
+        formData.append("selectedImages", this.selectedFiles[i]);
+    }
     this.token = localStorage.getItem("Token");
     console.log(this.token)
-    this.dashboard.placeAdvertisement(this.token, data).subscribe(response =>{
+    this.dashboard.placeAdvertisement(this.token, formData).subscribe(response =>{
       console.log("Top")
     }, (error:HttpErrorResponse) =>{
       console.log("Jok")
