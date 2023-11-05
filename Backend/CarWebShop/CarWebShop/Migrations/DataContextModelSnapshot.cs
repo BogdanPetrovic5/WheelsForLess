@@ -156,6 +156,21 @@ namespace CarWebShop.Migrations
                     b.ToTable("Favorites");
                 });
 
+            modelBuilder.Entity("CarWebShop.Models.ImagePaths", b =>
+                {
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AdverID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ImagePath");
+
+                    b.HasIndex("AdverID");
+
+                    b.ToTable("ImagePaths");
+                });
+
             modelBuilder.Entity("CarWebShop.Models.User", b =>
                 {
                     b.Property<int>("UserID")
@@ -236,9 +251,21 @@ namespace CarWebShop.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CarWebShop.Models.ImagePaths", b =>
+                {
+                    b.HasOne("CarWebShop.Models.Advertisement", "Advertisement")
+                        .WithMany("imagePaths")
+                        .HasForeignKey("AdverID")
+                        .IsRequired();
+
+                    b.Navigation("Advertisement");
+                });
+
             modelBuilder.Entity("CarWebShop.Models.Advertisement", b =>
                 {
                     b.Navigation("FavoritedByUsers");
+
+                    b.Navigation("imagePaths");
                 });
 
             modelBuilder.Entity("CarWebShop.Models.Car", b =>

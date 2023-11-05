@@ -16,7 +16,7 @@ namespace CarWebShop.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Favorites> Favorites { get; set; }
-
+        public DbSet<ImagePaths> ImagePaths { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
@@ -25,14 +25,17 @@ namespace CarWebShop.Data
             modelBuilder.Entity<Car>().HasKey(c => c.CarID);
             modelBuilder.Entity<User>().HasKey(c => c.UserID);
             modelBuilder.Entity<Advertisement>().HasKey(c => c.AdverID);
-
+            modelBuilder.Entity<ImagePaths>().HasKey(c => c.ImagePath);
             
             //One-to-many user can have multiple Cars
             modelBuilder.Entity<Car>()
                 .HasOne(c => c.Owner)
                 .WithMany(o => o.Cars)
                 .HasForeignKey(c => c.OwnerID).OnDelete(DeleteBehavior.ClientSetNull);
-
+            modelBuilder.Entity<ImagePaths>()
+                .HasOne(c => c.Advertisement)
+                .WithMany(o => o.imagePaths)
+                .HasForeignKey(k => k.AdverID).OnDelete(DeleteBehavior.ClientSetNull);
             //One to one one car is in relationship to only one advertisment
             modelBuilder.Entity<Advertisement>()
                 .HasOne(c => c.Car)

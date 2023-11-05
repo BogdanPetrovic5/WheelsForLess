@@ -7,6 +7,7 @@ using Microsoft.Data.SqlClient;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarWebShop.Controllers
 {
@@ -95,6 +96,14 @@ namespace CarWebShop.Controllers
                     {
                         formFile.CopyTo(stream);
                     }
+                    var imagePath = new ImagePaths
+                    {
+                        AdverID = adverID,      // Associate the image path with the advertisement
+                        ImagePath = Path.Combine(username, adverID.ToString(), fileName) // Store the relative path
+                    };
+
+                    // Add the imagePath to the context and save it in the database
+                   
                 }
             }
 

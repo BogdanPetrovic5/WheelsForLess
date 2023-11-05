@@ -46,18 +46,7 @@ export class NewAdverFormComponent {
   }
   placeAdver(){
     this.UserName = localStorage.getItem("Username");
-    // const data = 
-    //   {
-    //     AdverName:this.AdverName,
-    //     UserName:this.UserName,
-    //     Brand:this.Brand,
-    //     Model:this.Model,
-    //     Year:this.Year,
-    //     Type:this.BodyType,
-    //     FuelType:this.FuelType,
-    //     SelectedImages:this.selectedFiles
-    //   }
-
+ 
     const formData = new FormData();
     formData.append("AdverName", this.AdverName);
     formData.append("UserName", this.UserName);
