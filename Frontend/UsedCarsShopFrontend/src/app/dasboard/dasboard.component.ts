@@ -21,7 +21,19 @@ export class DasboardComponent {
     ngOnInit(){
         this.username = localStorage.getItem("Username")
         this.dashService.getAllAdvers().subscribe(response =>{
+
           this.advertisementObject.Advertisements = response
+          for(let i = 0;i < this.advertisementObject.Advertisements.length; i++){
+            for(let j = 0; j < this.advertisementObject.Advertisements[i].imagePaths.length; j++)
+            {
+              
+              this.advertisementObject.Advertisements[i].imagePaths[j].imagePath = this.advertisementObject.Advertisements[i].imagePaths[j].imagePath.replace(/\\/g, "/")
+            }
+              
+            
+            
+          }
+          console.log(this.advertisementObject.Advertisements)
           
         })
     }

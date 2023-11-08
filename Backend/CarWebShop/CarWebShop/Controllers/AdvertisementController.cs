@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
+using CarWebShop.Data;
 
 namespace CarWebShop.Controllers
 {
@@ -15,12 +16,14 @@ namespace CarWebShop.Controllers
     [ApiController]
     public class AdvertisementController : Controller
     {
+        private readonly DataContext _context;
         private readonly IConfiguration _configuration;
         private readonly IAdverRepository _repository;
-        public AdvertisementController(IConfiguration configuration, IAdverRepository adverRepository)
+        public AdvertisementController(IConfiguration configuration, IAdverRepository adverRepository, DataContext context)
         {
             _configuration = configuration;
             _repository = adverRepository;
+            _context = context; 
         }
         
         [HttpPost("PublishAdvertisement")]
@@ -103,7 +106,8 @@ namespace CarWebShop.Controllers
                     };
 
                     // Add the imagePath to the context and save it in the database
-                   
+                    _context.ImagePaths.Add(imagePath); // Add the entity to the DbSet
+                    _context.SaveChanges();
                 }
             }
 

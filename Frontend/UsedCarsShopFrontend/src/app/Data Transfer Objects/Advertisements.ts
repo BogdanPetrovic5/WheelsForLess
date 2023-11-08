@@ -20,6 +20,10 @@ export class Advertisement {
             type: '',
             fuelType: '',
           },
+          imagePaths:[{
+            imagePath:'',
+            AdverID:0
+          }]
         },
       ];
   }

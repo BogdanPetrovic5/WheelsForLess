@@ -55,8 +55,8 @@
         <section class="items">
             <div class="itemsContent">
                 <div class="card" *ngFor="let card of advertisementObject.Advertisements">
-                    <div class="cardImage">
-                        {{card.adverID}}
+                    <div class="cardImage" >
+                        <img *ngIf="card.imagePaths.length > 0" src="https://localhost:7169/Photos/{{card.imagePaths[0].imagePath}}">
                     </div>
                     <div class="info">
                         <div class="name">

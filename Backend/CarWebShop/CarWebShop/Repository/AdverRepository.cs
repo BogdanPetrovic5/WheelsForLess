@@ -49,7 +49,8 @@ namespace CarWebShop.Repository
                     AdverID = a.AdverID,
                     AdverName = a.AdverName,
                     UserDto = ConvertToUserDto(a.User),
-                    CarDto = ConvertToCarDto(a.Car)
+                    CarDto = ConvertToCarDto(a.Car),
+                    imagePaths = a.imagePaths
                     // Include other Advertisement properties you want to expose
                 })
                 .OrderBy(a => a.AdverID)
