@@ -26,6 +26,24 @@
             align-items: center;
             flex-direction: column;
             gap: 25px;
+            ::-webkit-scrollbar {
+              width: 6px;
+            }
+            
+            /* Track (the area around the thumb) */
+            ::-webkit-scrollbar-track {
+              background: #f1f1f1;
+            }
+            
+            /* Handle (the draggable part of the scrollbar) */
+            ::-webkit-scrollbar-thumb {
+              background: #888;
+            }
+            
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+              background: #001524;
+            }
             // input{
                 
             //     width: 90%;
@@ -56,11 +74,13 @@
                 flex-direction: column;
                 gap:10px;
                 overflow-y: scroll;
+                
                 .images{
                   width: 90%;
                   height: 50px;
                   background-color: #ccc;
-                  border: 1px solid black;
+                  border: 1px solid rgb(189, 189, 189);
+                  border-radius: 5px;
                   display: flex;
                   flex-direction: row;
                   align-items: center;
