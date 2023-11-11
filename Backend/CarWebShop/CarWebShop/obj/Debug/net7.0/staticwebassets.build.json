@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "OQoawody4UCPqlF/l81QlMzFoCdr74prwmQ4AZ9fuXw=",
+  "Hash": "yPdb4J8trziDUM3fKDzQDe5zsOoAn/6jf6VUyiou4/s=",
   "Source": "CarWebShop",
   "BasePath": "_content/CarWebShop",
   "Mode": "Default",
@@ -32,6 +32,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Photos\\Bogi5\\14\\IBSLOGO.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogi5\\14\\kopija2.jpg",
+      "SourceId": "CarWebShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
+      "BasePath": "_content/CarWebShop",
+      "RelativePath": "Photos/Bogi5/14/kopija2.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Photos\\Bogi5\\14\\kopija2.jpg"
     },
     {
       "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogi5\\15\\kopija2.jpg",
@@ -83,6 +100,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Photos\\Bogi5\\16\\IBSLOGO.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogi5\\17\\slika1.jpg",
+      "SourceId": "CarWebShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
+      "BasePath": "_content/CarWebShop",
+      "RelativePath": "Photos/Bogi5/17/slika1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Photos\\Bogi5\\17\\slika1.jpg"
     }
   ]
 }

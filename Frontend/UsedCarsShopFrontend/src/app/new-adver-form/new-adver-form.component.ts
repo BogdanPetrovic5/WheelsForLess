@@ -55,7 +55,7 @@ export class NewAdverFormComponent {
     formData.append("Year", this.Year);
     formData.append("Type", this.BodyType);
     formData.append("FuelType", this.FuelType);
-
+    formData.append("Price", this.Price);
     for (let i = 0; i < this.selectedFiles.length; i++) {
         formData.append("selectedImages", this.selectedFiles[i]);
     }

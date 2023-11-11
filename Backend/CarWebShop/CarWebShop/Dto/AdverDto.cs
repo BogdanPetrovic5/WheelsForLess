@@ -13,6 +13,7 @@ namespace CarWebShop.Dto
         public string Type { get; set; }
         public string FuelType { get; set; }
 
+        public float Price { get; set; }
         
 
     }

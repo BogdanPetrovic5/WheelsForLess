@@ -12,6 +12,7 @@ namespace CarWebShop.Models
         public int UserID { get; set; }
         public string AdverName { get; set; }
         public int CarID { get; set; }
+        public float Price { get; set; }
         public Car Car { get; set; }
         public User User { get; set; }
         [NotMapped]

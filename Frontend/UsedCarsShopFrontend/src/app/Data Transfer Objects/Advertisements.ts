@@ -5,6 +5,7 @@ export class Advertisement {
           userID: 0,
           adverName: '',
           carID: 0,
+          price: 0,
           userDto: {
             userID: 0,
             firstName: '',

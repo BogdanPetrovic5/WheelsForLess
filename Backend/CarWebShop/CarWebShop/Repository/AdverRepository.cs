@@ -48,6 +48,7 @@ namespace CarWebShop.Repository
                     UserID = a.UserID,
                     AdverID = a.AdverID,
                     AdverName = a.AdverName,
+                    Price = a.Price,
                     UserDto = ConvertToUserDto(a.User),
                     CarDto = ConvertToCarDto(a.Car),
                     imagePaths = a.imagePaths

@@ -11,8 +11,8 @@ export class DasboardComponent {
     
     advertisementObject: Advertisement;
     public username:any
-    public dashboard = false
-    public adverForm = true
+    public dashboard = true
+    public adverForm = false
     public adver = false
     public options = false
     constructor(private dashService:DashboardService, private router:Router){
@@ -20,6 +20,33 @@ export class DasboardComponent {
     }
     ngOnInit(){
         this.username = localStorage.getItem("Username")
+        this.loadAdvertisements()
+    }
+    changeToForm(){
+      this.adverForm = true
+      this.dashboard = false
+      this.adver = false
+    }
+    toDashboard(){
+      this.loadAdvertisements()
+      this.adverForm = false
+      this.dashboard = true
+      this.adver = false
+    }
+    showDropdown(){
+      this.options = true
+    }
+    closeDropdown(){
+      this.options = false
+    }
+    logout(){
+      this.router.navigate(["/Login"])
+      localStorage.removeItem("Username")
+      localStorage.removeItem("Token")
+    }
+
+    loadAdvertisements(){
+      this.username = localStorage.getItem("Username")
         this.dashService.getAllAdvers().subscribe(response =>{
 
           this.advertisementObject.Advertisements = response
@@ -36,26 +63,5 @@ export class DasboardComponent {
           console.log(this.advertisementObject.Advertisements)
           
         })
-    }
-    changeToForm(){
-      this.adverForm = true
-      this.dashboard = false
-      this.adver = false
-    }
-    toDashboard(){
-      this.adverForm = false
-      this.dashboard = true
-      this.adver = false
-    }
-    showDropdown(){
-      this.options = true
-    }
-    closeDropdown(){
-      this.options = false
-    }
-    logout(){
-      this.router.navigate(["/Login"])
-      localStorage.removeItem("Username")
-      localStorage.removeItem("Token")
     }
 }

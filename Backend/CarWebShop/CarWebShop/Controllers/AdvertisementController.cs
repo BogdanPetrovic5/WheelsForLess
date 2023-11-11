@@ -64,7 +64,7 @@ namespace CarWebShop.Controllers
             
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = "INSERT INTO Advertisement(AdverName, UserID, CarID) VALUES('" + adverDto.AdverName + "', '" +UserID+ "', '" + carID + "')";
+            string query = "INSERT INTO Advertisement(AdverName, UserID, CarID, Price) VALUES('" + adverDto.AdverName + "', '" +UserID+ "', '" + carID + "', '"+ adverDto.Price +"')";
             SqlCommand command = new SqlCommand(query);
             command.Connection = connection;
             connection.Open();
