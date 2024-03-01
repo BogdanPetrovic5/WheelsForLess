@@ -22,7 +22,7 @@ namespace CarWebShop.Repository
                 LastName = user.LastName,
                 UserName = user.UserName,
                 PhoneNumber = user.PhoneNumber,
-                // Exclude the password field
+                
             };
         }
         private static CarDto ConvertToCarDto(Car car)
@@ -36,7 +36,7 @@ namespace CarWebShop.Repository
                 Year = car.CarYear,
                 CarID = car.CarID
 
-                // Exclude the password field
+               
             };
         }
         public ICollection<Advertisement> GetAdvertisements()
@@ -52,7 +52,7 @@ namespace CarWebShop.Repository
                     UserDto = ConvertToUserDto(a.User),
                     CarDto = ConvertToCarDto(a.Car),
                     imagePaths = a.imagePaths
-                    // Include other Advertisement properties you want to expose
+                    
                 })
                 .OrderBy(a => a.AdverID)
                 .ToList();

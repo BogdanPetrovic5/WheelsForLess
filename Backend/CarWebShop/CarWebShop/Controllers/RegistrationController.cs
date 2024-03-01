@@ -42,11 +42,11 @@ namespace CarWebShop.Controllers
 
             if (i > 0)
             {
-                return Ok(); // Return 200 OK status
+                return Ok(); // Success
             }
             else
             {
-                return BadRequest(); // Return 400 Bad Request status
+                return BadRequest(); // 400 bad request
             }
         }
 
