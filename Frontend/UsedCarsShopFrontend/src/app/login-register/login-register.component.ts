@@ -47,10 +47,12 @@ ChangeFormToRegister() {
       if (repsonse && repsonse.error) {
         console.log('Server returned an error:', repsonse.error);
       } else {
-        console.log('Success');
+        alert("Registration succeded")
       }
     },(error:HttpErrorResponse) =>{
-      console.error('HTTP error occurred:', error);
+        if(error.status == 409){
+          alert("User already exists")
+        }
     });
   }
 
