@@ -26,12 +26,12 @@ namespace CarWebShop.Controllers
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // Use parameterized query to prevent SQL injection
+                
                 string query = "SELECT * FROM Users WHERE UserName = @UserName AND Password = @Password";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    // Add parameters to the SqlCommand
+                    
                     command.Parameters.AddWithValue("@UserName", user.UserName);
                     command.Parameters.AddWithValue("@Password", user.Password);
 
@@ -42,12 +42,12 @@ namespace CarWebShop.Controllers
                         if (reader.HasRows)
                         {
                             var token = Generate(user);
-                            return Json(Ok(token)); // You can customize this response as needed
+                            return Json(Ok(token));
                         }
                         else
                         {
                             // User not found
-                            return NotFound(); // You can customize this response as needed
+                            return NotFound(); 
                         }
                     }
                 }

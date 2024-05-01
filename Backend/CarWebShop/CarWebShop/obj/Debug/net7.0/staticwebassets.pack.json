@@ -1,6 +1,10 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\BogdanBogdan5\\21\\angular.png",
+      "PackagePath": "staticwebassets\\Photos\\BogdanBogdan5\\21\\angular.png"
+    },
+    {
       "Id": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogi5\\14\\IBSLOGO.jpg",
       "PackagePath": "staticwebassets\\Photos\\Bogi5\\14\\IBSLOGO.jpg"
     },
@@ -23,6 +27,14 @@
     {
       "Id": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogi5\\17\\slika1.jpg",
       "PackagePath": "staticwebassets\\Photos\\Bogi5\\17\\slika1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogi5\\19\\slika5.jpg",
+      "PackagePath": "staticwebassets\\Photos\\Bogi5\\19\\slika5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Nikola69\\22\\769bbebe56b9-1920x1080.jpg",
+      "PackagePath": "staticwebassets\\Photos\\Nikola69\\22\\769bbebe56b9-1920x1080.jpg"
     },
     {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.CarWebShop.Microsoft.AspNetCore.StaticWebAssets.props",
