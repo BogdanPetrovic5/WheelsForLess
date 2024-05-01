@@ -36,14 +36,14 @@ namespace CarWebShop.Controllers
             string query = "INSERT INTO Cars(CarBrand, CarModel, CarYear, CarType, FuelType, OwnerID) VALUES('" + adverDto.Brand + "', '" + adverDto.Model + "', '" + adverDto.Year + "', '" + adverDto.Type + "', '" + adverDto.FuelType + "', '" + UserID + "' )";
             SqlCommand command = new SqlCommand(query);
 
-            // Associate the SqlCommand with the SqlConnection
+            
             command.Connection = connection;
 
             connection.Open();
 
             int i = command.ExecuteNonQuery();
 
-            // Now, execute the query to get the ID of the newly inserted row
+
             string getIdQuery = "SELECT @@IDENTITY";
             SqlCommand getIdCommand = new SqlCommand(getIdQuery, connection);
             int newCarID = Convert.ToInt32(getIdCommand.ExecuteScalar());
@@ -101,17 +101,17 @@ namespace CarWebShop.Controllers
                     }
                     var imagePath = new ImagePaths
                     {
-                        AdverID = adverID,      // Associate the image path with the advertisement
-                        ImagePath = Path.Combine(username, adverID.ToString(), fileName) // Store the relative path
+                        AdverID = adverID,      
+                        ImagePath = Path.Combine(username, adverID.ToString(), fileName) 
                     };
 
-                    // Add the imagePath to the context and save it in the database
-                    _context.ImagePaths.Add(imagePath); // Add the entity to the DbSet
+                    
+                    _context.ImagePaths.Add(imagePath); 
                     _context.SaveChanges();
                 }
             }
 
-            // Process and save each image
+            
 
         }
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -160,7 +160,7 @@ namespace CarWebShop.Controllers
                 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    // Add parameters to the SqlCommand
+                    //Parameters
                     command.Parameters.AddWithValue("@AdverID", favoritesDto.AdverID);
                     command.Parameters.AddWithValue("@UserID", UserID);
 
@@ -170,11 +170,11 @@ namespace CarWebShop.Controllers
 
                     if (rowsAffected > 0)
                     {
-                        return Ok(); // Successfully inserted
+                        return Ok(); // Success
                     }
                     else
                     {
-                        return BadRequest(); // Insertion failed
+                        return BadRequest(); // Failure
                     }
                 }
             }
@@ -201,7 +201,7 @@ namespace CarWebShop.Controllers
                         }
                         else
                         {
-                            // Row does not exist
+                            //Row doesn't exist
                             return false;
                         }
                     }

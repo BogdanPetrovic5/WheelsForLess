@@ -12,24 +12,24 @@ namespace CarWebShop.Controllers
     {
         public readonly string baseFolderPath;
         public string userFolderName;
-       
+
         private readonly IConfiguration _configuration;
         public RegistrationController(IConfiguration configuration)
         {
             _configuration = configuration;
             baseFolderPath = Path.Combine("wwwroot", "Photos");
-            
+
         }
-        
+
         [HttpPost]
         [Route("Registration")]
 
-        
+
         public IActionResult Registration(RegisterRequestDto user)
         {
             //First check if user exists if not procceed to elsewise return conflict
-            
-            using(SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+
+            using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 SqlCommand checkCommand = new SqlCommand("SELECT COUNT(*) FROM Users WHERE UserName = '" + user.UserName + "' AND PhoneNumber = '" + user.PhoneNumber + "'");
 
@@ -39,7 +39,7 @@ namespace CarWebShop.Controllers
                 if (sqlDataReader.Read())
                 {
                     int existingUsers = sqlDataReader.GetInt32(0);
-                    if(existingUsers > 0)
+                    if (existingUsers > 0)
                     {
                         connection.Close();
                         return Conflict();
@@ -50,7 +50,7 @@ namespace CarWebShop.Controllers
                         SqlCommand command = new SqlCommand
                           ("INSERT INTO Users(FirstName, LastName, UserName, PhoneNumber,Password) " +
                           "values('" + user.FirstName + "','" + user.LastName + "', '" + user.UserName + "', '" + user.PhoneNumber + "', '" + user.Password + "')", connection);
-                        
+
                         connection.Open();
                         command.Connection = connection;
                         userFolderName = user.UserName;
@@ -71,13 +71,12 @@ namespace CarWebShop.Controllers
                             return BadRequest(); // Return 400 Bad Request status
                         }
                     }
-                   
-                }
-                return Ok();  
-            }
-            
-           
-        }
 
+                }
+                return Ok();
+            }
+        }
     }
+
 }
+

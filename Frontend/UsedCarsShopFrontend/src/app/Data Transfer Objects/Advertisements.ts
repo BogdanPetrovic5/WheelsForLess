@@ -1,7 +1,7 @@
 export class Advertisement {
     Advertisements = [
         {
-          adverID: 0, // Initialize with appropriate default values
+          adverID: 0,
           userID: 0,
           adverName: '',
           carID: 0,
