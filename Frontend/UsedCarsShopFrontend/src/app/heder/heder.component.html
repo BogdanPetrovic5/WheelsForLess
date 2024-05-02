@@ -1,0 +1,34 @@
+<header>
+    <section class="logo" style="cursor: pointer;">
+        <img src="/assets/images/logoheader.png" alt="">
+    </section>
+    <section class="navbar">
+        <section class="options">
+            <img src="/assets/images/myFav.png" alt="">
+            <img src="/assets/images/notifications.png" alt="">
+            
+        </section>
+        <section class="profile" (mouseenter)="showDropdown()">
+            <h1>MY PROFILE</h1>
+            <p>{{username}}</p>
+            <div class="profileOptions" *ngIf="options" (mouseleave)="closeDropdown()">
+                <div class="listHolder">
+                    <li class="list">My Advertisements</li>
+                </div>
+                <div class="listHolder">
+                    <li class="list">Wishlist</li>
+                </div>
+                <div class="listHolder" (click)="logout()">
+                    <li class="list">Logout</li>
+                </div>
+                
+            </div>
+        </section>
+        
+        <section class="newAdver">
+            <button (click)="changeToForm()">
+                <h1>NEW ADVERTISEMENT</h1>
+            </button>
+        </section>
+    </section>
+</header>

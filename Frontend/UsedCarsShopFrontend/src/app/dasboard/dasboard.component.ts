@@ -40,9 +40,13 @@ export class DasboardComponent {
       this.options = false
     }
     logout(){
-      this.router.navigate(["/Login"])
-      localStorage.removeItem("Username")
-      localStorage.removeItem("Token")
+      this.router.navigate(["/Login"]);
+      localStorage.removeItem("Username");
+      localStorage.removeItem("Token");
+    }
+
+    navigateToAdvertisement(card:any){
+        this.router.navigate(['/Advertisement']);
     }
 
     loadAdvertisements(){
