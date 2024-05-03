@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../services/dashboard.service';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras  } from '@angular/router';
 import { Advertisement } from '../Data Transfer Objects/Advertisements';
 @Component({
   selector: 'app-dasboard',
@@ -46,7 +46,9 @@ export class DasboardComponent {
     }
 
     navigateToAdvertisement(card:any){
+       
         this.router.navigate(['/Advertisement']);
+        this.dashService.setCard(card);
     }
 
     loadAdvertisements(){

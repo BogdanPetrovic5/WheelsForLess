@@ -6,8 +6,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class DashboardService {
-  
-
+  card:any
+  private storageKey = 'adverDetails';
   constructor(private http:HttpClient) { }
   getAllAdvers():Observable<any>{
     return this.http.get<any>(environment.apiUrl + "/api/Advertisement/GetAdvertisements")
@@ -21,5 +21,12 @@ export class DashboardService {
 
     return this.http.post<any>(environment.apiUrl + "/api/Advertisement/PublishAdvertisement",data, {headers:httpHeaders});
   }
+  setCard(card:any){
+    sessionStorage.setItem(this.storageKey, JSON.stringify(card));
 
+  }
+  getCard(){
+    const cardData = sessionStorage.getItem(this.storageKey);
+    return cardData ? JSON.parse(cardData) : null;
+  }
 }

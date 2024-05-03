@@ -1,3 +1,4 @@
+<app-heder></app-heder>
 <section class="container">
     <section class="containerBasics">
 
@@ -7,11 +8,11 @@
         <section class="basicInfo">
             <section class="BrandModelPrice">
                 <h1>
-                    Reno Clio
+                   {{card.carDto.brand}} {{card.carDto.model}}
                     
                 </h1>
                 <p>
-                    1231.32e
+                    {{ card.price | currency: 'EUR' }}
                 </p>
             </section>
         </section>
