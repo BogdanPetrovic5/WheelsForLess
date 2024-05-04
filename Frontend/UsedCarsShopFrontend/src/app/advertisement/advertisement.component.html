@@ -1,6 +1,6 @@
 <app-heder></app-heder>
 <section class="container">
-    <section class="containerBasics">
+    <div class="containerBasics">
 
         <section class="images">
             <div class="adverName">
@@ -26,7 +26,131 @@
                     {{ card.price | currency: 'EUR' }}
                 </p>
             </section>
+            <div class="SellersInfo">
+                <div class="Username">
+                    <h1>
+                       Oglasivac: {{card.userDto.userName}}
+                    </h1>
+                </div>
+                <div class="MoreAdvers">
+                    <button class="First">
+                        Pogledaj ostale oglase korisnika!
+                    </button>
+                    <button class="Second">
+                        Posalji poruku!
+                    </button>
+                </div>
+                <div class="Ratings">
+
+                </div>
+            </div>
         </section>
-    </section>
+    </div>
     
+    <div class="CarInfo">
+        <h1>
+            Opste informacije
+        </h1>
+        <div class="CarInfoTable">
+            <div class="First-Column">
+           
+                <div class="property">
+                    <div class="key">
+                        <h1>Marka</h1>
+                    </div>
+                    <div class="value">
+                        <h1>
+                            {{card.carDto.brand}}
+                        </h1>
+                    </div>
+                </div>
+                <div class="property">
+                    
+                    <div class="key">
+                        <h1>Model</h1>
+                    </div>
+                    <div class="value">
+                        <h1>
+                            {{card.carDto.model}}
+                        </h1>
+                    </div>
+                </div>
+                <div class="property">
+                    <div class="key">
+                        <h1>Godiste</h1>
+                    </div>
+                    <div class="value">
+                        <h1>
+                            {{card.carDto.year}}
+                        </h1>
+                    </div>
+                </div>
+                <div class="property">
+                    <div class="key">
+                        <h1>Gorivo</h1>
+                    </div>
+                    <div class="value">
+                        <h1>
+                            {{card.carDto.fuelType}}
+                        </h1>
+                    </div>
+                </div>
+                <div class="property">
+                    <div class="key">
+                        <h1>Karoserija</h1>
+                    </div>
+                    <div class="value">
+                        <h1>
+                            {{card.carDto.type}}
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="Second-Column">
+                <div class="property">
+                    <div class="key">
+                        <h1>Pogon</h1>
+                    </div>
+                    <div class="value">
+                        <h1>
+                            {{card.carDto.propulsion}}
+                        </h1>
+                    </div>
+                </div>
+                <div class="property">
+                    
+                    <div class="key">
+                        <h1>Kubikaza</h1>
+                    </div>
+                    <div class="value">
+                        <h1>
+                            {{card.carDto.engineVolume}}
+                        </h1>
+                    </div>
+                </div>
+                <div class="property">
+                    <div class="key">
+                        <h1>Snaga</h1>
+                    </div>
+                    <div class="value">
+                        <h1>
+                            {{card.carDto.horsePower}}
+                        </h1>
+                    </div>
+                </div>
+                <div class="property">
+                    <div class="key">
+                        <h1>Kilometraza</h1>
+                    </div>
+                    <div class="value">
+                        <h1>
+                            {{card.carDto.mileage}}
+                        </h1>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
 </section>

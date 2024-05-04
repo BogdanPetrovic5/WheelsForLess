@@ -20,6 +20,10 @@ export class Advertisement {
             year: '',
             type: '',
             fuelType: '',
+            propulsion:'',
+            engineVolume:'',
+            horsePower:'',
+            miliage:''
           },
           imagePaths:[{
             imagePath:'',

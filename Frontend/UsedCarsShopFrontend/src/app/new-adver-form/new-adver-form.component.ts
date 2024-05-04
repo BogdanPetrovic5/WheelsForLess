@@ -17,6 +17,10 @@ export class NewAdverFormComponent {
   BodyType= "";
   FuelType= "";
   Price = "";
+  HorsePower ="";
+  EngineVolume ="";
+  Propulsion = "";
+  Mileage = "";
   UserID:any
   token:any
   UserName:any
@@ -56,15 +60,32 @@ export class NewAdverFormComponent {
     formData.append("Type", this.BodyType);
     formData.append("FuelType", this.FuelType);
     formData.append("Price", this.Price);
+    formData.append("Propulsion", this.Propulsion)
+    formData.append("EngineVolume", this.EngineVolume);
+    formData.append("HorsePower", this.HorsePower);
+    formData.append("Mileage", this.Mileage)
+
+
     for (let i = 0; i < this.selectedFiles.length; i++) {
         formData.append("selectedImages", this.selectedFiles[i]);
     }
     this.token = localStorage.getItem("Token");
     console.log(this.token)
     this.dashboard.placeAdvertisement(this.token, formData).subscribe(response =>{
-      console.log("Top")
+      alert("Uspesno postavljen oglas")
+      this.AdverName = "";
+      this.Brand= "";
+      this.Model= "";
+      this.Year = "";
+      this.BodyType = "";
+      this.FuelType = "";
+      this.Price = "";
+      this.HorsePower ="";
+      this.EngineVolume ="";
+      this.Propulsion = "";
+      this.Mileage = "";
     }, (error:HttpErrorResponse) =>{
-      console.log("Jok")
+      console.log("Jok more")
     })
   }
 }

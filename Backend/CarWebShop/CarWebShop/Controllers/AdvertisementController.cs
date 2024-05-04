@@ -33,7 +33,7 @@ namespace CarWebShop.Controllers
             int UserID = GetUserIdByUsername(adverDto.UserName);
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = "INSERT INTO Cars(CarBrand, CarModel, CarYear, CarType, FuelType, OwnerID) VALUES('" + adverDto.Brand + "', '" + adverDto.Model + "', '" + adverDto.Year + "', '" + adverDto.Type + "', '" + adverDto.FuelType + "', '" + UserID + "' )";
+            string query = "INSERT INTO Cars(CarBrand, CarModel, CarYear, CarType, FuelType,Propulsion, EngineVolume, HorsePower, Mileage, OwnerID) VALUES('" + adverDto.Brand + "', '" + adverDto.Model + "', '" + adverDto.Year + "', '" + adverDto.Type + "', '" + adverDto.FuelType + "', '" + adverDto.Propulsion + "' , '" + adverDto.EngineVolume + "' ,'" + adverDto.HorsePower + "','" + adverDto.Mileage + "','" + UserID + "' )";
             SqlCommand command = new SqlCommand(query);
 
             

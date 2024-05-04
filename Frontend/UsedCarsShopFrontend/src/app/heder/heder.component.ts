@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./heder.component.scss']
 })
 export class HederComponent {
+  navigateToHome() {  
+    this.router.navigate(['/Dashboard'])
+  }
   
   public username:any
   public dashboard = true

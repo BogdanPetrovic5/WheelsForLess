@@ -34,9 +34,11 @@ namespace CarWebShop.Repository
                 Type = car.CarType,
                 FuelType = car.FuelType,
                 Year = car.CarYear,
-                CarID = car.CarID
-
-               
+                CarID = car.CarID,
+                Propulsion = car.Propulsion,
+                HorsePower = car.HorsePower,
+                EngineVolume = car.EngineVolume,
+                Mileage = car.Mileage
             };
         }
         public ICollection<Advertisement> GetAdvertisements()

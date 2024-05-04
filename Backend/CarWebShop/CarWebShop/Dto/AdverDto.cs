@@ -12,9 +12,12 @@ namespace CarWebShop.Dto
         public string Year { get; set; }
         public string Type { get; set; }
         public string FuelType { get; set; }
-
-        public float Price { get; set; }
         
+        public float Price { get; set; }
+        public string Propulsion { get; set; }
+        public string EngineVolume { get; set; }
+        public string HorsePower { get; set; }
+        public string Mileage { get; set; }
 
     }
 }
