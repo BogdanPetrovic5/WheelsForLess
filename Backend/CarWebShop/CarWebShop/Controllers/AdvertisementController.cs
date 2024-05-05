@@ -147,7 +147,7 @@ namespace CarWebShop.Controllers
             bool duplicate = checkForDuplicates(favoritesDto, UserID);
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // Use parameterized query to prevent SQL injection
+                
                 if (duplicate)
                 {
                     query = "DELETE FROM Favorites WHERE AdverID = @AdverID and UserID = @UserID";
@@ -231,9 +231,11 @@ namespace CarWebShop.Controllers
 
         [HttpGet("GetAdvertisements")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Advertisement>))]
-        public ActionResult<IEnumerable<Advertisement>> GetAdvertisements()
+        public ActionResult<IEnumerable<Advertisement>> GetAdvertisements(int page = 1, int maximumAdvers = 6)
         {
-            var Advers = _repository.GetAdvertisements();
+            var Advers = _repository.GetAdvertisements().Skip((page - 1) * maximumAdvers)
+                .Take(maximumAdvers)
+                .ToList();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

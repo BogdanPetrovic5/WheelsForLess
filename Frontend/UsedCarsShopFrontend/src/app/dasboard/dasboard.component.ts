@@ -15,6 +15,7 @@ export class DasboardComponent {
     public adverForm = false
     public adver = false
     public options = false
+    currentPage = 1;
     constructor(private dashService:DashboardService, private router:Router){
       this.advertisementObject = new Advertisement();
     }
@@ -50,10 +51,19 @@ export class DasboardComponent {
         this.router.navigate(['/Advertisement']);
         this.dashService.setCard(card);
     }
+    nextPage(){
+      this.currentPage += 1;
+      this.loadAdvertisements()
 
+    }
+    prevPage(){
+      this.currentPage -= 1;
+      this.loadAdvertisements()
+      
+    }
     loadAdvertisements(){
       this.username = localStorage.getItem("Username")
-        this.dashService.getAllAdvers().subscribe(response =>{
+        this.dashService.getAllAdvers(this.currentPage).subscribe(response =>{
 
           this.advertisementObject.Advertisements = response
           for(let i = 0;i < this.advertisementObject.Advertisements.length; i++){

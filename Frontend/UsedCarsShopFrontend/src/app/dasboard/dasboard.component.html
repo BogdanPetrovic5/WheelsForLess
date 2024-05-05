@@ -38,6 +38,15 @@
                 </div>
             </div>
         </section>
+        <div class="navbuttons">
+            <button class="prev" [disabled]="currentPage === 1" (click)="prevPage()">
+                prev
+            </button>
+            <button class="next" (click)="nextPage()" [disabled]="advertisementObject.Advertisements.length < 6">
+                next
+            </button>
+        </div>
+        
     </section>
     <app-new-adver-form *ngIf="adverForm" class="form"></app-new-adver-form>
     <app-advertisement *ngIf="adver" class="adver"></app-advertisement>

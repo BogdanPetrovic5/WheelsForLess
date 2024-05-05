@@ -9,8 +9,8 @@ export class DashboardService {
   card:any
   private storageKey = 'adverDetails';
   constructor(private http:HttpClient) { }
-  getAllAdvers():Observable<any>{
-    return this.http.get<any>(environment.apiUrl + "/api/Advertisement/GetAdvertisements")
+  getAllAdvers(currentPage:any, pageSize: number = 6):Observable<any>{
+    return this.http.get<any>(`${environment.apiUrl}/api/Advertisement/GetAdvertisements?page=${currentPage}&maximumAdvers=${pageSize}`)
   }
   placeAdvertisement(Token: string,data:FormData): Observable<any> {
     const httpHeaders = new HttpHeaders({

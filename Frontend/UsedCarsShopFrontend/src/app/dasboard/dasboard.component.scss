@@ -109,6 +109,32 @@
     }
     .dashboardContent{
         width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .navbuttons{
+            display: flex;
+            align-self: center;
+            flex-direction: row;
+            gap: 50px;margin-bottom: 50px;
+        }
+        .prev, .next{
+            align-self: center !important;
+            width: 150px;
+            height: 30px;
+            border: none;
+            outline: none;
+            background-color: orange;
+            color: white;
+            font-family: 'Nunito Sans', sans-serif;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 200ms ease-in-out;
+        }
+        .navbuttons button:hover{
+            transform: scale(0.97);
+            
+        }
     }
     .content{
         width: 100%;
