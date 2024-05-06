@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../services/dashboard.service';
-import { Router, NavigationExtras  } from '@angular/router';
+import { Router, NavigationExtras,ActivatedRoute  } from '@angular/router';
 import { Advertisement } from '../Data Transfer Objects/Advertisements';
 @Component({
   selector: 'app-dasboard',
@@ -16,12 +16,22 @@ export class DasboardComponent {
     public adver = false
     public options = false
     currentPage = 1;
-    constructor(private dashService:DashboardService, private router:Router){
+    pageSize= 1;
+    constructor(private dashService:DashboardService, private router:Router, private route:ActivatedRoute){
       this.advertisementObject = new Advertisement();
     }
     ngOnInit(){
+        this.route.queryParams.subscribe(params =>{
+          this.currentPage = +params['page'] || 1;
+          this.pageSize = +params['pageSize'] || 6; 
+          this.updateUrl()
+          this.loadAdvertisements()
+        })
         this.username = localStorage.getItem("Username")
-        this.loadAdvertisements()
+       
+    }
+    updateUrl(): void {
+      this.router.navigate([], { relativeTo: this.route, queryParams: { page: this.currentPage } });
     }
     changeToForm(){
       this.adverForm = true
@@ -54,12 +64,12 @@ export class DasboardComponent {
     nextPage(){
       this.currentPage += 1;
       this.loadAdvertisements()
-
+      this.updateUrl()
     }
     prevPage(){
       this.currentPage -= 1;
       this.loadAdvertisements()
-      
+      this.updateUrl()
     }
     loadAdvertisements(){
       this.username = localStorage.getItem("Username")
