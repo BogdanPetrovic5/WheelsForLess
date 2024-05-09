@@ -28,7 +28,7 @@ namespace CarWebShop.Controllers
         
         [HttpPost("PublishAdvertisement")]
         [Authorize]
-        public IActionResult PublishAdvertisement([FromForm] AdverDto adverDto,  List<IFormFile> selectedImages)
+        public async Task<IActionResult>  PublishAdvertisement([FromForm] AdverDto adverDto,  List<IFormFile> selectedImages)
         {
             int UserID = GetUserIdByUsername(adverDto.UserName);
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -48,7 +48,7 @@ namespace CarWebShop.Controllers
             SqlCommand getIdCommand = new SqlCommand(getIdQuery, connection);
             int newCarID = Convert.ToInt32(getIdCommand.ExecuteScalar());
             connection.Close();
-            InsertIntoAdver(adverDto, newCarID, UserID, selectedImages);
+            await InsertIntoAdver(adverDto, newCarID, UserID, selectedImages);
 
 
             if (i > 0)
@@ -59,7 +59,7 @@ namespace CarWebShop.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public IActionResult InsertIntoAdver([FromForm] AdverDto adverDto, int carID, int UserID,  List<IFormFile> selectedImages)
+        public async Task<IActionResult> InsertIntoAdver([FromForm] AdverDto adverDto, int carID, int UserID, List<IFormFile> selectedImages)
         {
             
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -73,7 +73,7 @@ namespace CarWebShop.Controllers
             SqlCommand getIdCommand = new SqlCommand(getIdQuery, connection);
             int AdverID = Convert.ToInt32(getIdCommand.ExecuteScalar());
             connection.Close();
-            createFolder(AdverID, adverDto.UserName, adverDto, selectedImages);
+            await createFolder(AdverID, adverDto.UserName, adverDto, selectedImages);
             if (i > 0)
             {
                 return Ok();
@@ -82,7 +82,7 @@ namespace CarWebShop.Controllers
 
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        public void createFolder(int adverID, string username, [FromForm] AdverDto adverDto,  List<IFormFile> selectedImages)
+        public async Task createFolder(int adverID, string username, [FromForm] AdverDto adverDto, List<IFormFile> selectedImages)
         {
             string adverFolderName = adverID.ToString();
             string adverFolderPath = Path.Combine("wwwroot/Photos/" + username, adverFolderName);
@@ -97,7 +97,7 @@ namespace CarWebShop.Controllers
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        formFile.CopyTo(stream);
+                        await formFile.CopyToAsync(stream);
                     }
                     var imagePath = new ImagePaths
                     {
