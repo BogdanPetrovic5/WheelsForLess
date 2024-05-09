@@ -6,5 +6,6 @@ namespace CarWebShop.Interfaces
     {
 
         ICollection<Advertisement> GetAdvertisements();
+        ICollection<Advertisement> GetFavorites(int userID);
     }
 }

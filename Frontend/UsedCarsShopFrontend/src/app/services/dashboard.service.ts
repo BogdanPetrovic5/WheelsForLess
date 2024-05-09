@@ -9,8 +9,19 @@ export class DashboardService {
   card:any
   private storageKey = 'adverDetails';
   constructor(private http:HttpClient) { }
-  getAllAdvers(currentPage:any, pageSize: number = 6):Observable<any>{
+  getAllAdvers(currentPage:any, pageSize: number = 18):Observable<any>{
     return this.http.get<any>(`${environment.apiUrl}/api/Advertisement/GetAdvertisements?page=${currentPage}&maximumAdvers=${pageSize}`)
+  }
+  addToWish(adverId:any, username:any, Token:any){
+      const httpHeaders = new HttpHeaders({
+        Authorization: `Bearer ${Token}`
+      });
+      return this.http.post<any>(environment.apiUrl + "/api/Advertisement/MarkAsFavorite",{
+        adverID:adverId,
+        userName:username
+      },{
+        headers:httpHeaders
+      })
   }
   placeAdvertisement(Token: string,data:FormData): Observable<any> {
     const httpHeaders = new HttpHeaders({
@@ -28,5 +39,9 @@ export class DashboardService {
   getCard(){
     const cardData = sessionStorage.getItem(this.storageKey);
     return cardData ? JSON.parse(cardData) : null;
+  }
+  getFavorites(){
+    let username = localStorage.getItem("Username")
+    return this.http.get<any>(`${environment.apiUrl}/api/Advertisement/GetFavorites?username=${username}`)
   }
 }

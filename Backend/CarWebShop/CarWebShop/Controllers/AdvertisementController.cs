@@ -213,7 +213,7 @@ namespace CarWebShop.Controllers
             
 
         }
-        private LoginRequestDto GetCurrentUser()
+       /* private LoginRequestDto GetCurrentUser()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
 
@@ -227,11 +227,11 @@ namespace CarWebShop.Controllers
                 };
             }
             return null;
-        }
+        }*/
 
         [HttpGet("GetAdvertisements")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Advertisement>))]
-        public ActionResult<IEnumerable<Advertisement>> GetAdvertisements(int page = 1, int maximumAdvers = 6)
+        public ActionResult<IEnumerable<Advertisement>> GetAdvertisements(int page = 1, int maximumAdvers = 18)
         {
             var Advers = _repository.GetAdvertisements().Skip((page - 1) * maximumAdvers)
                 .Take(maximumAdvers)
@@ -241,6 +241,23 @@ namespace CarWebShop.Controllers
                 return BadRequest(ModelState);
             }
 
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            };
+
+            return Json(Advers);
+        }
+        [HttpGet("GetFavorites")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Advertisement>))]
+        public ActionResult<IEnumerable<Advertisement>> GetFavoriteAdvertisements(string username, int page = 1, int maximumAdvers = 18)
+        {
+            int userID = GetUserIdByUsername(username);
+            var Advers = _repository.GetFavorites(userID).ToList();
+            if(Advers == null)
+            {
+                return NotFound();
+            }
             var options = new JsonSerializerOptions
             {
                 ReferenceHandler = ReferenceHandler.Preserve

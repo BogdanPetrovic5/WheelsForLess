@@ -24,7 +24,8 @@ export class DasboardComponent {
         this.route.queryParams.subscribe(params =>{
           this.currentPage = +params['page'] || 1;
           this.pageSize = +params['pageSize'] || 6; 
-          this.updateUrl()
+          this.updateUrl();
+          
           this.loadAdvertisements()
         })
         this.username = localStorage.getItem("Username")

@@ -18,6 +18,8 @@ namespace CarWebShop.Models
         [NotMapped]
         public UserDto UserDto { get; set; }
         [NotMapped]
+        public ICollection<FavoritedByUserDto> FavoritedByUserDto { get; set; }
+        [NotMapped]
         public CarDto CarDto { get; set; }
         public ICollection<ImagePaths> imagePaths { get; set; }
         public ICollection<Favorites> FavoritedByUsers { get; set; }

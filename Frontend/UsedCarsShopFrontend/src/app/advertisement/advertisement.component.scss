@@ -13,6 +13,18 @@
         display: flex;
         flex-direction: column;
         justify-content: left;
+        .CarInfoLikes{
+            font-size: 25px;
+            span{
+                font-size: 2.5em;
+                transition: 300ms;
+                cursor: pointer;
+                color: rgb(168, 168, 168);
+            }
+            span:hover{
+                color: orange;
+            }
+        }
         .CarInfoTable{
             width: 100%;
             display: flex;

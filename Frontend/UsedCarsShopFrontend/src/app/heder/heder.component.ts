@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./heder.component.scss']
 })
 export class HederComponent {
+navigateToFav() {
+  this.router.navigate(['/Favorites'])
+}
   navigateToHome() {  
     this.router.navigate(['/Dashboard'])
   }

@@ -9,6 +9,7 @@ import { DasboardComponent } from './dasboard/dasboard.component';
 import { NewAdverFormComponent } from './new-adver-form/new-adver-form.component';
 import { AdvertisementComponent } from './advertisement/advertisement.component';
 import { HederComponent } from './heder/heder.component';
+import { FavoriteDashboardComponent } from './favorite-dashboard/favorite-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { HederComponent } from './heder/heder.component';
     DasboardComponent,
     NewAdverFormComponent,
     AdvertisementComponent,
-    HederComponent
+    HederComponent,
+    FavoriteDashboardComponent
   ],
   imports: [
     BrowserModule,
