@@ -1,17 +1,17 @@
 <section class="container">
     <app-heder></app-heder>
     
-    <section class="dashboardContent" *ngIf="dashboard">
+    <section class="dashboard-content" *ngIf="dashboard">
         <section class="content">
             <section class="filter">
-                <div class="filterMenu">
-                     <div class="brandsNModels">
+                <div class="filter-menu">
+                     <div class="brands-n-models">
                          <input type="text" placeholder="Brands">
                          <input type="text" placeholder="Models">
                          <input type="text" placeholder="Price range">
                          <button>SEARCH</button>
                      </div>
-                     <div class="moreInfo">
+                     <div class="more-info">
                          <input type="text" placeholder="From Year ">
                          <input type="text" placeholder="To Year">
                          <input type="text" placeholder="Coachbuilder">
@@ -21,9 +21,9 @@
              </section>
         </section>
         <section class="items">
-            <div class="itemsContent">
+            <div class="items-content">
                 <div class="card" *ngFor="let card of advertisementObject.Advertisements" (click)="navigateToAdvertisement(card)">
-                    <div class="cardImage" >
+                    <div class="card-image" >
                         <img *ngIf="card.imagePaths.length > 0" src="https://localhost:7169/Photos/{{card.imagePaths[0].imagePath}}">
                     </div>
                     <div class="info">
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </section>
-        <div class="navbuttons">
+        <div class="nav-buttons">
             <button class="prev" [disabled]="currentPage === 1" (click)="prevPage()">
                 prev
             </button>

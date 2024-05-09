@@ -15,12 +15,15 @@ export class FavoriteDashboardComponent implements OnInit{
     this.favorites = new FavoiriteAdvertisement();
   }
    ngOnInit(): void {
-       this.dashboardService.getFavorites().subscribe(response=>{
-          
-          this.favorites = response
-          console.log("Favorites: ", this.favorites)
-       },(error:HttpErrorResponse)=>{
-        console.log(error)
-       })
+      this.loadFavorites()
+   }
+   loadFavorites(){
+      this.dashboardService.getFavorites().subscribe(response=>{
+            
+        this.favorites.Advertisements = response
+        console.log("Favorites: ", this.favorites)
+    },(error:HttpErrorResponse)=>{
+      console.log(error)
+    })
    }
 }

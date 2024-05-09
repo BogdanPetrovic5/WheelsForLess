@@ -6,29 +6,27 @@
         <section class="options">
             <img src="/assets/images/myFav.png" alt="">
             <img src="/assets/images/notifications.png" alt="">
-            
         </section>
         <section class="profile" (mouseenter)="showDropdown()">
             <h1>MY PROFILE</h1>
             <p>{{username}}</p>
-            <div class="profileOptions" *ngIf="options" (mouseleave)="closeDropdown()">
-                <div class="listHolder">
+            <div class="profile-options" *ngIf="options" (mouseleave)="closeDropdown()">
+                <div class="list-holder">
                     <li class="list">My Advertisements</li>
                 </div>
-                <div class="listHolder" (click)="navigateToFav()">
+                <div class="list-holder" (click)="navigateToFav()">
                     <li class="list">Wishlist</li>
                 </div>
-                <div class="listHolder" (click)="logout()">
+                <div class="list-holder" (click)="logout()">
                     <li class="list">Logout</li>
                 </div>
-                
             </div>
         </section>
-        
-        <section class="newAdver">
+        <section class="new-adver">
             <button (click)="changeToForm()">
                 <h1>NEW ADVERTISEMENT</h1>
             </button>
         </section>
     </section>
 </header>
+
