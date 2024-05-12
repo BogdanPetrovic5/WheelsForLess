@@ -23,5 +23,6 @@ namespace CarWebShop.Models
         public CarDto CarDto { get; set; }
         public ICollection<ImagePaths> imagePaths { get; set; }
         public ICollection<Favorites> FavoritedByUsers { get; set; }
+        public ICollection<Messages> Messages { get; set; }
     }
 }

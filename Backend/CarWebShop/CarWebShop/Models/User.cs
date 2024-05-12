@@ -14,5 +14,7 @@ namespace CarWebShop.Models
         public ICollection<Car> Cars { get; set; }
         public ICollection<Favorites> FavoriteAdvertisements { get; set; }
 
+        public ICollection<Messages> SentMessages { get; set; }
+        public ICollection<Messages> ReceivedMessages { get; set; }
     }
 }

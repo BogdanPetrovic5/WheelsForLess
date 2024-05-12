@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "RrUdJFzaOPmbFoFXOz48O+eGLq5h01+3brY65N4cvmA=",
+  "Hash": "D5qdrcF2GGK23HMlpiUekXwEGCQD4wx7duw15uDAGSE=",
   "Source": "CarWebShop",
   "BasePath": "_content/CarWebShop",
   "Mode": "Default",
@@ -287,6 +287,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Photos\\NestoNesto5\\30\\22f014bc7ddb-1920x1080.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\NestoNesto5\\31\\22f014bc7ddb-1920x1080.jpg",
+      "SourceId": "CarWebShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
+      "BasePath": "_content/CarWebShop",
+      "RelativePath": "Photos/NestoNesto5/31/22f014bc7ddb-1920x1080.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Photos\\NestoNesto5\\31\\22f014bc7ddb-1920x1080.jpg"
     },
     {
       "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Nikola69\\22\\769bbebe56b9-1920x1080.jpg",

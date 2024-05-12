@@ -17,6 +17,7 @@ namespace CarWebShop.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Favorites> Favorites { get; set; }
         public DbSet<ImagePaths> ImagePaths { get; set; }
+        public DbSet<Messages> Messages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
@@ -62,6 +63,26 @@ namespace CarWebShop.Data
                 .HasOne(favorite => favorite.Advertisement)
                 .WithMany(advertisement => advertisement.FavoritedByUsers)
                 .HasForeignKey(favorite => favorite.AdverID);
+
+            modelBuilder.Entity<Messages>().HasKey(message => new { message.SenderID, message.ReceiverID, message.AdverID, message.MessageID });
+
+            modelBuilder.Entity<Messages>()
+                .HasOne(message => message.Sender)
+                .WithMany(message => message.SentMessages)
+                .HasForeignKey(message => message.SenderID)
+                .OnDelete(DeleteBehavior.Restrict);
+           
+            modelBuilder.Entity<Messages>()
+                .HasOne(message => message.Receiver)
+                .WithMany(message=> message.ReceivedMessages)
+                .HasForeignKey(message => message.ReceiverID)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<Messages>()
+                .HasOne(message => message.Advertisement)
+                .WithMany(message => message.Messages)
+                .HasForeignKey(message => message.AdverID)
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
     }
