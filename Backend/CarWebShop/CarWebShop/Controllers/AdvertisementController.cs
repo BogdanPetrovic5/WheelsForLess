@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using CarWebShop.Data;
+using CarWebShop.Utilities;
 
 namespace CarWebShop.Controllers
 {
@@ -19,18 +20,22 @@ namespace CarWebShop.Controllers
         private readonly DataContext _context;
         private readonly IConfiguration _configuration;
         private readonly IAdverRepository _repository;
-        public AdvertisementController(IConfiguration configuration, IAdverRepository adverRepository, DataContext context)
+        private readonly AdverUtility _adverUtility;
+        private readonly UserUtility _userUtility;
+        public AdvertisementController(IConfiguration configuration, IAdverRepository adverRepository, DataContext context, AdverUtility adverUtility, UserUtility userUtility)
         {
             _configuration = configuration;
             _repository = adverRepository;
-            _context = context; 
+            _context = context;
+            _adverUtility = adverUtility;
+            _userUtility = userUtility;
         }
         
         [HttpPost("PublishAdvertisement")]
         [Authorize]
         public async Task<IActionResult>  PublishAdvertisement([FromForm] AdverDto adverDto,  List<IFormFile> selectedImages)
         {
-            int UserID = GetUserIdByUsername(adverDto.UserName);
+            int UserID = _userUtility.GetUserIdByUsername(adverDto.UserName);
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             SqlConnection connection = new SqlConnection(connectionString);
             string query = "INSERT INTO Cars(CarBrand, CarModel, CarYear, CarType, FuelType,Propulsion, EngineVolume, HorsePower, Mileage, OwnerID) VALUES('" + adverDto.Brand + "', '" + adverDto.Model + "', '" + adverDto.Year + "', '" + adverDto.Type + "', '" + adverDto.FuelType + "', '" + adverDto.Propulsion + "' , '" + adverDto.EngineVolume + "' ,'" + adverDto.HorsePower + "','" + adverDto.Mileage + "','" + UserID + "' )";
@@ -73,7 +78,7 @@ namespace CarWebShop.Controllers
             SqlCommand getIdCommand = new SqlCommand(getIdQuery, connection);
             int AdverID = Convert.ToInt32(getIdCommand.ExecuteScalar());
             connection.Close();
-            await createFolder(AdverID, adverDto.UserName, adverDto, selectedImages);
+            await _adverUtility.createFolder(AdverID, adverDto.UserName, adverDto, selectedImages);
             if (i > 0)
             {
                 return Ok();
@@ -81,61 +86,8 @@ namespace CarWebShop.Controllers
             else return BadRequest();
 
         }
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public async Task createFolder(int adverID, string username, [FromForm] AdverDto adverDto, List<IFormFile> selectedImages)
-        {
-            string adverFolderName = adverID.ToString();
-            string adverFolderPath = Path.Combine("wwwroot/Photos/" + username, adverFolderName);
-            Directory.CreateDirectory(adverFolderPath);
-
-            foreach (var formFile in selectedImages)
-            {
-                if (formFile.Length > 0)
-                {
-                    string fileName = Path.GetFileName(formFile.FileName);
-                    string filePath = Path.Combine(adverFolderPath, fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-                    var imagePath = new ImagePaths
-                    {
-                        AdverID = adverID,      
-                        ImagePath = Path.Combine(username, adverID.ToString(), fileName) 
-                    };
-
-                    
-                    _context.ImagePaths.Add(imagePath); 
-                    _context.SaveChanges();
-                }
-            }
-
-            
-
-        }
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public int GetUserIdByUsername(string username)
-        {
-            int userId = 0;
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                string query = "SELECT UserID FROM Users WHERE UserName = @Username";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Username", username);
-                    var result = command.ExecuteScalar();
-                    if (result != DBNull.Value)
-                    {
-                        userId = Convert.ToInt32(result);
-                    }
-                }
-                
-            }
-            return userId;
-        }
+       
+       
         [HttpPost("MarkAsFavorite")]
         [Authorize]
         public IActionResult markAsFavorite(FavoritesDto favoritesDto)
@@ -143,11 +95,11 @@ namespace CarWebShop.Controllers
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             string query;
-            int UserID = GetUserIdByUsername(favoritesDto.UserName);
-            bool duplicate = checkForDuplicates(favoritesDto, UserID);
+            int UserID = _userUtility.GetUserIdByUsername(favoritesDto.UserName);
+            bool duplicate = _adverUtility.checkForDuplicates(favoritesDto, UserID);
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                
+
                 if (duplicate)
                 {
                     query = "DELETE FROM Favorites WHERE AdverID = @AdverID and UserID = @UserID";
@@ -156,8 +108,8 @@ namespace CarWebShop.Controllers
                 {
                     query = "INSERT INTO Favorites (AdverID, UserID) VALUES (@AdverID, @UserID)";
                 }
-                 
-                
+
+
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     //Parameters
@@ -179,56 +131,6 @@ namespace CarWebShop.Controllers
                 }
             }
         }
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public bool checkForDuplicates(FavoritesDto favoritesDto, int UserID)
-        {
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using(SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string query = "SELECT 1 FROM Favorites WHERE AdverID = @AdverID AND UserID = @UserID";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@AdverID", favoritesDto.AdverID);
-                    command.Parameters.AddWithValue("UserID", UserID);
-
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            // Row with the specified AdverID and UserID exists
-                            return true;
-                        }
-                        else
-                        {
-                            //Row doesn't exist
-                            return false;
-                        }
-                    }
-
-                }
-            }
-            
-            
-            
-
-        }
-       /* private LoginRequestDto GetCurrentUser()
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-
-            if (identity != null)
-            {
-                var userClaims = identity.Claims;
-
-                return new LoginRequestDto
-                {
-                    UserName = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value
-                };
-            }
-            return null;
-        }*/
-
         [HttpGet("GetAdvertisements")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Advertisement>))]
         public ActionResult<IEnumerable<Advertisement>> GetAdvertisements(int page = 1, int maximumAdvers = 18)
@@ -252,7 +154,7 @@ namespace CarWebShop.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Advertisement>))]
         public ActionResult<IEnumerable<Advertisement>> GetFavoriteAdvertisements(string username, int page = 1, int maximumAdvers = 18)
         {
-            int userID = GetUserIdByUsername(username);
+            int userID = _userUtility.GetUserIdByUsername(username);
             var Advers = _repository.GetFavorites(userID).ToList();
             if(Advers == null)
             {

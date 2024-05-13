@@ -1,6 +1,7 @@
 using CarWebShop.Data;
 using CarWebShop.Interfaces;
 using CarWebShop.Repository;
+using CarWebShop.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -14,6 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddTransient<ICarRepository, CarsRepository>();
 builder.Services.AddTransient<IAdverRepository, AdverRepository>();
+builder.Services.AddScoped<AdverUtility>();
+builder.Services.AddScoped<UserUtility>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
