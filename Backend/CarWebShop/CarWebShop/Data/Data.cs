@@ -64,7 +64,7 @@ namespace CarWebShop.Data
                 .WithMany(advertisement => advertisement.FavoritedByUsers)
                 .HasForeignKey(favorite => favorite.AdverID);
 
-            modelBuilder.Entity<Messages>().HasKey(message => new { message.SenderID, message.ReceiverID, message.AdverID, message.MessageID });
+            modelBuilder.Entity<Messages>().HasKey(message => new { message.SenderID, message.ReceiverID, message.AdverID, message.MessageID});
 
             modelBuilder.Entity<Messages>()
                 .HasOne(message => message.Sender)

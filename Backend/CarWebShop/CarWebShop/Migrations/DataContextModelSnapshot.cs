@@ -219,7 +219,10 @@ namespace CarWebShop.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("MessageID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MessageID"));
 
                     b.Property<DateTime>("DateSent")
                         .HasColumnType("datetime2");
