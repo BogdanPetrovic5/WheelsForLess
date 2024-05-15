@@ -1,5 +1,5 @@
 # **UsedCarsShop**
-An web application for posting advertisements and selling used/second hand cars.
+A web application for posting advertisements and selling used/second hand cars.
 This app was made during my learning of ASP.NET and SSMS. App was made with Angular framework and ASP.NET as backend. DB was SSMS.
 #
 # Features
