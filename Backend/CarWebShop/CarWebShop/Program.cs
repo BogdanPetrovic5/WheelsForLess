@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddTransient<ICarRepository, CarsRepository>();
 builder.Services.AddTransient<IAdverRepository, AdverRepository>();
+builder.Services.AddTransient<IMessagesRepository, MessageRepository>();
 builder.Services.AddScoped<AdverUtility>();
 builder.Services.AddScoped<UserUtility>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

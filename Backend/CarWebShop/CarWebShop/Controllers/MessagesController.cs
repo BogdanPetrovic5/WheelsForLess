@@ -3,6 +3,8 @@ using CarWebShop.Data;
 using CarWebShop.Dto;
 using CarWebShop.Utilities;
 using Microsoft.Data.SqlClient;
+using CarWebShop.Repository;
+using CarWebShop.Interfaces;
 
 namespace CarWebShop.Controllers
 {
@@ -13,11 +15,13 @@ namespace CarWebShop.Controllers
        private readonly UserUtility _userUtility;
         private readonly IConfiguration _configuration;
         private readonly DataContext _dataContext;
-        public MessagesController(DataContext dataContext, UserUtility userUtility, IConfiguration configuration)
+        private readonly IMessagesRepository _messagesRepository;
+        public MessagesController(DataContext dataContext, UserUtility userUtility, IConfiguration configuration, IMessagesRepository messagesRepository)
         {
             _configuration = configuration;
             _userUtility = userUtility;
             _dataContext = dataContext;
+            _messagesRepository = messagesRepository;
         }
         [HttpPost("SendMessage")]
         public IActionResult sendMessage(MessageDto messageDto)
@@ -44,6 +48,30 @@ namespace CarWebShop.Controllers
                 }else return StatusCode(500, "Failed to insert message into the database.");
             }
            
+        }
+        [HttpGet("GetMessages/{username}/{adverID}")]
+        public IActionResult GetMessages(string username, int adverID)
+        {
+            int userID = _userUtility.GetUserIdByUsername(username);
+
+            var messages = _messagesRepository.GetMessages(userID, adverID);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Json(messages);
+        }
+        [HttpGet("GetMessages/{username}")]
+        public IActionResult GetMessages(string username)
+        {
+            int userID = _userUtility.GetUserIdByUsername(username);
+
+            var messages = _messagesRepository.GetMessages(userID);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Json(messages);
         }
     }
 }
