@@ -1,8 +1,10 @@
 using CarWebShop.Data;
 using CarWebShop.Interfaces;
 using CarWebShop.Repository;
+using CarWebShop.Security;
 using CarWebShop.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -18,7 +20,10 @@ builder.Services.AddTransient<IAdverRepository, AdverRepository>();
 builder.Services.AddTransient<IMessagesRepository, MessageRepository>();
 builder.Services.AddScoped<AdverUtility>();
 builder.Services.AddScoped<UserUtility>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddScoped<PasswordEncoder>();
+
+builder.Services.AddScoped<PasswordHasher<string>>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

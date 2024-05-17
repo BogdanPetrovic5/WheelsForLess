@@ -1,4 +1,5 @@
 ﻿using CarWebShop.Dto;
+using CarWebShop.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
@@ -12,10 +13,12 @@ namespace CarWebShop.Controllers
     [ApiController]
     public class LoginController : Controller
     {
+        private readonly PasswordEncoder _passwordEncoder;
         private readonly IConfiguration _configuration;
-        public LoginController(IConfiguration configuration)
+        public LoginController(IConfiguration configuration, PasswordEncoder password)
         {
             _configuration = configuration;
+            _passwordEncoder = password;
         }
 
         [HttpPost]
@@ -27,7 +30,7 @@ namespace CarWebShop.Controllers
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 
-                string query = "SELECT * FROM Users WHERE UserName = @UserName AND Password = @Password";
+                string query = "SELECT * FROM Users WHERE UserName = @UserName";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -36,10 +39,11 @@ namespace CarWebShop.Controllers
                     command.Parameters.AddWithValue("@Password", user.Password);
 
                     connection.Open();
-
+                    var encodedPassword = _passwordEncoder.EncodePassword(user.Password);
+                    bool passwordCheck = _passwordEncoder.VerifyPassword(user.Password, encodedPassword);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        if (reader.HasRows)
+                        if (reader.HasRows && passwordCheck)
                         {
                             var token = Generate(user);
                             return Json(Ok(token));
