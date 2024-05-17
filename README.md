@@ -169,3 +169,36 @@ REST API listed down below
   }
 ]
 ```
+## Send Message 
+`POST Messages/SendMessage` 
+### Request body
+```
+{
+  "Message":"example",
+  "SenderUsername":"example",
+  "ReceiverUsername:"example,
+  "AdverID":0
+}
+```
+### Response Body
+`none`
+
+## Get Messages
+`GET Messages/GetMessages/{username}/{adverID}` / `GET Messages/GetMessages/{username}`
+### Request header
+`none` for now
+### Request body 
+`none`
+### Response body
+```
+[
+  {
+    "senderID": 11,
+    "receiverID": 3,
+    "adverID": 19,
+    "messageID": 2,
+    "message": "string",
+    "dateSent": "0001-01-01T00:00:00",
+  }
+]
+```
