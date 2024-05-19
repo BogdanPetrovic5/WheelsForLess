@@ -12,6 +12,9 @@ export class DashboardService {
   getAllAdvers(currentPage:any, pageSize: number = 18):Observable<any>{
     return this.http.get<any>(`${environment.apiUrl}/api/Advertisement/GetAdvertisements?page=${currentPage}&maximumAdvers=${pageSize}`)
   }
+  getUserId(username:any){
+      return this.http.get<any>(`${environment.apiUrl}/api/User/GetID?username=${username}`)
+  }
   addToWish(adverId:any, username:any, Token:any){
       const httpHeaders = new HttpHeaders({
         Authorization: `Bearer ${Token}`

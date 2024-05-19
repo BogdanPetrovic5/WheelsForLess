@@ -28,6 +28,10 @@ export class Advertisement {
           imagePaths:[{
             imagePath:'',
             AdverID:0
+          }],
+          FavoritedByUserDto:[{
+            UserID:0,
+            AdverID:0
           }]
         },
       ];

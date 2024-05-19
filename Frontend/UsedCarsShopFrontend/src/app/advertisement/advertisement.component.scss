@@ -5,7 +5,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+    .wished{
+        color: orange;
+    }
+    .notWished{
+        color: rgb(168, 168, 168);
+    }
     .CarInfo{
        font-size: 25px;
        font-family: 'Nunito Sans', sans-serif;
@@ -19,7 +24,7 @@
                 font-size: 2.5em;
                 transition: 300ms;
                 cursor: pointer;
-                color: rgb(168, 168, 168);
+                
             }
             span:hover{
                 color: orange;

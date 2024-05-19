@@ -87,7 +87,7 @@ export class DasboardComponent {
             
             
           }
-          console.log(this.advertisementObject.Advertisements)
+         
           
         })
     }

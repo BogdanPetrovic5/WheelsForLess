@@ -8,22 +8,50 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./advertisement.component.scss']
 })
 export class AdvertisementComponent implements OnInit{
+  userID:any
+  temp:any
   card:any
+navigateToMessage() {
+
+}
+ 
   constructor(private route:ActivatedRoute, private dashboardService:DashboardService){
 
   }
+  loadCurrentUserID(){
+    let username = localStorage.getItem("Username")
+    this.dashboardService.getUserId(username).subscribe(response =>{
+      this.userID = response;
+      localStorage.setItem("userID", this.userID);
+    })
+  }
   ngOnInit():void{
-      this.card = this.dashboardService.getCard();
-      console.log(this.card.carDto.model)
-     
+      this.loadCard();
+      console.log(this.card);
+      this.loadCurrentUserID()
+      
+  }
+  findIsWished(userID?:any){
+      userID = localStorage.getItem("userID");
+    
+      return this.card.favoritedByUserDto.find((favorite:any) => favorite.userID == userID) !== undefined;
+
+    
+ 
+  }
+  loadCard(){
+    this.card = this.dashboardService.getCard();
+    
   }
   addToWish(){
+    
     let username = localStorage.getItem("Username")
     let token = localStorage.getItem("Token");
     this.dashboardService.addToWish(this.card.adverID, username, token).subscribe(response =>{
-      console.log("HELL YEAHHH")
+      alert("Succesfully listed!")
+      
     }, (error:HttpErrorResponse) =>{
-      console.log("Jok more")
+      
     })
   }
   
