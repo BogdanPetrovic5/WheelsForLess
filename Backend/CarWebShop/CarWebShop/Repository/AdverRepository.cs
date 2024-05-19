@@ -63,7 +63,14 @@ namespace CarWebShop.Repository
                     Price = a.Price,
                     UserDto = ConvertToUserDto(a.User),
                     CarDto = ConvertToCarDto(a.Car),
-                    imagePaths = a.imagePaths
+                    imagePaths = a.imagePaths,
+                    FavoritedByUserDto = a.FavoritedByUsers
+                            .Select(f => new FavoritedByUserDto
+                            {
+                                UserID = f.UserID,
+                                AdverID = f.AdverID
+                            })
+                            .ToList()
 
                 })
                 .OrderBy(a => a.AdverID)
