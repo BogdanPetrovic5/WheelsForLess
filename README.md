@@ -2,14 +2,14 @@
 
 # **UsedCarsShop**
 A web application for posting advertisements and selling used/second hand cars.
-This app was made during my learning of ASP.NET and SSMS. App was made with Angular framework and ASP.NET as backend. DB was SSMS.
+This app was made during my learning of ASP.NET and SSMS. App was made with Angular framework and ASP.NET as backend. SSMS is used for database.
 #
 # Features
-- Creating new account
-- Loggin in
+- Creating a new account
+- Logging in
 - Viewing all advertisements
 - Posting new advertisements
-- Creating wishlist
+- Creating a wishlist
 - Notifications
 # Components
 - Login/Register page
@@ -18,7 +18,7 @@ This app was made during my learning of ASP.NET and SSMS. App was made with Angu
      - Password
      - Firstname
      - Lastname
-  - Form for loggin in
+  - Logging form
     - Username
     - Passsword
 - Header
@@ -28,14 +28,14 @@ This app was made during my learning of ASP.NET and SSMS. App was made with Angu
 - Dashboard
   - Filter Search
   - Previewing Advers
-  - Ability to click on any adver and look at it individually
+  - Ability to click on any adver and view it individually
 - New Adver
   - Form Content:
     - Adver's name
     - Car's Brand
     - Car's Model
     - Car's Year
-    - Car's fule type
+    - Car's Fuel Type
     - Car's Price
     - Fixed or not fixed price
 # Backend
