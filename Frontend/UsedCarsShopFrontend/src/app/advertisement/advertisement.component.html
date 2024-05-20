@@ -49,7 +49,7 @@
     
     <div class="CarInfo">
         <div class="CarInfoLikes">
-            <span (click)="addToWish()" [ngClass]="findIsWished() ? 'wished' : 'notWished'">
+            <span (click)="addToWish()" [ngClass]="isWished ? 'wished':'notWished'">
                 ♥
             </span>
         </div>

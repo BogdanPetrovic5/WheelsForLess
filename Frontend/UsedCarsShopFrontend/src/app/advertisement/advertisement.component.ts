@@ -11,6 +11,8 @@ export class AdvertisementComponent implements OnInit{
   userID:any
   temp:any
   card:any
+  isWished:boolean = false;
+
 navigateToMessage() {
 
 }
@@ -29,15 +31,11 @@ navigateToMessage() {
       this.loadCard();
       console.log(this.card);
       this.loadCurrentUserID()
-      
+      this.isWished = this.findIsWished()
   }
-  findIsWished(userID?:any){
-      userID = localStorage.getItem("userID");
-    
-      return this.card.favoritedByUserDto.find((favorite:any) => favorite.userID == userID) !== undefined;
-
-    
- 
+  findIsWished(){
+      this.userID = localStorage.getItem("userID");
+      return this.card.favoritedByUserDto.find((favorite:any) => favorite.userID == this.userID) !== undefined;
   }
   loadCard(){
     this.card = this.dashboardService.getCard();
@@ -47,8 +45,18 @@ navigateToMessage() {
     
     let username = localStorage.getItem("Username")
     let token = localStorage.getItem("Token");
+    let isWished = this.findIsWished();
+    console.log(this.userID);
     this.dashboardService.addToWish(this.card.adverID, username, token).subscribe(response =>{
-      alert("Succesfully listed!")
+      if(!isWished){
+        this.card.favoritedByUserDto.push({userID:this.userID, user:null, adverID:this.card.adverID, advertisement:null})
+        this.dashboardService.setCard(this.card)
+        this.isWished = true;
+      }else{
+        this.card.favoritedByUserDto = this.card.favoritedByUserDto.filter((favorite: any) => favorite.userID !== this.userID);
+        this.dashboardService.setCard(this.card)
+        this.isWished = false
+      }
       
     }, (error:HttpErrorResponse) =>{
       

@@ -8,7 +8,6 @@ import { Advertisement } from '../Data Transfer Objects/Advertisements';
   styleUrls: ['./dasboard.component.scss']
 })
 export class DasboardComponent {
-    
     advertisementObject: Advertisement;
     public username:any
     public dashboard = true
@@ -29,7 +28,6 @@ export class DasboardComponent {
           this.loadAdvertisements()
         })
         this.username = localStorage.getItem("Username")
-       
     }
     updateUrl(): void {
       this.router.navigate([], { relativeTo: this.route, queryParams: { page: this.currentPage } });
@@ -56,9 +54,7 @@ export class DasboardComponent {
       localStorage.removeItem("Username");
       localStorage.removeItem("Token");
     }
-
     navigateToAdvertisement(card:any){
-       
         this.router.navigate(['/Advertisement']);
         this.dashService.setCard(card);
     }
@@ -75,20 +71,13 @@ export class DasboardComponent {
     loadAdvertisements(){
       this.username = localStorage.getItem("Username")
         this.dashService.getAllAdvers(this.currentPage).subscribe(response =>{
-
           this.advertisementObject.Advertisements = response
           for(let i = 0;i < this.advertisementObject.Advertisements.length; i++){
             for(let j = 0; j < this.advertisementObject.Advertisements[i].imagePaths.length; j++)
             {
-              
               this.advertisementObject.Advertisements[i].imagePaths[j].imagePath = this.advertisementObject.Advertisements[i].imagePaths[j].imagePath.replace(/\\/g, "/")
             }
-              
-            
-            
           }
-         
-          
         })
     }
 }
