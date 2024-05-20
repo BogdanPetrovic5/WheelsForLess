@@ -12,7 +12,8 @@ export class AdvertisementComponent implements OnInit{
   temp:any
   card:any
   isWished:boolean = false;
-
+  wishlistRemoved:boolean = false;
+  wishlistAdded:boolean = false;
 navigateToMessage() {
 
 }
@@ -52,10 +53,22 @@ navigateToMessage() {
         this.card.favoritedByUserDto.push({userID:this.userID, user:null, adverID:this.card.adverID, advertisement:null})
         this.dashboardService.setCard(this.card)
         this.isWished = true;
+        setTimeout(()=>{
+          this.wishlistAdded = true;
+        },100)
+        setTimeout(()=>{
+          this.wishlistAdded = false;
+        },2000)
       }else{
         this.card.favoritedByUserDto = this.card.favoritedByUserDto.filter((favorite: any) => favorite.userID !== this.userID);
         this.dashboardService.setCard(this.card)
-        this.isWished = false
+        this.isWished = false;
+        setTimeout(()=>{
+          this.wishlistRemoved = true;
+        },100)
+        setTimeout(()=>{
+          this.wishlistRemoved = false;
+        },2000)
       }
       
     }, (error:HttpErrorResponse) =>{
