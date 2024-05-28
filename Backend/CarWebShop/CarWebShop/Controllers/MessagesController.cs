@@ -54,12 +54,12 @@ namespace CarWebShop.Controllers
             }
            
         }
-        [HttpGet("GetMessages/{username}/{adverID}")]
-        public IActionResult GetMessages(string username, int adverID)
+        [HttpGet("GetMessages/{currentUsername}/{targetUsername}/{adverID}")]
+        public IActionResult GetMessages(string currentUsername,string targetUsername, int adverID)
         {
-            int userID = _userUtility.GetUserIdByUsername(username);
-
-            var messages = _messagesRepository.GetMessages(userID, adverID);
+            int userID = _userUtility.GetUserIdByUsername(currentUsername);
+            int targetID = _userUtility.GetUserIdByUsername(targetUsername);
+            var messages = _messagesRepository.GetMessages(userID,targetID ,adverID);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

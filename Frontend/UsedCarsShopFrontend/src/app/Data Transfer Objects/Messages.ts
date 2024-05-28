@@ -4,7 +4,9 @@ export class Messages{
             SenderUsername:"",
             ReceiverUsername:"",
             AdverID:0,
-            Message:""
+            Message:"",
+            Date:Date
+            
         }
     ]
 }

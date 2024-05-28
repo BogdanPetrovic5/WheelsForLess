@@ -33,6 +33,7 @@ export class UserToUserMessagesComponent implements OnInit{
 
   adverID:number | undefined
   message = ""
+  
   receiver =""
   sendMessage(){
     

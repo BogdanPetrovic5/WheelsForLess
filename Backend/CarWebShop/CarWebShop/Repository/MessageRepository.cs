@@ -23,11 +23,11 @@ namespace CarWebShop.Repository
                 ReceiverID = a.ReceiverID,
                 Message = a.Message,
                 MessageID = a.MessageID,
-
+                DateSent = a.DateSent
 
             }).Where(a => a.SenderID == userID || a.ReceiverID == userID).ToList();
         }
-        public ICollection<Messages> GetMessages(int userID, int adverID)
+        public ICollection<Messages> GetMessages(int userID,int targetID, int adverID)
         {
             return _dataContext.Messages.Select(a=> new Messages { 
                 AdverID = a.AdverID,
@@ -35,9 +35,11 @@ namespace CarWebShop.Repository
                 ReceiverID = a.ReceiverID,
                 Message = a.Message,
                 MessageID = a.MessageID,
+                DateSent = a.DateSent
             
-            
-            }).Where(a => a.SenderID == userID || a.ReceiverID == userID).ToList();
+            }).Where(a=>(a.ReceiverID == userID || a.SenderID == userID) && (a.SenderID == targetID || a.ReceiverID == targetID) && a.AdverID == adverID)
+            .OrderBy(a => a.DateSent)
+            .ToList();
         }
     }
 }
