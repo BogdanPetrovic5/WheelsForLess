@@ -11,6 +11,7 @@ This app was made during my learning of ASP.NET and SSMS. App was made with Angu
 - Posting new advertisements
 - Creating a wishlist
 - Notifications
+- Live chat
 # Components
 - Login/Register page
   - Form for registering new users
