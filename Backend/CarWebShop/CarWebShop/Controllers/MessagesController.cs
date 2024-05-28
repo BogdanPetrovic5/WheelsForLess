@@ -5,6 +5,7 @@ using CarWebShop.Utilities;
 using Microsoft.Data.SqlClient;
 using CarWebShop.Repository;
 using CarWebShop.Interfaces;
+using System.Text.Json;
 
 namespace CarWebShop.Controllers
 {
@@ -16,15 +17,17 @@ namespace CarWebShop.Controllers
         private readonly IConfiguration _configuration;
         private readonly DataContext _dataContext;
         private readonly IMessagesRepository _messagesRepository;
-        public MessagesController(DataContext dataContext, UserUtility userUtility, IConfiguration configuration, IMessagesRepository messagesRepository)
+        private readonly WebSocketConnectionManager _webSocketManager;
+        public MessagesController(DataContext dataContext, UserUtility userUtility, IConfiguration configuration, IMessagesRepository messagesRepository, WebSocketConnectionManager webSocketManager)
         {
             _configuration = configuration;
             _userUtility = userUtility;
             _dataContext = dataContext;
             _messagesRepository = messagesRepository;
+            _webSocketManager = webSocketManager;
         }
         [HttpPost("SendMessage")]
-        public IActionResult sendMessage(MessageDto messageDto)
+        public async Task<IActionResult> sendMessage(MessageDto messageDto)
         {
             int receiverID = _userUtility.GetUserIdByUsername(messageDto.ReceiverUsername);
             int senderID = _userUtility.GetUserIdByUsername(messageDto.SenderUsername);
@@ -44,6 +47,8 @@ namespace CarWebShop.Controllers
                 int rowsAffected = command.ExecuteNonQuery();
                 if (rowsAffected > 0)
                 {
+                    var message = JsonSerializer.Serialize(messageDto);
+                    await _webSocketManager.SendMessageToUserAsync(receiverID.ToString(), message);
                     return Ok();
                 }else return StatusCode(500, "Failed to insert message into the database.");
             }

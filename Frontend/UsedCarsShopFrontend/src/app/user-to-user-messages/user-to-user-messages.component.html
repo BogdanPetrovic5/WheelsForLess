@@ -1,0 +1,18 @@
+<app-heder></app-heder>
+<div class="container">
+    <div class="container-messages-wrap">
+        <div class="messages-conversation-wrap">
+            <div>
+                
+            </div>
+        </div>
+        <div class="compose-messages">
+            <textarea [(ngModel)] = "message">
+
+            </textarea>
+            <input type="text" placeholder="receiver" [(ngModel)]="receiver">
+            <input type="number" placeholder="adverID" [(ngModel)]="adverID">
+            <button (click)="sendMessage()">Send message</button>
+        </div>
+    </div>
+</div>

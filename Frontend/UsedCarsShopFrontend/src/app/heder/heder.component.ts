@@ -22,6 +22,10 @@ navigateToFav() {
   constructor(private router:Router){
     
   }
+  sendMessage(){
+    
+    this.router.navigate(['/NewMessage'])
+  }
   ngOnInit(){
       this.username = localStorage.getItem("Username")
       
@@ -40,6 +44,8 @@ navigateToFav() {
     this.router.navigate(["/Login"]);
     localStorage.removeItem("Username");
     localStorage.removeItem("Token");
+    localStorage.removeItem("userID")
+    localStorage.removeItem("adverID")
   }
 
   navigateToAdvertisement(card:any){

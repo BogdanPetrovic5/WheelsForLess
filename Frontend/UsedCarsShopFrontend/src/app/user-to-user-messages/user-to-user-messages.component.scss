@@ -1,0 +1,50 @@
+.container{
+    width: 100%;
+    height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .container-messages-wrap{
+        width: 40%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 50px;
+        .messages-conversation-wrap{
+            width: 100%;
+            height: 60vh;
+            background-color: aqua;
+        }
+        .compose-messages{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            height: 10vh;
+            position: relative;
+            textarea{
+                width: 100%;
+                height: 100%;
+                resize: none;
+                border: 1px solid black;
+                outline: none;
+            }
+            button{
+                width: 150px;
+                height: 30px;
+                border: none;
+                border-radius: 5px;
+                outline: none;
+                background-color: orange;
+                font-family: 'Nunito Sans', sans-serif;
+                position: absolute;
+                right: 1%;
+                bottom: 5%;
+            }
+        }
+    }
+}

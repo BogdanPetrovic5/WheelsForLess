@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { DashboardService } from '../services/dashboard.service';
 import { HttpErrorResponse } from '@angular/common/http';
 @Component({
@@ -14,12 +14,13 @@ export class AdvertisementComponent implements OnInit{
   isWished:boolean = false;
   wishlistRemoved:boolean = false;
   wishlistAdded:boolean = false;
-navigateToMessage() {
-
-}
  
-  constructor(private route:ActivatedRoute, private dashboardService:DashboardService){
+  constructor(private route:ActivatedRoute, private dashboardService:DashboardService, private router:Router){
 
+  }
+  sendMessage(){
+    localStorage.setItem("adverID", this.card.adverID)
+    this.router.navigate(['/NewMessage'])
   }
   loadCurrentUserID(){
     let username = localStorage.getItem("Username")
@@ -40,14 +41,12 @@ navigateToMessage() {
   }
   loadCard(){
     this.card = this.dashboardService.getCard();
-    
   }
   addToWish(){
-    
     let username = localStorage.getItem("Username")
     let token = localStorage.getItem("Token");
     let isWished = this.findIsWished();
-    console.log(this.userID);
+    
     this.dashboardService.addToWish(this.card.adverID, username, token).subscribe(response =>{
       if(!isWished){
         this.card.favoritedByUserDto.push({userID:this.userID, user:null, adverID:this.card.adverID, advertisement:null})

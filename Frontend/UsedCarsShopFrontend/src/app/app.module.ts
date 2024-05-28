@@ -10,7 +10,8 @@ import { NewAdverFormComponent } from './new-adver-form/new-adver-form.component
 import { AdvertisementComponent } from './advertisement/advertisement.component';
 import { HederComponent } from './heder/heder.component';
 import { FavoriteDashboardComponent } from './favorite-dashboard/favorite-dashboard.component';
-import { NewMessageComponent } from './new-message/new-message.component';
+import { UserToUserMessagesComponent } from './user-to-user-messages/user-to-user-messages.component';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NewMessageComponent } from './new-message/new-message.component';
     AdvertisementComponent,
     HederComponent,
     FavoriteDashboardComponent,
-    NewMessageComponent
+    UserToUserMessagesComponent,
+    
   ],
   imports: [
     BrowserModule,

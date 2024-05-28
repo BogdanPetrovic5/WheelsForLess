@@ -13,6 +13,7 @@ export class DasboardComponent {
     public dashboard = true
     public adverForm = false
     public adver = false
+    public userID:any
     public options = false
     currentPage = 1;
     pageSize= 1;
@@ -20,6 +21,11 @@ export class DasboardComponent {
       this.advertisementObject = new Advertisement();
     }
     ngOnInit(){
+      let username = localStorage.getItem("Username")
+    this.dashService.getUserId(username).subscribe(response =>{
+      this.userID = response;
+      localStorage.setItem("userID", this.userID);
+    })
         this.route.queryParams.subscribe(params =>{
           this.currentPage = +params['page'] || 1;
           this.pageSize = +params['pageSize'] || 6; 

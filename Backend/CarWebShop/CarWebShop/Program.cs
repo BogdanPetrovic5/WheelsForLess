@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.Net.WebSockets;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,7 +24,7 @@ builder.Services.AddScoped<UserUtility>();
 builder.Services.AddScoped<PasswordEncoder>();
 
 builder.Services.AddScoped<PasswordHasher<string>>();
-
+builder.Services.AddSingleton<WebSocketConnectionManager>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -79,8 +80,44 @@ app.UseCors();
 
 app.UseStaticFiles();
 
-
+app.UseWebSockets();
 
 app.MapControllers();
+var webSocketManager = app.Services.GetRequiredService<WebSocketConnectionManager>();
+
+app.Map("/ws", async context =>
+{
+    if (context.WebSockets.IsWebSocketRequest)
+    {
+        var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+        var userId = context.Request.Query["userID"];
+        if (string.IsNullOrEmpty(userId))
+        {
+            context.Response.StatusCode = 400;
+            return;
+        }
+
+        webSocketManager.AddSocket(userId, webSocket);
+
+        await HandleWebSocket(webSocket, webSocketManager, userId);
+    }
+    else
+    {
+        context.Response.StatusCode = 400;
+    }
+});
 
 app.Run();
+
+async Task HandleWebSocket(WebSocket webSocket, WebSocketConnectionManager webSocketManager, string userId)
+{
+    var buffer = new byte[1024 * 4];
+    WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+    while (!result.CloseStatus.HasValue)
+    {
+        result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+    }
+
+    await webSocketManager.RemoveSocket(userId);
+    await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+}
