@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { WebsocketMessagesService } from '../services/websocket-messages.service';
 
 @Component({
   selector: 'app-heder',
@@ -19,7 +20,7 @@ navigateToFav() {
   public adverForm = false
   public adver = false
   public options = false
-  constructor(private router:Router){
+  constructor(private router:Router, private wsService:WebsocketMessagesService){
     
   }
   sendMessage(){
@@ -41,6 +42,7 @@ navigateToFav() {
     this.options = false
   }
   logout(){
+    this.wsService.close();
     this.router.navigate(["/Login"]);
     localStorage.removeItem("Username");
     localStorage.removeItem("Token");

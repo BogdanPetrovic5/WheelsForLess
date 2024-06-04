@@ -8,8 +8,9 @@ import { Observable, Subject } from 'rxjs';
 export class WebsocketMessagesService {
   private subject: Subject<MessageEvent> | undefined;
   private ws: WebSocket | undefined;
-
+  
   public connect(url: string): Subject<MessageEvent> {
+    
     if (!this.subject) {
       this.subject = this.create(url);
       console.log(`WebSocket connected to ${url}`);
@@ -19,7 +20,7 @@ export class WebsocketMessagesService {
 
   private create(url: string): Subject<MessageEvent> {
     this.ws = new WebSocket(url);
-
+    
     const observable = new Observable<MessageEvent>(observer => {
       this.ws!.onmessage = (event) => {
         const data = JSON.parse(event.data)
@@ -49,6 +50,11 @@ export class WebsocketMessagesService {
 
     return Subject.create(observer, observable);
   }
+  public close(){
+    if (this.ws) {
+      this.ws.close();
+    }
+  } 
 }
 
 

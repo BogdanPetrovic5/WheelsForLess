@@ -90,16 +90,17 @@ app.Map("/ws", async context =>
     if (context.WebSockets.IsWebSocketRequest)
     {
         var webSocket = await context.WebSockets.AcceptWebSocketAsync();
-        var userId = context.Request.Query["userID"];
-        if (string.IsNullOrEmpty(userId))
+        
+        string socketParameter = context.Request.Query["socketParameter"];
+        if (string.IsNullOrEmpty(socketParameter))
         {
             context.Response.StatusCode = 400;
             return;
         }
 
-        webSocketManager.AddSocket(userId, webSocket);
+        webSocketManager.AddSocket(socketParameter, webSocket);
 
-        await HandleWebSocket(webSocket, webSocketManager, userId);
+        await HandleWebSocket(webSocket, webSocketManager, socketParameter);
     }
     else
     {
@@ -109,7 +110,7 @@ app.Map("/ws", async context =>
 
 app.Run();
 
-async Task HandleWebSocket(WebSocket webSocket, WebSocketConnectionManager webSocketManager, string userId)
+async Task HandleWebSocket(WebSocket webSocket, WebSocketConnectionManager webSocketManager, string socketParameter)
 {
     var buffer = new byte[1024 * 4];
     WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
@@ -118,6 +119,6 @@ async Task HandleWebSocket(WebSocket webSocket, WebSocketConnectionManager webSo
         result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
     }
 
-    await webSocketManager.RemoveSocket(userId);
+    await webSocketManager.RemoveSocket(socketParameter);
     await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
 }

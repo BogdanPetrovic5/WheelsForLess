@@ -8,13 +8,12 @@ import { environment } from 'src/environments/environment';
 export class MessagesService {
 
   constructor(private http:HttpClient) { }
-  getUserToUserMessages(username?:any, adverID?:any){
+  getUserToUserMessages(currentUsername?:any,targetUsername?:any ,adverID?:any){
       adverID = localStorage.getItem("adverID");
-      username = localStorage.getItem("username")
-      return this.http.get<any>(`${environment.apiUrl}/api/Messages/GetMessages?username=${username}&adverID=${adverID}`)
+      currentUsername = localStorage.getItem("username")
+      return this.http.get<any>(`${environment.apiUrl}/api/Messages/GetMessages?currentUsername=${currentUsername}&targetUsername=${targetUsername}&adverID=${adverID}`)
   }
   sendMessage(senderUsername?:any, receiverUsername?:any, adverID?:any, message?:any):Observable<any>{
-   
     return this.http.post<any>(`${environment.apiUrl}/api/Messages/SendMessage`,{
       Message:message,
       SenderUsername:senderUsername,
