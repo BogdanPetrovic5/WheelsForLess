@@ -187,7 +187,7 @@ REST API listed down below
 `none`
 
 ## Get Messages
-`GET Messages/GetMessages/{username}/{adverID}` / `GET Messages/GetMessages/{username}`
+`GET Messages/GetMessages/{username}/{targetUsername}/{adverID}` / `GET Messages/GetMessages/{username}`
 ### Request header
 `none` for now
 ### Request body 
