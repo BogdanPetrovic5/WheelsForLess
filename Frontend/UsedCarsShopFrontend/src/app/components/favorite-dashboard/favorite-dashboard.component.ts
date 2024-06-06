@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DashboardService } from '../services/dashboard.service';
+import { DashboardService } from 'src/app/services/dashboard.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FavoiriteAdvertisement } from '../Data Transfer Objects/FavoritesAdvertisements';
+import { FavoiriteAdvertisement } from 'src/app/Data Transfer Objects/FavoritesAdvertisements';
 
 @Component({
   selector: 'app-favorite-dashboard',

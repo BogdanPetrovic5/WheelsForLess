@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DashboardService } from '../services/dashboard.service';
+import { DashboardService } from 'src/app/services/dashboard.service';
 import { Router, NavigationExtras,ActivatedRoute  } from '@angular/router';
-import { Advertisement } from '../Data Transfer Objects/Advertisements';
+import { Advertisement } from 'src/app/Data Transfer Objects/Advertisements';
+
 @Component({
   selector: 'app-dasboard',
   templateUrl: './dasboard.component.html',

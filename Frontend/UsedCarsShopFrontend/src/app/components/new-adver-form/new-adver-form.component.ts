@@ -1,6 +1,6 @@
 import { Component, Type } from '@angular/core';
 import { Router } from '@angular/router';
-import { DashboardService } from '../services/dashboard.service';
+import { DashboardService } from 'src/app/services/dashboard.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({

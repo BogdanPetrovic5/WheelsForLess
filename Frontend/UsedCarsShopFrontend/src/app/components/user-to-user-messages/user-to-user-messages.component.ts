@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MessagesService } from '../services/messages.service';
-import { WebsocketMessagesService } from '../services/websocket-messages.service';
+import { MessagesService } from 'src/app/services/messages.service';
+
+import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 @Component({
@@ -48,6 +49,7 @@ export class UserToUserMessagesComponent implements OnInit{
   }
   sendMessage(){
     this.currentUsername = localStorage.getItem("Username");
+    
     this.messageService.sendMessage(this.currentUsername, this.receiver,this.adverID,this.message).subscribe((response)=>{
         console.log(`${this.currentUsername}:`, this.message);
         this.messages.push(this.message);

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { WebsocketMessagesService } from '../services/websocket-messages.service';
+import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
 
 @Component({
   selector: 'app-heder',

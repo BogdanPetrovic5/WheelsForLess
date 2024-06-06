@@ -10,14 +10,14 @@ namespace CarWebShop.Utilities
     {
         private readonly ConcurrentDictionary<string, WebSocket> _sockets = new ConcurrentDictionary<string, WebSocket>();
 
-        public void AddSocket(string userId, WebSocket socket)
+        public void AddSocket(string socketParameter, WebSocket socket)
         {
-            _sockets.TryAdd(userId, socket);
+            _sockets.TryAdd(socketParameter, socket);
         }
 
-        public async Task RemoveSocket(string userId)
+        public async Task RemoveSocket(string socketParameter)
         {
-            if (_sockets.TryRemove(userId, out var socket) && socket != null)
+            if (_sockets.TryRemove(socketParameter, out var socket) && socket != null)
             {
                 await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closed by the WebSocketManager", CancellationToken.None);
             }

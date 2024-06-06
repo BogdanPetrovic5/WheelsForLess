@@ -48,7 +48,8 @@ namespace CarWebShop.Controllers
                 if (rowsAffected > 0)
                 {
                     var message = JsonSerializer.Serialize(messageDto);
-                    await _webSocketManager.SendMessageToUserAsync(receiverID.ToString(), message);
+                    var websocketTarget = receiverID + messageDto.AdverID;
+                    await _webSocketManager.SendMessageToUserAsync(websocketTarget.ToString(), message);
                     return Ok();
                 }else return StatusCode(500, "Failed to insert message into the database.");
             }
