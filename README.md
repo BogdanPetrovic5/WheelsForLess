@@ -5,13 +5,13 @@ A web application for posting advertisements and selling used/second hand cars.
 This app was made during my learning of ASP.NET and SSMS. App was made with Angular framework and ASP.NET as backend. SSMS is used for database.
 #
 # Features
+- Live chat
 - Creating a new account
 - Logging in
 - Viewing all advertisements
 - Posting new advertisements
 - Creating a wishlist
 - Notifications
-- Live chat
 # Components
 - Login/Register page
   - Form for registering new users
@@ -187,7 +187,7 @@ REST API listed down below
 `none`
 
 ## Get Messages
-`GET Messages/GetMessages/{username}/{adverID}` / `GET Messages/GetMessages/{username}`
+`GET Messages/GetMessages/{username}/{targetUsername}/{adverID}` / `GET Messages/GetMessages/{username}`
 ### Request header
 `none` for now
 ### Request body 
