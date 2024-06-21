@@ -23,6 +23,7 @@ export class WebsocketMessagesService {
     
     const observable = new Observable<MessageEvent>(observer => {
       this.ws!.onmessage = (event) => {
+        console.log("DSAD")
         const data = JSON.parse(event.data)
         console.log(`${data.SenderUsername}:`,data.Message);
         observer.next(event);

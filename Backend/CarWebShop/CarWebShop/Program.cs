@@ -97,7 +97,7 @@ app.Map("/ws", async context =>
             context.Response.StatusCode = 400;
             return;
         }
-
+        Console.WriteLine(socketParameter);
         webSocketManager.AddSocket(socketParameter, webSocket);
 
         await HandleWebSocket(webSocket, webSocketManager, socketParameter);

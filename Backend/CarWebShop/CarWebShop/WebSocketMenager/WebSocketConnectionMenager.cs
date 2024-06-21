@@ -12,6 +12,7 @@ namespace CarWebShop.Utilities
 
         public void AddSocket(string socketParameter, WebSocket socket)
         {
+            Console.WriteLine(socketParameter);
             _sockets.TryAdd(socketParameter, socket);
         }
 
@@ -25,10 +26,16 @@ namespace CarWebShop.Utilities
 
         public async Task SendMessageToUserAsync(string userId, string message)
         {
+           
             if (_sockets.TryGetValue(userId, out var socket) && socket.State == WebSocketState.Open)
             {
+                Console.WriteLine($"Pogodilo: {userId}");
                 var buffer = Encoding.UTF8.GetBytes(message);
                 await socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+            }
+            else
+            {
+                Console.WriteLine(userId.Length);
             }
         }
 

@@ -31,7 +31,7 @@ export class AdvertisementComponent implements OnInit{
   }
   ngOnInit():void{
       this.loadCard();
-      console.log(this.card);
+     
       this.loadCurrentUserID()
       this.isWished = this.findIsWished()
   }
