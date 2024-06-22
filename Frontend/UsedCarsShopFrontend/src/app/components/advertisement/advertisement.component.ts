@@ -14,7 +14,7 @@ export class AdvertisementComponent implements OnInit{
   isWished:boolean = false;
   wishlistRemoved:boolean = false;
   wishlistAdded:boolean = false;
- 
+ currentUsername = localStorage.getItem("Username");
   constructor(private route:ActivatedRoute, private dashboardService:DashboardService, private router:Router){
 
   }

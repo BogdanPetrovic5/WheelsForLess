@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener} from '@angular/core';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { Router, NavigationExtras,ActivatedRoute  } from '@angular/router';
 import { Advertisement } from 'src/app/Data Transfer Objects/Advertisements';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-dasboard',
@@ -18,43 +19,51 @@ export class DasboardComponent {
     public options = false
     currentPage = 1;
     pageSize= 1;
-    constructor(private dashService:DashboardService, private router:Router, private route:ActivatedRoute){
+    
+    constructor(private dashService:DashboardService, private router:Router, private route:ActivatedRoute, private loadingService:LoadingService){
       this.advertisementObject = new Advertisement();
     }
+    
+    
     ngOnInit(){
       let username = localStorage.getItem("Username")
-    this.dashService.getUserId(username).subscribe(response =>{
-      this.userID = response;
-      localStorage.setItem("userID", this.userID);
-    })
+      
+      
+      this.dashService.getUserId(username).subscribe(response =>{
+        this.userID = response;
+        localStorage.setItem("userID", this.userID);
+        })
+        this.loadingService.show();
         this.route.queryParams.subscribe(params =>{
           this.currentPage = +params['page'] || 1;
           this.pageSize = +params['pageSize'] || 6; 
           this.updateUrl();
-          
-          this.loadAdvertisements()
+         
+          this.loadAdvertisements();
+          this.loadingService.showForDuration(2000);
         })
         this.username = localStorage.getItem("Username")
     }
+   
     updateUrl(): void {
-      this.router.navigate([], { relativeTo: this.route, queryParams: { page: this.currentPage } });
+        this.router.navigate([], { relativeTo: this.route, queryParams: { page: this.currentPage } });
     }
     changeToForm(){
-      this.adverForm = true
-      this.dashboard = false
-      this.adver = false
+        this.adverForm = true
+        this.dashboard = false
+        this.adver = false
     }
     toDashboard(){
-      this.loadAdvertisements()
-      this.adverForm = false
-      this.dashboard = true
-      this.adver = false
+        this.loadAdvertisements()
+        this.adverForm = false
+        this.dashboard = true
+        this.adver = false
     }
     showDropdown(){
-      this.options = true
+        this.options = true
     }
     closeDropdown(){
-      this.options = false
+        this.options = false
     }
     logout(){
       this.router.navigate(["/Login"]);

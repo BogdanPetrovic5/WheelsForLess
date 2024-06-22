@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,  CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
@@ -12,6 +12,8 @@ import { AdvertisementComponent } from './components/advertisement/advertisement
 import { HederComponent } from './components/heder/heder.component';
 import { FavoriteDashboardComponent } from './components/favorite-dashboard/favorite-dashboard.component';
 import { UserToUserMessagesComponent } from './components/user-to-user-messages/user-to-user-messages.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { LoadingService } from './services/loading.service';
 
 
 @NgModule({
@@ -24,6 +26,7 @@ import { UserToUserMessagesComponent } from './components/user-to-user-messages/
     HederComponent,
     FavoriteDashboardComponent,
     UserToUserMessagesComponent,
+    LoadingComponent,
     
   ],
   imports: [
@@ -31,8 +34,14 @@ import { UserToUserMessagesComponent } from './components/user-to-user-messages/
     AppRoutingModule,
     FormsModule,
     HttpClientModule
+  ],schemas: [
+    NO_ERRORS_SCHEMA,
+    CUSTOM_ELEMENTS_SCHEMA
+    
   ],
-  providers: [],
+  providers: [
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

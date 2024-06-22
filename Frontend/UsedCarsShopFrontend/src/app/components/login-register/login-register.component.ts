@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { LoadingService } from 'src/app/services/loading.service';
 @Component({
   selector: 'app-login-register',
   templateUrl: './login-register.component.html',
@@ -31,7 +32,7 @@ ChangeFormToRegister() {
   
   public registerForm = false;
   public loginForm = true;
-  constructor(private auth:AuthenticationService, private router:Router) {
+  constructor(private auth:AuthenticationService, private router:Router, private loadingService:LoadingService) {
     
     
   }
@@ -57,7 +58,9 @@ ChangeFormToRegister() {
   }
 
   Login() {
+    this.loadingService.show()
     this.auth.login(this.LoginUserName, this.LoginPassword).subscribe((token) =>{
+      this.loadingService.hide()
       localStorage.setItem("Token", token.value)
       localStorage.setItem("Username", this.LoginUserName)
       this.router.navigate(["/Dashboard"])

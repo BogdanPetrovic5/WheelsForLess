@@ -1,9 +1,9 @@
 <app-heder></app-heder>
 <section class="container">
-    <div class="containerBasics">
+    <div class="container-basics">
 
         <section class="images">
-            <div class="adverName">
+            <div class="adver-name">
                 <h1>
                     {{card.adverName}}
                 </h1>
@@ -12,12 +12,12 @@
                     godiste
                 </h2>
             </div>
-            <div class="adverImg">
+            <div class="adver-img">
                 <img src="https://localhost:7169/Photos/{{card.imagePaths[0].imagePath}}" alt="">
             </div>
         </section>
-        <section class="basicInfo">
-            <section class="BrandModelPrice">
+        <section class="basic-info">
+            <section class="brand-model-price">
                 <h1>
                    {{card.carDto.brand}} {{card.carDto.model}}
                     
@@ -26,29 +26,29 @@
                     {{ card.price | currency: 'EUR' }}
                 </p>
             </section>
-            <div class="SellersInfo">
-                <div class="Username">
+            <div class="sellers-info">
+                <div class="username">
                     <h1>
                        Oglasivac: {{card.userDto.userName}}
                     </h1>
                 </div>
-                <div class="MoreAdvers">
-                    <button class="First">
+                <div class="more-advers">
+                    <button class="first">
                         Pogledaj ostale oglase korisnika!
                     </button>
-                    <button class="Second" (click)="sendMessage()">
+                    <button class="second" (click)="sendMessage()" *ngIf="currentUsername != card.userDto.userName">
                         Posalji poruku!
                     </button>
                 </div>
-                <div class="Ratings">
+                <div class="ratings">
 
                 </div>
             </div>
         </section>
     </div>
     
-    <div class="CarInfo">
-        <div class="CarInfoLikes">
+    <div class="car-info">
+        <div class="car-info-likes">
             <span (click)="addToWish()" [ngClass]="isWished ? 'wished':'not-wished'">
                 ♥
             </span>
@@ -56,8 +56,8 @@
         <h1>
             Opste informacije
         </h1>
-        <div class="CarInfoTable">
-            <div class="First-Column">
+        <div class="car-info-table">
+            <div class="first-column">
            
                 <div class="property">
                     <div class="key">
@@ -111,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            <div class="Second-Column">
+            <div class="second-column">
                 <div class="property">
                     <div class="key">
                         <h1>Pogon</h1>
