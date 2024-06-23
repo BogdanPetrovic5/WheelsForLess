@@ -85,5 +85,34 @@ namespace CarWebShop.Utilities
 
 
         }
+        public UserDto ConvertToUserDto(User user)
+        {
+            return new UserDto
+            {
+                UserID = user.UserID,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+
+            };
+        }
+        public CarDto ConvertToCarDto(Car car)
+        {
+            return new CarDto
+            {
+
+                Brand = car.CarBrand,
+                Model = car.CarModel,
+                Type = car.CarType,
+                FuelType = car.FuelType,
+                Year = car.CarYear,
+                CarID = car.CarID,
+                Propulsion = car.Propulsion,
+                HorsePower = car.HorsePower,
+                EngineVolume = car.EngineVolume,
+                Mileage = car.Mileage
+            };
+        }
     }
 }

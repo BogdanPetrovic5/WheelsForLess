@@ -58,9 +58,9 @@ ChangeFormToRegister() {
   }
 
   Login() {
-    this.loadingService.show()
+    
     this.auth.login(this.LoginUserName, this.LoginPassword).subscribe((token) =>{
-      this.loadingService.hide()
+      
       localStorage.setItem("Token", token.value)
       localStorage.setItem("Username", this.LoginUserName)
       this.router.navigate(["/Dashboard"])

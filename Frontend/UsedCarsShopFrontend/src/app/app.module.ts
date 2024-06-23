@@ -14,6 +14,7 @@ import { FavoriteDashboardComponent } from './components/favorite-dashboard/favo
 import { UserToUserMessagesComponent } from './components/user-to-user-messages/user-to-user-messages.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { LoadingService } from './services/loading.service';
+import { AllMessagesComponent } from './components/all-messages/all-messages.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { LoadingService } from './services/loading.service';
     FavoriteDashboardComponent,
     UserToUserMessagesComponent,
     LoadingComponent,
+    AllMessagesComponent,
     
   ],
   imports: [

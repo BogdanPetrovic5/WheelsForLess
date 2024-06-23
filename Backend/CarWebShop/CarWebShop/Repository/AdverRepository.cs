@@ -2,6 +2,7 @@
 using CarWebShop.Dto;
 using CarWebShop.Interfaces;
 using CarWebShop.Models;
+using CarWebShop.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarWebShop.Repository
@@ -9,11 +10,13 @@ namespace CarWebShop.Repository
     public class AdverRepository : IAdverRepository
     {
         private readonly DataContext _context;
-        public AdverRepository(DataContext context)
+        private readonly AdverUtility _adverUtility;
+        public AdverRepository(DataContext context, AdverUtility adverUtility)
         {
             _context = context;
+            _adverUtility = adverUtility;
         }
-        private static UserDto ConvertToUserDto(User user)
+       /* private static UserDto ConvertToUserDto(User user)
         {
             return new UserDto
             {
@@ -41,7 +44,7 @@ namespace CarWebShop.Repository
                 EngineVolume = car.EngineVolume,
                 Mileage = car.Mileage
             };
-        }
+        }*/
         private static FavoritedByUserDto ConvertToFavoritedByUserDto(Favorites favorites)
         {
             return new FavoritedByUserDto
@@ -61,8 +64,8 @@ namespace CarWebShop.Repository
                     AdverID = a.AdverID,
                     AdverName = a.AdverName,
                     Price = a.Price,
-                    UserDto = ConvertToUserDto(a.User),
-                    CarDto = ConvertToCarDto(a.Car),
+                    UserDto = _adverUtility.ConvertToUserDto(a.User),
+                    CarDto = _adverUtility.ConvertToCarDto(a.Car),
                     imagePaths = a.imagePaths,
                     FavoritedByUserDto = a.FavoritedByUsers
                             .Select(f => new FavoritedByUserDto
@@ -87,8 +90,8 @@ namespace CarWebShop.Repository
                 AdverID = a.AdverID,
                 AdverName = a.AdverName,
                 Price = a.Price,
-                UserDto = ConvertToUserDto(a.User),
-                CarDto = ConvertToCarDto(a.Car),
+                UserDto = _adverUtility.ConvertToUserDto(a.User),
+                CarDto = _adverUtility.ConvertToCarDto(a.Car),
                 imagePaths = a.imagePaths,
                 FavoritedByUserDto = a.FavoritedByUsers
                             .Select(f => new FavoritedByUserDto

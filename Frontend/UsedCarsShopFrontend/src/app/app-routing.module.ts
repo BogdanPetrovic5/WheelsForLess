@@ -7,6 +7,7 @@ import { AdvertisementComponent } from './components/advertisement/advertisement
 import { NewAdverFormComponent } from './components/new-adver-form/new-adver-form.component';
 import { FavoriteDashboardComponent } from './components/favorite-dashboard/favorite-dashboard.component';
 import { UserToUserMessagesComponent } from './components/user-to-user-messages/user-to-user-messages.component';
+import { AllMessagesComponent } from './components/all-messages/all-messages.component';
 
 const routes: Routes = [
   {path:'', redirectTo:"/Login", pathMatch:"full"},
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path:"Advertisement", component:AdvertisementComponent},
   {path:"New Adver", component:NewAdverFormComponent},
   {path:'Favorites', component:FavoriteDashboardComponent},
-  {path:'NewMessage', component:UserToUserMessagesComponent}
+  {path:'NewMessage', component:UserToUserMessagesComponent},
+  {path:'Messages', component:AllMessagesComponent}
 ];
 
 @NgModule({

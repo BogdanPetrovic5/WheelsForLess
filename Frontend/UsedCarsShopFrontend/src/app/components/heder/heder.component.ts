@@ -54,5 +54,7 @@ navigateToFav() {
       this.router.navigate(['/Advertisement']);
   }
 
-  
+  navigateToMessages(){
+    this.router.navigate(['/Messages']);
+  }
 }
