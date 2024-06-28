@@ -88,6 +88,7 @@ export class DasboardComponent {
       this.username = localStorage.getItem("Username")
         this.dashService.getAllAdvers(this.currentPage).subscribe(response =>{
           this.advertisementObject.Advertisements = response
+          
           for(let i = 0;i < this.advertisementObject.Advertisements.length; i++){
             for(let j = 0; j < this.advertisementObject.Advertisements[i].imagePaths.length; j++)
             {

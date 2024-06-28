@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MessagesService } from 'src/app/services/messages.service';
 
 import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
@@ -11,18 +11,29 @@ import { DashboardService } from 'src/app/services/dashboard.service';
   styleUrls: ['./user-to-user-messages.component.scss']
 })
 export class UserToUserMessagesComponent implements OnInit{
-  messages: string[] = []
+  messages: { message: string, receiverUsername:string, senderUsername:string, dateSent: Date }[] = [];
+  currentChat:any;
   private wsUrl:any;
   private wsSub:any;
   adverID:number | undefined
   message = ""
   receiver =""
-  currentUsername:any
+  currentUsername:any;
   constructor(private wsService:WebsocketMessagesService,private messageService:MessagesService, private dashboardService:DashboardService){
 
   }
+  @HostListener('window:beforeunload', ['$event'])
+  handleUnload(event: Event) {
+    this.removeFromSession()
+  }
   ngOnInit(): void {
    this.connectToWebSocket()   
+   this.messages = []
+   this.loadChat();
+   this.currentUsername = localStorage.getItem("Username");
+   this.receiver = this.messages[0].senderUsername == this.currentUsername ?  this.messages[0].receiverUsername : this.messages[0].senderUsername
+   console.log(this.receiver)
+  
   }
   
   connectToWebSocket(){
@@ -32,13 +43,24 @@ export class UserToUserMessagesComponent implements OnInit{
     adverID = adverID ? adverID.toString() : ""; 
     let wsQuery = userID + "-" + adverID;
     this.wsUrl = `${environment.wsUrl}?socketParameter=${wsQuery}`
-    this.wsSub = this.wsService.connect(this.wsUrl).subscribe((response) =>{
-      this.messages.push(response.data);
-    },
-    (error) => console.log('WebSocket error:', error),
-    () => console.log('WebSocket connection closed')) 
+    this.wsSub = this.wsService.connect(this.wsUrl).subscribe(
+      (data: any) => {
+        this.messages.unshift({
+          message: data.message,
+          receiverUsername: data.ReceiverUsername,
+          senderUsername: data.SenderUsername,
+          dateSent: data.dateSent
+        });
+        this.sortMessages();
+      },
+      (error) => console.log('WebSocket error:', error),
+      () => console.log('WebSocket connection closed')
+    );
   }
-  
+  ngOnDestroy():void{
+    this.removeFromSession();
+    this.disconnectFromWebsocket();
+  }
   disconnectFromWebsocket(){
     if (this.wsSub) {
       this.wsSub.unsubscribe();
@@ -51,17 +73,33 @@ export class UserToUserMessagesComponent implements OnInit{
   }
   sendMessage(){
     this.currentUsername = localStorage.getItem("Username");
-    var card = this.dashboardService.getCard();
-    this.receiver = card.userDto.userName
     let adverID = localStorage.getItem("adverID");
- 
     this.messageService.sendMessage(this.currentUsername, this.receiver,adverID,this.message).subscribe((response)=>{
         console.log(`${this.currentUsername}:`, this.message);
-        this.messages.push(this.message);
+        this.messages.unshift({message:this.message, receiverUsername:this.receiver, senderUsername:this.currentUsername, dateSent: new Date()});
+        this.sortMessages();
         this.message = '';
     },(error:HttpErrorResponse)=>{
       console.log(error.status)
     })
   }
 
+  sortMessages(){
+    this.messages.sort((b,a) => {
+     
+      return new Date(a.dateSent).getTime() - new Date(b.dateSent).getTime();
+      });
+  }
+  removeFromSession(){
+    sessionStorage.removeItem("selectedChat")
+  }
+  loadChat(){
+    this.currentChat = this.messageService.getChat();
+    for(let i = 0; i < this.currentChat.advertisement.messages.length; i++){
+      this.messages.push(this.currentChat.advertisement.messages[i]);
+    }
+
+    this.sortMessages()
+   
+  }
 }

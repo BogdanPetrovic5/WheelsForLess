@@ -6,8 +6,14 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class MessagesService {
-
+  private storageKey = "selectedChat"
   constructor(private http:HttpClient) { }
+  getUserMessages(cuurentUsername?:any):Observable<any>{
+      const url = `${environment.apiUrl}/api/Messages/GetMessages/${cuurentUsername}`;
+      console.log(`Fetching messages from URL: ${url}`);
+      return this.http.get<any>(url);
+  
+  }
   getUserToUserMessages(currentUsername?:any,targetUsername?:any ,adverID?:any){
       adverID = localStorage.getItem("adverID");
       currentUsername = localStorage.getItem("username")
@@ -20,5 +26,12 @@ export class MessagesService {
       ReceiverUsername:receiverUsername,
       AdverID:adverID
     })
+  }
+  setChat(chat:any){
+    sessionStorage.setItem(this.storageKey, JSON.stringify(chat))
+  }
+  getChat(){
+    const currentChat = sessionStorage.getItem(this.storageKey)
+    return currentChat ? JSON.parse(currentChat) : null
   }
 }

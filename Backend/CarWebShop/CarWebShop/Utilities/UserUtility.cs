@@ -30,5 +30,26 @@ namespace CarWebShop.Utilities
             }
             return userId;
         }
+        public string GetUsernameById(int userID)
+        {
+            string username = null;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT UserName FROM Users WHERE UserID = @userID";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@userID", userID);
+                    var result = command.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        username = result.ToString();
+                    }
+                }
+
+            }
+            return username;
+        }
     }
 }

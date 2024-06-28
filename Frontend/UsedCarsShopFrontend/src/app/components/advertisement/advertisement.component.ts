@@ -14,13 +14,16 @@ export class AdvertisementComponent implements OnInit{
   isWished:boolean = false;
   wishlistRemoved:boolean = false;
   wishlistAdded:boolean = false;
- currentUsername = localStorage.getItem("Username");
+  currentUsername = localStorage.getItem("Username");
+  chatBubble = false
   constructor(private route:ActivatedRoute, private dashboardService:DashboardService, private router:Router){
 
   }
-  sendMessage(){
+  
+  openChatBox(){
     localStorage.setItem("adverID", this.card.adverID)
-    this.router.navigate(['/NewMessage'])
+    localStorage.setItem("receiver", this.card.userDto.userName)
+    this.chatBubble = !this.chatBubble;
   }
   loadCurrentUserID(){
     let username = localStorage.getItem("Username")
@@ -42,6 +45,7 @@ export class AdvertisementComponent implements OnInit{
   loadCard(){
     this.card = this.dashboardService.getCard();
   }
+
   addToWish(){
     let username = localStorage.getItem("Username")
     let token = localStorage.getItem("Token");

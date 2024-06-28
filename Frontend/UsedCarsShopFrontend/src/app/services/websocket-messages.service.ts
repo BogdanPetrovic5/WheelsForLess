@@ -25,8 +25,14 @@ export class WebsocketMessagesService {
       this.ws!.onmessage = (event) => {
         console.log("DSAD")
         const data = JSON.parse(event.data)
-        console.log(`${data.SenderUsername}:`,data.Message);
-        observer.next(event);
+        console.log(`${data.SenderUsername}:`,data);
+        
+        observer.next({
+          message: data.Message,
+          receiverUsername: data.ReceiverUsername,
+          senderUsername: data.SenderUsername,
+          dateSent: new Date(data.dateSent)
+        } as any);
       };
       this.ws!.onerror = (error) => {
         console.log('WebSocket error:', error);

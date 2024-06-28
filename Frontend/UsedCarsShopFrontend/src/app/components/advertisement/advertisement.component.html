@@ -1,5 +1,17 @@
+<div class="chat-bubble" *ngIf="chatBubble">
+    <form class="form">
+        <img src="/assets/images/close (1).png" (click)="openChatBox()">
+        <span class="title">Send message to the owner</span>
+        <p class="description">Nostrud amet eu ullamco nisi aute in ad minim nostrud adipisicing velit quis. Duis tempor incididunt dolore.</p>
+        <div>
+            <input placeholder="Enter your message" type="text" name="text" id="email-address">
+            <button type="submit">Send message</button>
+        </div>
+    </form>
+</div>
 <app-heder></app-heder>
 <section class="container">
+    
     <div class="container-basics">
 
         <section class="images">
@@ -36,7 +48,7 @@
                     <button class="first">
                         Pogledaj ostale oglase korisnika!
                     </button>
-                    <button class="second" (click)="sendMessage()" *ngIf="currentUsername != card.userDto.userName">
+                    <button class="second" (click)="openChatBox()" *ngIf="currentUsername != card.userDto.userName">
                         Posalji poruku!
                     </button>
                 </div>
