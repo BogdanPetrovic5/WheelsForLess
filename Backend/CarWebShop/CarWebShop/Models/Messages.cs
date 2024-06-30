@@ -7,6 +7,8 @@ namespace CarWebShop.Models
     {
         public int SenderID { get; set; }
         public int ReceiverID { get; set; }
+        
+        public int InitialSenderID { get; set; }
         [NotMapped]
         public string ReceiverUsername { get; set; }
         [NotMapped]

@@ -9,7 +9,7 @@ export class DashboardService {
   card:any
   private storageKey = 'adverDetails';
   constructor(private http:HttpClient) { }
-  getAllAdvers(currentPage:any, pageSize: number = 18):Observable<any>{
+  getAllAdvers(currentPage:any, pageSize: number = 6):Observable<any>{
     return this.http.get<any>(`${environment.apiUrl}/api/Advertisement/GetAdvertisements?page=${currentPage}&maximumAdvers=${pageSize}`)
   }
   getUserId(username:any){

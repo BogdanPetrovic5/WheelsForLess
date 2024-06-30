@@ -1,6 +1,7 @@
 export class Messages{
     Messages = [
         {
+            chatID:0,
             senderUsername:'',
             receiverUsername:'',
             adverID:0,
@@ -34,13 +35,6 @@ export class Messages{
                 imagePaths:[{
                   imagePath:'',
                   AdverID:0
-                }],
-                messages:[{
-                  senderName:'',
-                  receiverName:'',
-                  adverID:0,
-                  message:'',
-                  dateSent:new Date()
                 }],
                 favoritedByUserDto:[{
                   UserID:0,

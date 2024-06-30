@@ -41,6 +41,9 @@ export class WebsocketMessagesService {
       this.ws!.onclose = (event) => {
         console.log('WebSocket connection closed:', event);
         observer.complete();
+       
+        this.subject = undefined;
+        this.ws = undefined;
       };
 
       return () => this.ws!.close();

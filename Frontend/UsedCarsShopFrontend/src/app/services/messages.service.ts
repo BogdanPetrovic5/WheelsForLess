@@ -14,10 +14,11 @@ export class MessagesService {
       return this.http.get<any>(url);
   
   }
-  getUserToUserMessages(currentUsername?:any,targetUsername?:any ,adverID?:any){
+  getUserToUserMessages(currentUserID?:any,initialSenderID?:any ,adverID?:any){
       adverID = localStorage.getItem("adverID");
-      currentUsername = localStorage.getItem("username")
-      return this.http.get<any>(`${environment.apiUrl}/api/Messages/GetMessages?currentUsername=${currentUsername}&targetUsername=${targetUsername}&adverID=${adverID}`)
+      currentUserID = localStorage.getItem("userID");
+
+      return this.http.get<any>(`${environment.apiUrl}/api/Messages/GetMessages/${currentUserID}/${initialSenderID}/${adverID}`)
   }
   sendMessage(senderUsername?:any, receiverUsername?:any, adverID?:any, message?:any):Observable<any>{
     return this.http.post<any>(`${environment.apiUrl}/api/Messages/SendMessage`,{

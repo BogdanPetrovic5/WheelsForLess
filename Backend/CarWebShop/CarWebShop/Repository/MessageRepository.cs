@@ -32,7 +32,7 @@ namespace CarWebShop.Repository
                 .ToList();
 
             var latestMessages = userMessages
-           .GroupBy(m => m.AdverID)
+           .GroupBy(m => new { m.AdverID, m.InitialSenderID})
            .Select(g => g.OrderByDescending(m => m.DateSent).FirstOrDefault())
            .ToList();
             var result = latestMessages.Select(a => new Messages
@@ -45,6 +45,7 @@ namespace CarWebShop.Repository
                 DateSent = a.DateSent,
                 ReceiverUsername = _userUtility.GetUsernameById(a.ReceiverID),
                 SenderUsername = _userUtility.GetUsernameById(a.SenderID),
+                InitialSenderID = a.InitialSenderID,
                 Advertisement = a.Advertisement != null ? new Advertisement
                 {
                     CarID = a.Advertisement.CarID,
@@ -55,16 +56,6 @@ namespace CarWebShop.Repository
                     UserDto = _adverUtility.ConvertToUserDto(a.Advertisement.User),
                     CarDto = _adverUtility.ConvertToCarDto(a.Advertisement.Car),
                     imagePaths = a.Advertisement.imagePaths,
-                    Messages = a.Advertisement.Messages.Select(m => new Messages
-                    {
-                        DateSent = m.DateSent,
-                        SenderID = m.SenderID,
-                        ReceiverID = m.ReceiverID,
-                        Message = m.Message,
-                        SenderUsername = _userUtility.GetUsernameById(m.SenderID),
-                        ReceiverUsername = _userUtility.GetUsernameById(m.ReceiverID),
-                       
-                    }).ToList(),
                     FavoritedByUserDto = a.Advertisement.FavoritedByUsers
                     .Select(f => new FavoritedByUserDto
                         {
@@ -79,7 +70,7 @@ namespace CarWebShop.Repository
 
             return result;
         }
-        public ICollection<Messages> GetMessages(int userID,int targetID, int adverID)
+        public ICollection<Messages> GetMessages(int currentUserID, int initialSenderID, int adverID)
         {
             return _dataContext.Messages.Select(a=> new Messages { 
                 AdverID = a.AdverID,
@@ -88,8 +79,10 @@ namespace CarWebShop.Repository
                 Message = a.Message,
                 MessageID = a.MessageID,
                 DateSent = a.DateSent,
-                Advertisement = a.Advertisement
-            }).Where(a=>(a.ReceiverID == userID || a.SenderID == userID) && (a.SenderID == targetID || a.ReceiverID == targetID) && a.AdverID == adverID)
+                InitialSenderID = a.InitialSenderID, 
+                ReceiverUsername = _userUtility.GetUsernameById(a.ReceiverID),
+                SenderUsername = _userUtility.GetUsernameById(a.SenderID)
+            }).Where(a=>(initialSenderID == a.InitialSenderID) && (adverID == a.AdverID) && (currentUserID == a.SenderID || currentUserID == a.ReceiverID))
             .OrderBy(a => a.DateSent)
             .ToList();
         }

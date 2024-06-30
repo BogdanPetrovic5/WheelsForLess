@@ -227,6 +227,9 @@ namespace CarWebShop.Migrations
                     b.Property<DateTime>("DateSent")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("InitialSenderID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

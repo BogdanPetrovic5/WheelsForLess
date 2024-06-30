@@ -11,7 +11,7 @@ import { NewAdverFormComponent } from './components/new-adver-form/new-adver-for
 import { AdvertisementComponent } from './components/advertisement/advertisement.component';
 import { HederComponent } from './components/heder/heder.component';
 import { FavoriteDashboardComponent } from './components/favorite-dashboard/favorite-dashboard.component';
-import { UserToUserMessagesComponent } from './components/user-to-user-messages/user-to-user-messages.component';
+import { UserToUserMessagesComponent } from './components/all-messages/user-to-user-messages/user-to-user-messages.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { LoadingService } from './services/loading.service';
 import { AllMessagesComponent } from './components/all-messages/all-messages.component';
@@ -42,7 +42,7 @@ import { AllMessagesComponent } from './components/all-messages/all-messages.com
     
   ],
   providers: [
-    
+    UserToUserMessagesComponent
   ],
   bootstrap: [AppComponent]
 })

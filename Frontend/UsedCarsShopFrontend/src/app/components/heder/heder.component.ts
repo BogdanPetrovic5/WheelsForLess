@@ -55,6 +55,6 @@ navigateToFav() {
   }
 
   navigateToMessages(){
-    this.router.navigate(['/Messages']);
+    this.router.navigate(['/Messages/Inbox']);
   }
 }

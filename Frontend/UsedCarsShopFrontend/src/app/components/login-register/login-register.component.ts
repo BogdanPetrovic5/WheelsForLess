@@ -10,6 +10,9 @@ import { LoadingService } from 'src/app/services/loading.service';
 })
 export class LoginRegisterComponent {
 
+ngOnInit():void{
+  localStorage.removeItem("isSelected")
+}
 
 ChangeFormToLogin() {
   this.registerForm = false;

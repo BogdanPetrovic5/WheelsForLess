@@ -32,23 +32,52 @@ namespace CarWebShop.Controllers
             int receiverID = _userUtility.GetUserIdByUsername(messageDto.ReceiverUsername);
             int senderID = _userUtility.GetUserIdByUsername(messageDto.SenderUsername);
 
+
+            
+            
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             sqlConnection.Open();
-            string query = "INSERT INTO Messages(SenderID, ReceiverID, AdverID, DateSent, Message) VALUES (@SenderID, @ReceiverID, @AdverID, GetDate(), @Message)";
-
-            using(SqlCommand command = new SqlCommand(query, sqlConnection))
+            string query = "INSERT INTO Messages(SenderID, ReceiverID, AdverID, DateSent, Message, InitialSenderID) VALUES (@SenderID, @ReceiverID, @AdverID, GetDate(), @Message, @InitialSenderID)";
+          
+            using (SqlCommand command = new SqlCommand(query, sqlConnection))
             {
+                int initialSenderID = senderID;
+                Console.WriteLine(initialSenderID);
+                string checkForInitialMessage = "SELECT TOP 1 InitialSenderID FROM Messages WHERE AdverID = @AdverID AND (SenderID = @SenderID OR ReceiverID = @SenderID)";
+                using (SqlCommand checkCommand = new SqlCommand(checkForInitialMessage, sqlConnection))
+                {
+                    checkCommand.Parameters.AddWithValue("@AdverID", messageDto.AdverID);
+                    checkCommand.Parameters.AddWithValue("@SenderID", senderID);
+                   
+                    object result = await checkCommand.ExecuteScalarAsync();
+
+                    if (result != null)
+                    {
+                       
+                        initialSenderID = Convert.ToInt32(result);
+                       
+                    }
+                    else
+                    {
+                       
+                        initialSenderID = senderID;
+                      
+                    }
+                }
+               
+
+
                 command.Parameters.AddWithValue("@SenderID", senderID);
                 command.Parameters.AddWithValue("@ReceiverID", receiverID);
                 command.Parameters.AddWithValue("@AdverID", messageDto.AdverID);
                 command.Parameters.AddWithValue("@Message",  messageDto.Message);
-
+                command.Parameters.AddWithValue("@InitialSenderID", initialSenderID);
                 int rowsAffected = command.ExecuteNonQuery();
                 if (rowsAffected > 0)
                 {
                     var message = JsonSerializer.Serialize(messageDto);
-                    var websocketTarget = receiverID.ToString() + "-" + messageDto.AdverID.ToString();
+                    var websocketTarget = receiverID.ToString() + "-" + messageDto.AdverID.ToString() + "-" + initialSenderID.ToString();
                     Console.WriteLine("Websocket Target: " + websocketTarget);
                     await _webSocketManager.SendMessageToUserAsync(websocketTarget.ToString(), message);
                     return Ok();
@@ -56,12 +85,11 @@ namespace CarWebShop.Controllers
             }
            
         }
-        [HttpGet("GetMessages/{currentUsername}/{targetUsername}/{adverID}")]
-        public IActionResult GetMessages(string currentUsername,string targetUsername, int adverID)
+        [HttpGet("GetMessages/{currentUserID}/{initialSenderID}/{adverID}")]
+        public IActionResult GetMessages(int currentUserID, int initialSenderId, int adverID)
         {
-            int userID = _userUtility.GetUserIdByUsername(currentUsername);
-            int targetID = _userUtility.GetUserIdByUsername(targetUsername);
-            var messages = _messagesRepository.GetMessages(userID,targetID ,adverID);
+          
+            var messages = _messagesRepository.GetMessages(currentUserID,initialSenderId, adverID);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

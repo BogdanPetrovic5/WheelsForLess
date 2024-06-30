@@ -5,6 +5,6 @@ namespace CarWebShop.Interfaces
     public interface IMessagesRepository
     {
         ICollection<Messages> GetMessages(int userID);
-        ICollection<Messages> GetMessages(int userID,int targetID, int adverID);
+        ICollection<Messages> GetMessages(int currentUserID, int initialSenderId, int adverID);
     }
 }

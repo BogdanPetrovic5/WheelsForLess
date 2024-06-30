@@ -32,17 +32,17 @@ export class DasboardComponent {
       this.dashService.getUserId(username).subscribe(response =>{
         this.userID = response;
         localStorage.setItem("userID", this.userID);
-        })
-        this.loadingService.show();
-        this.route.queryParams.subscribe(params =>{
-          this.currentPage = +params['page'] || 1;
-          this.pageSize = +params['pageSize'] || 6; 
-          this.updateUrl();
-         
-          this.loadAdvertisements();
-          this.loadingService.showForDuration(2000);
-        })
-        this.username = localStorage.getItem("Username")
+      })
+      this.loadingService.show();
+      this.route.queryParams.subscribe(params =>{
+        this.currentPage = +params['page'] || 1;
+        this.pageSize = +params['pageSize'] || 6; 
+        this.updateUrl();
+        
+        this.loadAdvertisements();
+        this.loadingService.showForDuration(2000);
+      })
+      this.username = localStorage.getItem("Username")
     }
    
     updateUrl(): void {

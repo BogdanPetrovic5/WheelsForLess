@@ -4,8 +4,8 @@
       <div class="message-wrapper" *ngFor="let message of messageObject.Messages" (click)="selectChat(message)">
          <div>
             <div class="profile"> 
-               <h1 *ngIf="message.senderUsername == currentUsername">{{messageObject.Messages[0].receiverUsername[0]}}</h1>
-               <h1 *ngIf="message.senderUsername != currentUsername">{{messageObject.Messages[0].senderUsername[0]}}</h1>
+               <h1 *ngIf="message.senderUsername == currentUsername">{{message.receiverUsername[0]}}</h1>
+               <h1 *ngIf="message.senderUsername != currentUsername">{{message.senderUsername[0]}}</h1>
             </div>
             <div class="message">
                <p class="sender-name" *ngIf="message.senderUsername != currentUsername">{{message.senderUsername}}</p>
@@ -17,9 +17,9 @@
       </div>
    </div>
    <div class="message-preview">
-        <app-user-to-user-messages *ngIf="isSelected"></app-user-to-user-messages>
+        <router-outlet></router-outlet>
        
-         <div *ngIf="!isSelected" class="not-selected-convo">
+         <div *ngIf="isSelected == false" class="not-selected-convo">
                <img src="/assets/images/no-message.png">
                <p>No conversation selected!</p>
          </div>

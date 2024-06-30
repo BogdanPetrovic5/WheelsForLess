@@ -6,7 +6,7 @@ import { Advertisement } from './Data Transfer Objects/Advertisements';
 import { AdvertisementComponent } from './components/advertisement/advertisement.component';
 import { NewAdverFormComponent } from './components/new-adver-form/new-adver-form.component';
 import { FavoriteDashboardComponent } from './components/favorite-dashboard/favorite-dashboard.component';
-import { UserToUserMessagesComponent } from './components/user-to-user-messages/user-to-user-messages.component';
+import { UserToUserMessagesComponent } from './components/all-messages/user-to-user-messages/user-to-user-messages.component';
 import { AllMessagesComponent } from './components/all-messages/all-messages.component';
 
 const routes: Routes = [
@@ -16,8 +16,8 @@ const routes: Routes = [
   {path:"Advertisement", component:AdvertisementComponent},
   {path:"New Adver", component:NewAdverFormComponent},
   {path:'Favorites', component:FavoriteDashboardComponent},
-  {path:'NewMessage', component:UserToUserMessagesComponent},
-  {path:'Messages', component:AllMessagesComponent}
+ 
+  {path:'Messages/Inbox', component:AllMessagesComponent, children:[{path:'Direct/:wsUrl', component:UserToUserMessagesComponent}]}
 ];
 
 @NgModule({
