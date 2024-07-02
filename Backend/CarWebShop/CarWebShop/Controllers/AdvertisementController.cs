@@ -66,28 +66,42 @@ namespace CarWebShop.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> InsertIntoAdver([FromForm] AdverDto adverDto, int carID, int UserID, List<IFormFile> selectedImages)
         {
-            
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            SqlConnection connection = new SqlConnection(connectionString);
-            string query = "INSERT INTO Advertisement(AdverName, UserID, CarID, Price) VALUES('" + adverDto.AdverName + "', '" +UserID+ "', '" + carID + "', '"+ adverDto.Price +"')";
-            SqlCommand command = new SqlCommand(query);
-            command.Connection = connection;
-            connection.Open();
-            int i = command.ExecuteNonQuery();
-            string getIdQuery = "SELECT @@IDENTITY";
-            SqlCommand getIdCommand = new SqlCommand(getIdQuery, connection);
-            int AdverID = Convert.ToInt32(getIdCommand.ExecuteScalar());
-            connection.Close();
-            await _adverUtility.createFolder(AdverID, adverDto.UserName, adverDto, selectedImages);
-            if (i > 0)
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return Ok();
-            }
-            else return BadRequest();
+                string query = "INSERT INTO Advertisement(AdverName, UserID, CarID, Price, Date) VALUES(@AdverName, @UserID, @CarID, @Price, GetDate())";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@AdverName", adverDto.AdverName);
+                    command.Parameters.AddWithValue("@UserID", UserID);
+                    command.Parameters.AddWithValue("@CarID", carID);
+                    command.Parameters.AddWithValue("@Price", adverDto.Price);
 
+                    connection.Open();
+                    int i = command.ExecuteNonQuery();
+
+                    string getIdQuery = "SELECT @@IDENTITY";
+                    using (SqlCommand getIdCommand = new SqlCommand(getIdQuery, connection))
+                    {
+                        int AdverID = Convert.ToInt32(getIdCommand.ExecuteScalar());
+
+                        await _adverUtility.createFolder(AdverID, adverDto.UserName, adverDto, selectedImages);
+
+                        if (i > 0)
+                        {
+                            return Ok();
+                        }
+                        else
+                        {
+                            return BadRequest();
+                        }
+                    }
+                }
+            }
         }
-       
-       
+
+
+
         [HttpPost("MarkAsFavorite")]
         [Authorize]
         public IActionResult markAsFavorite(FavoritesDto favoritesDto)

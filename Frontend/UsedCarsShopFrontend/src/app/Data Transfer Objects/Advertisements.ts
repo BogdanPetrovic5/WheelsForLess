@@ -23,8 +23,9 @@ export class Advertisement {
             propulsion:'',
             engineVolume:'',
             horsePower:'',
-            miliage:''
+            mileage:''
           },
+          date:Date,
           imagePaths:[{
             imagePath:'',
             AdverID:0

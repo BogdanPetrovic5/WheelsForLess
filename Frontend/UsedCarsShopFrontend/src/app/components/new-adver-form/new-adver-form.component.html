@@ -1,48 +1,72 @@
-<app-heder></app-heder>
+
 <div class="content">
-    <div class="form-wrap">
-        <div class="form">
-            <h1>
-                Add New Advertisement
-            </h1>
-            <input type="text" autocomplete="off" name="text" class="input" placeholder="Advertisement Name" [(ngModel)]="AdverName">
-            <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Brand" [(ngModel)]="Brand">
-            <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Model" [(ngModel)]="Model">
-            <input type="text" autocomplete="off" name="text" class="input" placeholder="Year" [(ngModel)]="Year">
-            <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Body Type" [(ngModel)]="BodyType">
-            <input type="text" autocomplete="off" name="text" class="input" placeholder="Fuel Type" [(ngModel)]="FuelType">
-            <input type="text" autocomplete="off" name="text" class="input" placeholder="Price" [(ngModel)]="Price">
-            <input type="text" autocomplete="off" name="text" class="input" placeholder="Engine Volume" [(ngModel)]="EngineVolume">
-            <input type="text" autocomplete="off" name="text" class="input" placeholder="Horse Power" [(ngModel)]="HorsePower">
-            <input type="text" autocomplete="off" name="text" class="input" placeholder="Mileage" [(ngModel)]="Mileage">
-            <input type="text" autocomplete="off" name="text" class="input" placeholder="Propulsion" [(ngModel)]="Propulsion">
-            <label for="file" class="label"><h1>SELECT IMAGES</h1></label>
-            <input type="file" class="file" id="file" (change)="onFileSelected($event)">
-            <div class="images-div">
-                <div class="images" *ngFor="let img of selectedFiles">
-                    <div class="image">
-                        <img src="/assets/images/jpg (1).png" alt="" srcset="">
+    <app-heder></app-heder>
+    <div class="form-content">
+        <app-banner></app-banner>
+        <div class="form-wrap">
+            <div class="form">
+                <h1>
+                    Place new advertisement!
+                </h1>
+                <div>
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Advertisement Name" [(ngModel)]="AdverName">
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Brand" [(ngModel)]="Brand">
+                </div>
+                <div>
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Model" [(ngModel)]="Model">
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Year" [(ngModel)]="Year">
+                </div>
+                <div>
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Body Type" [(ngModel)]="BodyType">
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Fuel Type" [(ngModel)]="FuelType">
+                </div>
+                <div>
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Price" [(ngModel)]="Price">
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Engine Volume" [(ngModel)]="EngineVolume">
+                </div>
+                <div>
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Horse Power" [(ngModel)]="HorsePower">
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Mileage" [(ngModel)]="Mileage">
+                </div>
+                <div>
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Propulsion" [(ngModel)]="Propulsion">
+                    <div class="file-type" (change)="onFileSelected($event)">
+                        <label> 
+                            Select files!
+                        </label>
+                        <input type="file" class="file" id="file" >
                     </div>
-                    <div class="details">
-                        <p>
-                            {{img.name}} <br>
-                            {{img.size}}B
-                        </p>
+                    
+                    
+                </div>
+               
+                <div class="images-div">
+                    <div class="images" *ngFor="let img of selectedFiles">
+                        <div class="image">
+                            <img src="/assets/images/jpg (1).png" alt="" srcset="">
+                        </div>
+                        <div class="details">
+                            <p>
+                                {{img.name}} <br>
+                                {{img.size}}B
+                            </p>
+                        </div>
                     </div>
                 </div>
+                <!-- <div class="radio-inputs">
+                    <label class="radio">
+                        <input type="radio" name="radio" checked="">
+                        <span class="name">Not Fixed Price</span>
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="radio">
+                        <span class="name">Fixed Price</span>
+                    </label>
+                </div> -->
+                <button (click)="placeAdver()">PLACE AN ADVERTISEMENT</button>
             </div>
-            <div class="radio-inputs">
-                <label class="radio">
-                    <input type="radio" name="radio" checked="">
-                    <span class="name">Not Fixed Price</span>
-                </label>
-                <label class="radio">
-                    <input type="radio" name="radio">
-                    <span class="name">Fixed Price</span>
-                </label>
-            </div>
-            <button (click)="placeAdver()">PLACE AN ADVERTISEMENT</button>
         </div>
+        
     </div>
 </div>
 

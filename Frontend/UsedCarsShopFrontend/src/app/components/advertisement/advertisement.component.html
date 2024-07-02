@@ -28,6 +28,7 @@
                             </h1>
                         </div>
                         <div class="contact-info">
+                            <p> <span>Price: </span>  {{ card.price | currency: 'EUR' }}</p>
                             <p>
                                 <span>Seller: </span> {{card.userDto.userName}}
                             </p>
@@ -51,7 +52,41 @@
                 </div>
                 <div class="characteristics">
                     <div class="characteristics-header">
+                        <h1>Characteristics</h1>
+                    </div>
+                    <div class="spec">
+                        <div>
+                            <img src="/assets/images/mile.png">
+                            <p>{{card.carDto.mileage}}km</p>
+                        </div>
+                        <div class="vr">
 
+                        </div>
+                        <div>
+                            <img src="/assets/images/propulsion.png">
+                            <p>{{card.carDto.propulsion}} propulsion</p>
+                        </div>
+                        <div class="vr">
+
+                        </div>
+                        <div>
+                            <img src="/assets/images/enginevolume.png">
+                            <p>{{card.carDto.engineVolume}} ㎤</p>
+                        </div>
+                        <div class="vr">
+
+                        </div>
+                        <div>
+                            <img src="/assets/images/fuel.png">
+                            <p>{{card.carDto.fuelType}}</p>
+                        </div>
+                        <div class="vr">
+
+                        </div>
+                        <div>
+                            <img src="/assets/images/horse-power.png">
+                            <p> {{card.carDto.horsePower}} ks</p>
+                        </div>
                     </div>
                 </div>
             </div>

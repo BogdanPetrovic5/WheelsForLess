@@ -84,6 +84,7 @@ export class NewAdverFormComponent {
       this.EngineVolume ="";
       this.Propulsion = "";
       this.Mileage = "";
+      this.selectedFiles = []
     }, (error:HttpErrorResponse) =>{
       console.log("Jok more")
     })

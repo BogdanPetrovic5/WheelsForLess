@@ -14,6 +14,7 @@ namespace CarWebShop.Models
         public int CarID { get; set; }
         public float Price { get; set; }
         public Car Car { get; set; }
+        public DateTime Date { get; set; }
         public User User { get; set; }
         [NotMapped]
         public UserDto UserDto { get; set; }

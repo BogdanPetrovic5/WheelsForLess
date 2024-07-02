@@ -107,6 +107,9 @@ namespace CarWebShop.Migrations
                     b.Property<int>("CarID")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<float>("Price")
                         .HasColumnType("real");
 

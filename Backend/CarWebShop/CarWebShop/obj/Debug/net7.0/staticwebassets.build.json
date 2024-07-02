@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "d1TBY68hE1eaISK6uCcRD7TUF8CxdDNOv5foSlkC93k=",
+  "Hash": "+ODHWKV6bVvnAK5hOeah4S6PpU3ev1NeHSKtU/oePus=",
   "Source": "CarWebShop",
   "BasePath": "_content/CarWebShop",
   "Mode": "Default",
@@ -34,12 +34,12 @@
       "OriginalItemSpec": "wwwroot\\Photos\\Bogdan69\\32\\769bbebe56b9-1920x1080.jpg"
     },
     {
-      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\BogdanBogdan5\\21\\angular.png",
+      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogdan69\\33\\maxresdefault.jpg",
       "SourceId": "CarWebShop",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
       "BasePath": "_content/CarWebShop",
-      "RelativePath": "Photos/BogdanBogdan5/21/angular.png",
+      "RelativePath": "Photos/Bogdan69/33/maxresdefault.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -48,15 +48,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Photos\\BogdanBogdan5\\21\\angular.png"
+      "OriginalItemSpec": "wwwroot\\Photos\\Bogdan69\\33\\maxresdefault.jpg"
     },
     {
-      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogi5\\14\\IBSLOGO.jpg",
+      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogdan69\\34\\IMG_6786.jpg",
       "SourceId": "CarWebShop",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
       "BasePath": "_content/CarWebShop",
-      "RelativePath": "Photos/Bogi5/14/IBSLOGO.jpg",
+      "RelativePath": "Photos/Bogdan69/34/IMG_6786.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -65,15 +65,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Photos\\Bogi5\\14\\IBSLOGO.jpg"
+      "OriginalItemSpec": "wwwroot\\Photos\\Bogdan69\\34\\IMG_6786.jpg"
     },
     {
-      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogi5\\14\\kopija2.jpg",
+      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogdan69\\36\\l157wmto4fmle5vdvcrq.jpg",
       "SourceId": "CarWebShop",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
       "BasePath": "_content/CarWebShop",
-      "RelativePath": "Photos/Bogi5/14/kopija2.jpg",
+      "RelativePath": "Photos/Bogdan69/36/l157wmto4fmle5vdvcrq.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -82,7 +82,41 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Photos\\Bogi5\\14\\kopija2.jpg"
+      "OriginalItemSpec": "wwwroot\\Photos\\Bogdan69\\36\\l157wmto4fmle5vdvcrq.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogdan69\\37\\800px-2020_Volkswagen_Golf_Style_1.5_Front.jpg",
+      "SourceId": "CarWebShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
+      "BasePath": "_content/CarWebShop",
+      "RelativePath": "Photos/Bogdan69/37/800px-2020_Volkswagen_Golf_Style_1.5_Front.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Photos\\Bogdan69\\37\\800px-2020_Volkswagen_Golf_Style_1.5_Front.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogdan69\\39\\VF1RJA00966524181.jpg",
+      "SourceId": "CarWebShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
+      "BasePath": "_content/CarWebShop",
+      "RelativePath": "Photos/Bogdan69/39/VF1RJA00966524181.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Photos\\Bogdan69\\39\\VF1RJA00966524181.jpg"
     },
     {
       "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogi5\\15\\kopija2.jpg",

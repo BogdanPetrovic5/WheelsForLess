@@ -67,6 +67,7 @@ namespace CarWebShop.Repository
                     UserDto = _adverUtility.ConvertToUserDto(a.User),
                     CarDto = _adverUtility.ConvertToCarDto(a.Car),
                     imagePaths = a.imagePaths,
+                    Date = a.Date,
                     FavoritedByUserDto = a.FavoritedByUsers
                             .Select(f => new FavoritedByUserDto
                             {
@@ -93,6 +94,7 @@ namespace CarWebShop.Repository
                 UserDto = _adverUtility.ConvertToUserDto(a.User),
                 CarDto = _adverUtility.ConvertToCarDto(a.Car),
                 imagePaths = a.imagePaths,
+                Date = a.Date,
                 FavoritedByUserDto = a.FavoritedByUsers
                             .Select(f => new FavoritedByUserDto
                             {

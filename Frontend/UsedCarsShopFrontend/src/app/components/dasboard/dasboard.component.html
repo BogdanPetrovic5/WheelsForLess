@@ -27,13 +27,14 @@
                     <div class="elemental-info">
                         <div>
                             <p>
-                                Yesterday
+                               {{card.date}}
                             </p>
                             <h1>{{card.carDto.brand}} {{card.carDto.model}} <span>{{card.carDto.year}}</span></h1>
                         </div>
                     </div>
                     <div class="card-image" >
                         <img *ngIf="card.imagePaths.length > 0" src="https://localhost:7169/Photos/{{card.imagePaths[0].imagePath}}">
+                        <img class="no-img" *ngIf="card.imagePaths.length == 0" src="/assets/images/photo.png">
                     </div>
                     <div class="info">
                         <div>
@@ -49,7 +50,7 @@
                                 Fuel: {{card.carDto.fuelType}}
                             </p>
                             <p>
-                                Miliage: {{card.carDto.miliage}}
+                                Mileage: {{card.carDto.mileage}}
                             </p>
                         </div>
                     </div>
