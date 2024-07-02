@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MessagesService } from 'src/app/services/messages.service';
 @Component({
   selector: 'app-advertisement',
   templateUrl: './advertisement.component.html',
@@ -16,14 +17,26 @@ export class AdvertisementComponent implements OnInit{
   wishlistAdded:boolean = false;
   currentUsername = localStorage.getItem("Username");
   chatBubble = false
-  constructor(private route:ActivatedRoute, private dashboardService:DashboardService, private router:Router){
-
+  message = ""
+  private _messagesSerivce:MessagesService
+  constructor(private route:ActivatedRoute, private dashboardService:DashboardService, private router:Router, private messagesService:MessagesService){
+    this._messagesSerivce = messagesService;
   }
   
   openChatBox(){
     localStorage.setItem("adverID", this.card.adverID)
     localStorage.setItem("receiver", this.card.userDto.userName)
     this.chatBubble = !this.chatBubble;
+  }
+  sendMessage(){
+    let username = localStorage.getItem("Username");
+    let receiverUsername = this.card.userDto.userName;
+    let adverID = this.card.adverID
+    this._messagesSerivce.sendMessage(username, receiverUsername, adverID,this.message).subscribe((response)=>{
+        console.log("Uspenso porata posluka")
+    },(error:HttpErrorResponse)=>{
+        console.log("Error kurac: ", error)
+    })
   }
   loadCurrentUserID(){
     let username = localStorage.getItem("Username")

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessagesService } from 'src/app/services/messages.service';
 import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
 
 @Component({
@@ -13,6 +14,7 @@ navigateToFav() {
 }
   navigateToHome() {  
     this.router.navigate(['/Dashboard'])
+    
   }
   
   public username:any
@@ -20,27 +22,31 @@ navigateToFav() {
   public adverForm = false
   public adver = false
   public options = false
-  constructor(private router:Router, private wsService:WebsocketMessagesService){
-    
+  public _messageService:MessagesService
+  public numberMessages:any
+  constructor(private router:Router, private wsService:WebsocketMessagesService, private messageService:MessagesService){
+      this._messageService = messageService;
   }
   sendMessage(){
-    
     this.router.navigate(['/NewMessage'])
   }
   ngOnInit(){
       this.username = localStorage.getItem("Username")
-      
   }
   changeToForm(){
     this.router.navigate(['/New Adver'])
   }
-
+  ngDoCheck():void{
+    this.numberMessages = this._messageService.getNumberMessages()
+  }
   showDropdown(){
     this.options = true
   }
+
   closeDropdown(){
     this.options = false
   }
+
   logout(){
     this.wsService.close();
     this.router.navigate(["/Login"]);

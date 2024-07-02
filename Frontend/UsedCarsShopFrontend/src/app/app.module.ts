@@ -15,6 +15,7 @@ import { UserToUserMessagesComponent } from './components/all-messages/user-to-u
 import { LoadingComponent } from './components/loading/loading.component';
 import { LoadingService } from './services/loading.service';
 import { AllMessagesComponent } from './components/all-messages/all-messages.component';
+import { BannerComponent } from './components/banner/banner.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { AllMessagesComponent } from './components/all-messages/all-messages.com
     UserToUserMessagesComponent,
     LoadingComponent,
     AllMessagesComponent,
+    BannerComponent,
     
   ],
   imports: [

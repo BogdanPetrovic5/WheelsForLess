@@ -2,7 +2,8 @@
     <app-heder></app-heder>
     
     <section class="dashboard-content" *ngIf="dashboard">
-        <section class="content">
+        <app-banner></app-banner>
+        <!-- <section class="content">
             <section class="filter">
                 <div class="filter-menu">
                      <div class="brands-n-models">
@@ -19,33 +20,47 @@
                      </div>
                 </div>
              </section>
-        </section>
+        </section> -->
         <section class="items">
             <div class="items-content">
                 <div class="card" *ngFor="let card of advertisementObject.Advertisements" (click)="navigateToAdvertisement(card)">
+                    <div class="elemental-info">
+                        <div>
+                            <p>
+                                Yesterday
+                            </p>
+                            <h1>{{card.carDto.brand}} {{card.carDto.model}} <span>{{card.carDto.year}}</span></h1>
+                        </div>
+                    </div>
                     <div class="card-image" >
                         <img *ngIf="card.imagePaths.length > 0" src="https://localhost:7169/Photos/{{card.imagePaths[0].imagePath}}">
                     </div>
                     <div class="info">
-                        <div class="name">
-                            <p class="brand">{{card.carDto.brand}}</p>
-                            <p class="model">{{card.carDto.model}}</p>
+                        <div>
+                            <p>
+                              Engine volume: {{card.carDto.engineVolume}} ㎤
+                            </p>
+                            <p>
+                                Horse power: {{card.carDto.horsePower}} ks
+                            </p>
                         </div>
-                        <div class="price">
-                            <p>{{ card.price | currency: 'EUR' }}</p>
+                        <div>
+                            <p>
+                                Fuel: {{card.carDto.fuelType}}
+                            </p>
+                            <p>
+                                Miliage: {{card.carDto.miliage}}
+                            </p>
                         </div>
+                    </div>
+                    <div class="price">
+                        <h1> {{ card.price | currency: 'EUR' }}</h1> <button>More</button>
                     </div>
                 </div>
             </div>
+            
         </section>
-        <div class="nav-buttons">
-            <button class="prev" [disabled]="currentPage === 1" (click)="prevPage()">
-                prev
-            </button>
-            <button class="next" (click)="nextPage()" [disabled]="advertisementObject.Advertisements.length < 6">
-                next
-            </button>
-        </div>
+        
         
     </section>
     <app-new-adver-form *ngIf="adverForm" class="form"></app-new-adver-form>

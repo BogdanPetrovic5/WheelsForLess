@@ -1,133 +1,63 @@
 .container {
     width: 100%;
     display: flex;
-    flex-direction: column;
-
-    header {
-        width: 100%;
-        height: 120px;
-        background-color: #001524;
-        display: flex;
-        justify-content: center;
-
-        .logo {
-            display: flex;
-            align-items: center;
-            width: 35%;
-
-            img {
-                width: 280px;
-                height: 100px;
-            }
-        }
-
-        .navbar {
-            width: 35%;
-            height: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            gap: 60px;
-            position: relative;
-
-            .options {
-                display: flex;
-                flex-direction: row;
-                gap: 20px;
-                width: 15%;
-                align-items: center;
-
-                img {
-                    width: 30px;
-                    height: 30px;
-                }
-            }
-
-            .profile {
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                color: white;
-                position: relative;
-                cursor: pointer;
-
-                h1 {
-                    font-size: 15px;
-                    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-                }
-
-                p {
-                    font-size: 13px;
-                    margin-top: -15px;
-                    font-weight: 400;
-                    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-                }
-            }
-
-            .profile-options {
-                position: absolute;
-                bottom: -150%;
-                width: 250%;
-                background-color: white;
-                z-index: 2;
-                box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);
-                color: black;
-                display: flex;
-                flex-direction: column;
-                border-bottom-left-radius: 5px;
-                border-bottom-right-radius: 5px;
-
-                div {
-                    height: 33.33%;
-                    width: 100%;
-                    list-style: none;
-                    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-                    font-size: 17px;
-                    font-weight: 400;
-                    border-bottom-left-radius: 5px;
-                    border-bottom-right-radius: 5px;
-
-                    li {
-                        margin: 20px;
-                    }
-                }
-
-                .list-holder:hover {
-                    background-color: rgb(214, 214, 214);
-                    transition: 1s;
-                }
-            }
-
-            .new-adver {
-                display: flex;
-                align-items: center;
-
-                button {
-                    background-color: #15616D;
-                    border: none;
-                    outline: none;
-                    border-radius: 5px;
-                    color: white;
-                    cursor: pointer;
-                }
-            }
-        }
+    flex-direction: row;
+    height: 100vh;
+    app-heder{
+        width:15%;
     }
-
+  
+    .items-content::-webkit-scrollbar-track {
+        /* Background of the scrollbar track */
+        border-radius: 10px; /* Rounded corners */
+    }
     .dashboard-content {
-        width: 100%;
+        width: 85%;
+       height: 100%;
+        overflow-y:hidden;
         display: flex;
         flex-direction: column;
+        background-color: #001524;
+        
+        ::-webkit-scrollbar-thumb {
+            background-color: #0048ff;
+            border-radius: 5px;
+          }
+       
+    }
 
+   
+
+    // .content::before {
+    //     content: "";
+    //     position: absolute;
+    //     width: 100%;
+    //     height: 100%;
+    //     z-index: 0;
+    //     background-color: rgb(255, 255, 255);
+    //     opacity: 0.9;
+    // }
+
+    .items {
+        width: 100%;
+        height:calc(100% - 100px);
+        display: flex;
+        flex-direction: column;
+        
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(235, 234, 234);
+        border-top-left-radius:25px;
+        
         .nav-buttons {
-            margin-top: 100px;
+            
             display: flex;
             align-self: center;
             flex-direction: row;
             gap: 50px;
-            margin-bottom: 50px;
+            
+            
+            
         }
 
         .prev, .next {
@@ -147,169 +77,134 @@
                 transform: scale(0.97);
             }
         }
-    }
-
-    .content {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        background-image: url(/assets/images/overlayCars.jpg);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        position: relative;
-
-        .filter {
-            z-index: 1;
-            margin-bottom: 50px;
-            width: 70%;
-            display: flex;
-            justify-content: left;
-
-            .filter-menu {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-                background-color: white;
-                margin-top: 50px;
-                border: 1px solid rgb(146, 146, 146);
-                border-radius: 5px;
-                box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
-
-                .brands-n-models {
-                    margin-top: 20px;
-                    margin-left: 20px;
-                    margin-right: 20px;
-                    width: 100%;
-                    display: flex;
-                    flex-direction: row;
-                    gap: 20px;
-
-                    input {
-                        outline: none;
-                        height: 30px;
-                        border: 1px solid rgba(0, 0, 0, 0.466);
-                        border-radius: 5px;
-                        box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.75);
-                    }
-
-                    button {
-                        height: 50px;
-                        outline: none;
-                        border: none;
-                        border-radius: 5px;
-                        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
-                        width: 150px;
-                        font-size: 20px;
-                        color: black;
-                        background-color: #ff7d00;
-                        letter-spacing: 5px;
-                    }
-                }
-
-                .more-info {
-                    margin-top: 20px;
-                    margin-left: 20px;
-                    margin-right: 20px;
-                    margin-bottom: 20px;
-                    width: 100%;
-                    display: flex;
-                    flex-direction: row;
-                    gap: 20px;
-
-                    input {
-                        outline: none;
-                        height: 30px;
-                        border: 1px solid rgba(0, 0, 0, 0.466);
-                        border-radius: 5px;
-                        box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.75);
-                    }
-                }
-            }
+        .items-content::-webkit-scrollbar {
+            /* Width of the scrollbar */
         }
-    }
-
-    .content::before {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        background-color: rgb(255, 255, 255);
-        opacity: 0.9;
-    }
-
-    .items {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-
+        
+       
+        
+        .items-content::-webkit-scrollbar-thumb:hover {
+            background-color: #001524;; /* Color when hovered */
+        }
+        
+        .items-content::-webkit-scrollbar-track {
+            background-color: #001524;; /* Background of the scrollbar track */
+            border-radius: 10px;
+        }
+        
+        /* For Firefox */
         .items-content {
-            margin-top: 50px;
-            width: 70%;
+            scrollbar-width: thin; /* Width of the scrollbar */
+            scrollbar-color: #001524  #f1f1f1; 
+            /* Color of the scrollbar handle and track */
+        }
+        .items-content {
+            
+            width: 95%;
+           margin-top: 20px;
+           margin-bottom: 20px;
             display: flex;
             flex-direction: row;
             gap: 20px;
             flex-wrap: wrap;
-            align-self: center;
+            justify-content: center;
+            
             align-items: center;
-
+            overflow-y: scroll;
             .card {
-                width: 200px;
-                height: 180px;
-                box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+                width: 400px;
+                display: flex;
+                flex-direction: column;
+                justify-content: left;
+                align-items: flex-start;
+                height: 550px;
+                // box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
                 border-radius: 5px;
                 display: flex;
                 flex-direction: column;
+                background-color: white;
                 cursor: pointer;
                 overflow: hidden;
+                .elemental-info{
+                    height: 12%;
+                    margin-top: 20px;
+                    
+                    width: 90%;
+                    align-self: center;
+                    display: flex;
+                    flex-direction: row;
+                    div{
+                        display: flex;
+                        flex-direction: column;
+                        font-size: 25px;
+                        p, h1{
+                            margin: 0;
+                            font-family: 'Nunito',sans-serif;
+                            font-size: 0.8em;
+                        }
+                    }
+                }
                 .card-image {
-                    height: 65%;
+                    height:50%;
+                    width: 90%;
                     border-radius: 5px;
                     border-bottom: 1px solid rgb(150, 150, 150);
-
+                    align-self: center;
                     img {
                         width: 100%;
                         height: 100%;
                         border-radius: 5px;
                     }
                 }
-
-                .info {
-                    height: 35%;
-
-                    .name {
-                        height: 50%;
-                        width: 100%;
+                .info{
+                    display: flex;
+                    flex-direction: row;
+                    width: 90%;
+                    height: 20%;
+                    align-self: center;
+                    justify-content: space-between;
+                    margin-top: 20px;
+                    div{
                         display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        gap: 5px;
-
-                        p {
-                            font-size: 17px;
-                            text-transform: capitalize;
-                        }
-
-                        .brand {
-                            padding-left: 10px;
-                        }
-                    }
-
-                    .price {
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        height: 50%;
-
-                        p {
-                            padding-left: 10px;
+                        flex-direction: column;
+                        font-size: 25px;
+                        font-family: 'Nunito',sans-serif;
+                        width: 48%;
+                        p{
+                            margin: 0;
+                            font-size: 0.65em;
+                            font-weight: 600;
                         }
                     }
                 }
+                .price{
+                    height: 12%;
+                    margin-top: 20px;
+                    width: 90%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    align-self: center;
+                    justify-content: space-between;
+                    font-size: 25px;
+                    font-family: 'Nunito',sans-serif;
+                    h1{
+                        font-size: 0.8em;
+                    }
+                    button{
+                        height: 40px;
+                        width: 30%;
+                        font-size: 0.7em;
+                        border:none;
+                        outline: none;
+                        background-color: orange;
+                        color: black;
+                        border-radius: 5px;
+                        font-family: 'Nunito',sans-serif;
+                    }
+                }
+               
             }
         }
     }

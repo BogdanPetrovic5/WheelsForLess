@@ -3,6 +3,8 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 import { Router, NavigationExtras,ActivatedRoute  } from '@angular/router';
 import { Advertisement } from 'src/app/Data Transfer Objects/Advertisements';
 import { LoadingService } from 'src/app/services/loading.service';
+import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dasboard',
@@ -19,15 +21,17 @@ export class DasboardComponent {
     public options = false
     currentPage = 1;
     pageSize= 1;
-    
-    constructor(private dashService:DashboardService, private router:Router, private route:ActivatedRoute, private loadingService:LoadingService){
+    private wsSub:any;
+    private wsURL:any;
+    constructor(private dashService:DashboardService, private router:Router, private route:ActivatedRoute, private loadingService:LoadingService,private wsService:WebsocketMessagesService){
       this.advertisementObject = new Advertisement();
     }
     
     
     ngOnInit(){
+      localStorage.setItem("currentRoute", "Dashboard")
+      localStorage.setItem("year", "")
       let username = localStorage.getItem("Username")
-      
       
       this.dashService.getUserId(username).subscribe(response =>{
         this.userID = response;
@@ -43,10 +47,28 @@ export class DasboardComponent {
         this.loadingService.showForDuration(2000);
       })
       this.username = localStorage.getItem("Username")
+      this.connectToWebsocket();
     }
-   
+    connectToWebsocket(){
+      let userID = localStorage.getItem("userID");
+      userID = userID ? userID.toString() : "";
+      this.wsURL =  `${environment.wsUrl}?socketParameter=${userID}`;
+      this.wsSub = this.wsService.connect(this.wsURL).subscribe((data:any) =>{
+
+      },
+        (error) => console.log('WebSocket error:', error),
+        () => console.log('WebSocket connection closed')
+      );
+    }
     updateUrl(): void {
         this.router.navigate([], { relativeTo: this.route, queryParams: { page: this.currentPage } });
+    }
+    ngOnDestroy():void{
+      if (this.wsSub) {
+        console.log("KURac")
+        this.wsSub.unsubscribe();
+      }
+      this.wsService.close();
     }
     changeToForm(){
         this.adverForm = true
@@ -72,6 +94,10 @@ export class DasboardComponent {
     }
     navigateToAdvertisement(card:any){
         this.router.navigate(['/Advertisement']);
+        let currentRoute = card.carDto.brand + " " + card.carDto.model
+        let carYear = card.carDto.year
+        localStorage.setItem("currentRoute", currentRoute)
+        localStorage.setItem("year", carYear)
         this.dashService.setCard(card);
     }
     nextPage(){

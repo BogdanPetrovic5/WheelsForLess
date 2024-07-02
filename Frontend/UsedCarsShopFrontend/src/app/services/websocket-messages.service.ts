@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { MessagesService } from './messages.service';
 
 
 @Injectable({
@@ -8,7 +9,10 @@ import { Observable, Subject } from 'rxjs';
 export class WebsocketMessagesService {
   private subject: Subject<MessageEvent> | undefined;
   private ws: WebSocket | undefined;
-  
+  private _messageService:MessagesService;
+  constructor(private messagesService:MessagesService){
+    this._messageService = messagesService;
+  }
   public connect(url: string): Subject<MessageEvent> {
     
     if (!this.subject) {
@@ -33,6 +37,7 @@ export class WebsocketMessagesService {
           senderUsername: data.SenderUsername,
           dateSent: new Date(data.dateSent)
         } as any);
+        this._messageService.incrementMessages()
       };
       this.ws!.onerror = (error) => {
         console.log('WebSocket error:', error);

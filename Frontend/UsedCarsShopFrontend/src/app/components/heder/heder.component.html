@@ -1,14 +1,20 @@
 <header>
+    
     <section class="logo" style="cursor: pointer;">
         <img src="/assets/images/logoheader.png" alt="" (click)="navigateToHome()">
     </section>
     <section class="navbar">
-        <section class="options">
-            <img src="/assets/images/myFav.png" alt="">
-            <img src="/assets/images/notifications.png" alt="">
-            <img src="/assets/images/chat.png" (click)="navigateToMessages()">
-        </section>
-        <section class="profile" (mouseenter)="showDropdown()">
+        <!-- <section class="options">
+          
+            <div>
+                <img src="/assets/images/chat.png" (click)="navigateToMessages()">
+                <span>
+                    {{numberMessages}}
+                </span>
+            </div>
+           
+        </section> -->
+        <!-- <section class="profile" (mouseenter)="showDropdown()">
             <h1>MY PROFILE</h1>
             <p>{{username}}</p>
             <div class="profile-options" *ngIf="options" (mouseleave)="closeDropdown()">
@@ -22,13 +28,21 @@
                     <li class="list">Logout</li>
                 </div>
             </div>
-        </section>
-        <section class="new-adver">
-            <button (click)="changeToForm()">
-                <h1>NEW ADVERTISEMENT</h1>
+        </section> -->
+        <section class="dashboard">
+            <button (click)="navigateToHome()">
+               <img src="/assets/images/car.png"> <h1>DASHBOARD</h1>
             </button>
            
         </section>
+        <div class="options">
+            <button><img src="/assets/images/mssgs.png"> Messages <span>{{numberMessages}}</span></button>
+            <button><img src="/assets/images/wishlist.png"> Wishlist</button>
+            <button><img src="/assets/images/mega.png"> Place an adver</button>
+        </div>
     </section>
+    <div class="log-out">
+        <button (click)="logout()"><img src="/assets/images/lout.png"> Logout</button>
+    </div>
 </header>
 

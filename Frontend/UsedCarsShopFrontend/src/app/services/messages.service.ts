@@ -7,7 +7,19 @@ import { environment } from 'src/environments/environment';
 })
 export class MessagesService {
   private storageKey = "selectedChat"
-  constructor(private http:HttpClient) { }
+  public messages = 0;
+  number:any
+  constructor(private http:HttpClient) { 
+    if(localStorage.getItem("newMessages") != undefined){
+      this.number = localStorage.getItem("newMessages");
+      this.number = parseInt( this.number, 10);
+    }
+   
+    if(this.number != undefined){
+      this.messages = this.number;
+    }
+    
+  }
   getUserMessages(cuurentUsername?:any):Observable<any>{
       const url = `${environment.apiUrl}/api/Messages/GetMessages/${cuurentUsername}`;
       console.log(`Fetching messages from URL: ${url}`);
@@ -27,6 +39,13 @@ export class MessagesService {
       ReceiverUsername:receiverUsername,
       AdverID:adverID
     })
+  }
+  incrementMessages(){
+    this.messages += 1;
+    localStorage.setItem("newMessages", JSON.stringify(this.messages));
+  }
+  getNumberMessages(){
+    return this.messages;
   }
   setChat(chat:any){
     sessionStorage.setItem(this.storageKey, JSON.stringify(chat))
