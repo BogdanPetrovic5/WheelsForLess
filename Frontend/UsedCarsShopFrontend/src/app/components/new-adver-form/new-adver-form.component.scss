@@ -114,3 +114,18 @@
       }
     }
 }
+.place-adver{
+  padding: 15px 20px;
+  border-radius: 50px;
+  outline: none;
+  border: none;
+  background-color: #001524;
+  color: white;
+  font-size: 0.9em;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: 200ms ease-in-out;
+}
+.place-adver:hover{
+  transform: scale(0.9);
+}

@@ -27,7 +27,7 @@
                     <div class="elemental-info">
                         <div>
                             <p>
-                               {{card.date}}
+                                {{ card.date | date:'EEEE, MMMM d' }}
                             </p>
                             <h1>{{card.carDto.brand}} {{card.carDto.model}} <span>{{card.carDto.year}}</span></h1>
                         </div>

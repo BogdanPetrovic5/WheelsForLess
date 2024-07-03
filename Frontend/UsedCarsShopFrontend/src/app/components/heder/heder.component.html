@@ -39,6 +39,29 @@
             <button><img src="/assets/images/mssgs.png"> Messages <span>{{numberMessages}}</span></button>
             <button><img src="/assets/images/wishlist.png"> Wishlist</button>
             <button (click)="changeToForm()"><img src="/assets/images/mega.png" > Place an adver</button>
+            <div class="hr">
+
+            </div>
+        </div>
+        <div class="filters">
+            <div class="filter-first-section section">
+                <button (click)="showOptions()"><img src="/assets/images/setting.png"> Filters</button>
+                <div [ngClass]="brands ? 'filter-drop-down open' : 'filter-drop-down'">
+                    <label for="car-brand">Select a car brand:</label>
+                    <select id="car-brand" [(ngModel)]="selectedBrand" (change)="loadModels()">
+                        <option *ngFor="let brand of carBrandsWithModels" [value]="brand.brand" >{{ brand.brand }}</option>
+                    </select>
+                </div>
+                <div [ngClass]="models ? 'models-drop-down open' : 'models-drop-down'">
+                    <label for="car-brand">Select a car brand:</label>
+                    <select id="car-brand" [(ngModel)]="selectedModel" >
+                        <option *ngFor="let model of carModels" [value]="model" >{{ model }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-second-section section">
+                <button><img src="/assets/images/sort.png"> Sort</button>
+            </div>
         </div>
     </section>
     <div class="log-out">

@@ -1,5 +1,5 @@
 $backgroundColor:#669BBC;
-$sectionBgColor:#F3A712;
+$sectionBgColor:#001524;;
 $boxShadow: -15px 0px 23px 3px rgba(181,181,181,1);
 
 .container{
@@ -40,7 +40,7 @@ $boxShadow: -15px 0px 23px 3px rgba(181,181,181,1);
                     font-size: 30px;
                     font-family: sans-serif;
                     font-weight: 900;
-                    color: rgb(65, 65, 65);
+                    color: rgb(46, 46, 46);
                 }
             }
             section{
@@ -69,10 +69,10 @@ $boxShadow: -15px 0px 23px 3px rgba(181,181,181,1);
             button{
                 width: 90%;
                 height: 50px;
-                color: rgb(46, 46, 46);
+                color: rgb(255, 255, 255);
                 border: none;
                 outline: none;
-                background-color: #F3A712;
+                background-color: #001524;;
                 border-radius: 10px;
                 font-size: 20px;
                 font-family: sans-serif;
@@ -94,6 +94,7 @@ $boxShadow: -15px 0px 23px 3px rgba(181,181,181,1);
                 border: none !important;
                 outline: none !important;
                 h6{
+                    color: #001524;
                     font-size: 16px !important;
                 }
             }
@@ -108,7 +109,7 @@ $boxShadow: -15px 0px 23px 3px rgba(181,181,181,1);
         .logo{
             height: 50%;
             width: 50%;
-            box-shadow: 15px 0px 23px 3px #745008;
+            box-shadow: 6px 0px 12px 5px #00497e41;;
             
             img{
                 width: 100%;

@@ -25,7 +25,7 @@ export class Advertisement {
             horsePower:'',
             mileage:''
           },
-          date:Date,
+          date:new Date(),
           imagePaths:[{
             imagePath:'',
             AdverID:0
