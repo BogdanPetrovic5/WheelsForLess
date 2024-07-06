@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 @Injectable({
@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
 })
 export class MessagesService {
   private storageKey = "selectedChat"
+  private newMessageSource = new Subject<any>();
+  newMessage$ = this.newMessageSource.asObservable();
   public messages = 0;
   number:any
   constructor(private http:HttpClient) { 
@@ -53,5 +55,8 @@ export class MessagesService {
   getChat(){
     const currentChat = sessionStorage.getItem(this.storageKey)
     return currentChat ? JSON.parse(currentChat) : null
+  }
+  announceNewMessage(data: any){
+    this.newMessageSource.next(data)
   }
 }

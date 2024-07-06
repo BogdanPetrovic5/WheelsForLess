@@ -28,7 +28,7 @@ export class UserToUserMessagesComponent implements OnInit{
   }
   @HostListener('window:beforeunload', ['$event'])
   handleUnload(event: Event) {
-    this.removeFromSession()
+    this.reloadComponent();
   }
   ngOnInit(): void {
     this.routerSub = this.router.events.subscribe(event => {
@@ -66,6 +66,7 @@ export class UserToUserMessagesComponent implements OnInit{
           dateSent: data.dateSent
         });
         this.sortMessages();
+        // this.messageService.announceNewMessage(data)
       },
       (error) => console.log('WebSocket error:', error),
       () => console.log('WebSocket connection closed')
@@ -74,7 +75,7 @@ export class UserToUserMessagesComponent implements OnInit{
   }
   ngOnDestroy():void{
     this.removeFromSession();
-    localStorage.removeItem("isSelected")
+
     this.disconnectFromWebsocket();
     this.parent.isSelected = false
   }
@@ -111,7 +112,8 @@ export class UserToUserMessagesComponent implements OnInit{
       });
   }
   removeFromSession(){
-    sessionStorage.removeItem("selectedChat")
+    localStorage.removeItem("adverID");
+    localStorage.removeItem("messageID");
   }
   loadChat(){
   
@@ -120,8 +122,7 @@ export class UserToUserMessagesComponent implements OnInit{
       this.messages = response;
       this.sortMessages();
       let receiver = this.messages[0].senderUsername == this.currentUsername ? this.messages[0].receiverUsername : this.messages[0].senderUsername
-      console.log(receiver);
-      console.log(this.messages)
+  
       localStorage.setItem("receiverUsername", receiver)
     })
 

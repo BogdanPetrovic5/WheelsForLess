@@ -65,7 +65,7 @@ export class DasboardComponent {
     }
     ngOnDestroy():void{
       if (this.wsSub) {
-        console.log("KURac")
+       
         this.wsSub.unsubscribe();
       }
       this.wsService.close();

@@ -2,9 +2,11 @@
 <div class="container">
     <div class="container-messages-wrap">
         <div class="messages-conversation-wrap">
-            <div class="message-wrap" *ngFor="let message of messages" [ngClass]="message.senderUsername == currentUsername ? 'align-right' : ''">
-
+            <div class="message-wrap" *ngFor="let message of messages" >
+                <div [ngClass]="message.senderUsername == currentUsername ? 'align-right' : 'align-left'">
                     {{message.message}}
+                </div>
+                   
             </div>
         </div>
         <div class="compose-messages">

@@ -134,6 +134,14 @@ header {
                         border-radius: 5px;
                         height: 40px;
                         width: 90%;
+                        
+                        option{
+                            font-size: 1.2em;
+                            font-family: 'Nunito',sans-serif;
+                        }
+                        option:hover{
+                            background-color: #001524;
+                        }
                     }
                 }
                 .filter-drop-down.open, .models-drop-down.open{
