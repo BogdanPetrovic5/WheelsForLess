@@ -19,7 +19,7 @@
                      </div>
                     
                   </div>
-                  <dotlottie-player class="notification" id="chat-{{message.adverID}}-{{message.initialSenderID}}" src="https://lottie.host/51df16d0-5222-4f9b-b40b-157f16d132c6/x51IKloMiM.json" background="transparent" speed="1" style="width: 30px; height: 30px;" loop autoplay></dotlottie-player>
+                  <dotlottie-player *ngIf="message.isNew" src="https://lottie.host/9feaf58d-6ed0-4137-b9ed-4b59d68701e9/1fBVoL7mgH.json" background="transparent" speed="1" style="width: 30px; height: 30px;" loop autoplay></dotlottie-player>
 
    
                </div>

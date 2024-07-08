@@ -21,6 +21,8 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
     isSelectedValue = localStorage.getItem("isSelected");
     messageID:any
     isSelected = this.isSelectedValue === 'true' ? true : false
+    
+    oldMessages:any
     // private messageEventSubscription:Subscription;
     constructor(private messagesService:MessagesService,private router:Router,  private route:ActivatedRoute, ){
         this._messageService = messagesService;
@@ -71,6 +73,15 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
         this.messageObject.Messages = response;
         this.sortMessages()
         this.messageID = localStorage.getItem("messageID")
+        console.log( this.messageObject.Messages)
+        
+
+        this.oldMessages = localStorage.getItem("oldMessages")
+        if(this.oldMessages){
+          
+        }else{
+          localStorage.setItem("oldMessages",JSON.stringify(this.messageObject.Messages));
+        }
         // if(this.messageID != undefined && this.messageID != null){
         //   this.findAndSelect();
         // }
@@ -78,17 +89,36 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
         console.log(error);
       })
     }
+
+    highlightNewMessages(){
+
+    }
     selectChat(chat:any){
       this.isSelected = true;
       chat.isSelected = true;
+      let isNewPrev = chat.isNew;
+      chat.isNew = false;
       this._messageService.setChat(chat);
+      this.setToStorage(chat);
+      console.log("MessageID: ", chat.messageID)
+      if(isNewPrev == true){
+        this.messagesService.openMessage(chat.messageID).subscribe((response)=>{
+         
+        }, (error:HttpErrorResponse)=>{
+          console.log(error);
+        })
+      }
+     
+      let wsUrl =`${localStorage.getItem("userID")}-${chat.adverID}-${chat.initialSenderID}`;
+      localStorage.setItem("wsUrl", wsUrl);
+      this.router.navigate([`/Messages/Inbox/Direct/${wsUrl}`])
+      
+    }
+    setToStorage(chat:any){
       localStorage.setItem("adverID", chat.adverID)
       localStorage.setItem("messageID", chat.messageID);
       localStorage.setItem("initialSenderID", chat.initialSenderID)
       localStorage.setItem("isSelected", JSON.stringify(this.isSelected));
-      let wsUrl =`${localStorage.getItem("userID")}-${chat.adverID}-${chat.initialSenderID}`;
-      localStorage.setItem("wsUrl", wsUrl);
-      this.router.navigate([`/Messages/Inbox/Direct/${wsUrl}`])
     }
     // findAndSelect(){
     //     this.messageID = localStorage.getItem("messageID")

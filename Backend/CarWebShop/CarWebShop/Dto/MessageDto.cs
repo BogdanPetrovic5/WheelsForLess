@@ -8,6 +8,7 @@ namespace CarWebShop.Dto
         public string SenderUsername { get; set; }
         public string ReceiverUsername { get; set; }
         public int AdverID { get; set; }
+        public bool IsNew { get; set; }
         
     }
 }

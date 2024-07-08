@@ -66,6 +66,7 @@ export class UserToUserMessagesComponent implements OnInit{
           dateSent: data.dateSent
         });
         this.sortMessages();
+        
         // this.messageService.announceNewMessage(data)
       },
       (error) => console.log('WebSocket error:', error),

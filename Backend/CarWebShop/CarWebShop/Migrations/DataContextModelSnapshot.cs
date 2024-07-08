@@ -233,6 +233,9 @@ namespace CarWebShop.Migrations
                     b.Property<int>("InitialSenderID")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsNew")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

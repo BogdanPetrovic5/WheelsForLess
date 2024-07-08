@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+ODHWKV6bVvnAK5hOeah4S6PpU3ev1NeHSKtU/oePus=",
+  "Hash": "3+pTeNB3BtgxDuOglCdmKIv1M0AmB2xUM34O0ym/jRg=",
   "Source": "CarWebShop",
   "BasePath": "_content/CarWebShop",
   "Mode": "Default",
@@ -117,6 +117,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Photos\\Bogdan69\\39\\VF1RJA00966524181.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogdan69\\40\\308_5.jpg",
+      "SourceId": "CarWebShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
+      "BasePath": "_content/CarWebShop",
+      "RelativePath": "Photos/Bogdan69/40/308_5.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Photos\\Bogdan69\\40\\308_5.jpg"
     },
     {
       "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogi5\\15\\kopija2.jpg",

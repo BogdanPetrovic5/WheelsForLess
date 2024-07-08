@@ -22,6 +22,12 @@ export class MessagesService {
     }
     
   }
+  openMessage(messageID:any):Observable<any>{
+    const url = `${environment.apiUrl}/api/Messages/OpenMessage`;
+    return this.http.put<any>(url,{
+      MessageID:messageID
+    })
+  }
   getUserMessages(cuurentUsername?:any):Observable<any>{
       const url = `${environment.apiUrl}/api/Messages/GetMessages/${cuurentUsername}`;
       console.log(`Fetching messages from URL: ${url}`);

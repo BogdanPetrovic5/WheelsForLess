@@ -65,7 +65,6 @@ export class DasboardComponent {
     }
     ngOnDestroy():void{
       if (this.wsSub) {
-       
         this.wsSub.unsubscribe();
       }
       this.wsService.close();

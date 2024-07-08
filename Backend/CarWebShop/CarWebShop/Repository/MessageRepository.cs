@@ -46,6 +46,7 @@ namespace CarWebShop.Repository
                 ReceiverUsername = _userUtility.GetUsernameById(a.ReceiverID),
                 SenderUsername = _userUtility.GetUsernameById(a.SenderID),
                 InitialSenderID = a.InitialSenderID,
+                IsNew = a.IsNew,
                 Advertisement = a.Advertisement != null ? new Advertisement
                 {
                     CarID = a.Advertisement.CarID,

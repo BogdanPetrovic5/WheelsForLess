@@ -13,7 +13,7 @@ namespace CarWebShop.Controllers
     [ApiController]
     public class MessagesController : Controller
     {
-       private readonly UserUtility _userUtility;
+        private readonly UserUtility _userUtility;
         private readonly IConfiguration _configuration;
         private readonly DataContext _dataContext;
         private readonly IMessagesRepository _messagesRepository;
@@ -26,6 +26,27 @@ namespace CarWebShop.Controllers
             _messagesRepository = messagesRepository;
             _webSocketManager = webSocketManager;
         }
+        [HttpPut("OpenMessage")]
+        public IActionResult openMessage(OpenMessageDto openMessageDto)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            string query = "UPDATE Messages SET IsNew = 0 WHERE MessageID = @MessageID";
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+            using (SqlCommand command = new SqlCommand(query, sqlConnection))
+            {
+                command.Parameters.AddWithValue("@MessageID", openMessageDto.MessageID);
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    return Ok();
+                }
+                else return BadRequest();
+            }
+     
+        }   
+      
         [HttpPost("SendMessage")]
         public async Task<IActionResult> sendMessage(MessageDto messageDto)
         {
@@ -38,7 +59,7 @@ namespace CarWebShop.Controllers
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             sqlConnection.Open();
-            string query = "INSERT INTO Messages(SenderID, ReceiverID, AdverID, DateSent, Message, InitialSenderID) VALUES (@SenderID, @ReceiverID, @AdverID, GetDate(), @Message, @InitialSenderID)";
+            string query = "INSERT INTO Messages(SenderID, ReceiverID, AdverID, DateSent, Message, InitialSenderID, IsNew) VALUES (@SenderID, @ReceiverID, @AdverID, GetDate(), @Message, @InitialSenderID, @IsNew)";
           
             using (SqlCommand command = new SqlCommand(query, sqlConnection))
             {
@@ -73,6 +94,7 @@ namespace CarWebShop.Controllers
                 command.Parameters.AddWithValue("@AdverID", messageDto.AdverID);
                 command.Parameters.AddWithValue("@Message",  messageDto.Message);
                 command.Parameters.AddWithValue("@InitialSenderID", initialSenderID);
+                command.Parameters.AddWithValue("@IsNew", true);
                 int rowsAffected = command.ExecuteNonQuery();
                 if (rowsAffected > 0)
                 {
