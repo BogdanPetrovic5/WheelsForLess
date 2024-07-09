@@ -48,6 +48,13 @@ export class MessagesService {
       AdverID:adverID
     })
   }
+  decrementMessages(step:any){
+    if(this.messages > 0 ){
+      this.messages -= step;
+    }
+    
+    localStorage.setItem("newMessages", JSON.stringify(this.messages))
+  }
   incrementMessages(){
     this.messages += 1;
     localStorage.setItem("newMessages", JSON.stringify(this.messages));

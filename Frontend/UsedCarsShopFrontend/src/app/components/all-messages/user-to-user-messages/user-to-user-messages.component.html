@@ -2,11 +2,19 @@
 <div class="container">
     <div class="container-messages-wrap">
         <div class="messages-conversation-wrap">
-            <div class="message-wrap" *ngFor="let message of messages" >
-                <div [ngClass]="message.senderUsername == currentUsername ? 'align-right' : 'align-left'">
-                    {{message.message}}
-                </div>
-                   
+            <div class="message-wrap" *ngFor="let message of messages; let i = index">
+                <div *ngFor="let message of messages; let i = index">
+                    <div 
+                      [ngClass]="{'receiver-message': message.senderUsername !== currentUsername, 'sender-message': message.senderUsername === currentUsername}"
+                    >
+                      <div>
+                            {{message.message}}
+                      </div>
+                    </div>
+                    
+                
+                    <div *ngIf="i === messages.length - 1 || message.senderUsername !== messages[i + 1]?.senderUsername" class="divider"></div>
+                  </div>
             </div>
         </div>
         <div class="compose-messages">
@@ -19,3 +27,5 @@
         </div>
     </div>
 </div>
+ 
+

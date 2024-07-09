@@ -82,7 +82,8 @@ namespace CarWebShop.Repository
                 DateSent = a.DateSent,
                 InitialSenderID = a.InitialSenderID, 
                 ReceiverUsername = _userUtility.GetUsernameById(a.ReceiverID),
-                SenderUsername = _userUtility.GetUsernameById(a.SenderID)
+                SenderUsername = _userUtility.GetUsernameById(a.SenderID),
+                IsNew = a.IsNew,
             }).Where(a=>(initialSenderID == a.InitialSenderID) && (adverID == a.AdverID) && (currentUserID == a.SenderID || currentUserID == a.ReceiverID))
             .OrderBy(a => a.DateSent)
             .ToList();

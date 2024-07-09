@@ -19,7 +19,7 @@
                      </div>
                     
                   </div>
-                  <dotlottie-player *ngIf="message.isNew" src="https://lottie.host/9feaf58d-6ed0-4137-b9ed-4b59d68701e9/1fBVoL7mgH.json" background="transparent" speed="1" style="width: 30px; height: 30px;" loop autoplay></dotlottie-player>
+                  <dotlottie-player *ngIf="message.isNew && message.senderUsername != currentUsername" src="https://lottie.host/9feaf58d-6ed0-4137-b9ed-4b59d68701e9/1fBVoL7mgH.json" background="transparent" speed="1" style="width: 30px; height: 30px;" loop autoplay></dotlottie-player>
 
    
                </div>

@@ -38,6 +38,7 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
     }
     ngOnInit():void{
       this.loadMessages();
+      localStorage.setItem("currentRoute", "Inbox")
     }
 
     ngOnChanges():void{
@@ -102,6 +103,7 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
       this.setToStorage(chat);
       console.log("MessageID: ", chat.messageID)
       if(isNewPrev == true){
+        this.messagesService.decrementMessages(1);
         this.messagesService.openMessage(chat.messageID).subscribe((response)=>{
          
         }, (error:HttpErrorResponse)=>{
@@ -120,14 +122,6 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
       localStorage.setItem("initialSenderID", chat.initialSenderID)
       localStorage.setItem("isSelected", JSON.stringify(this.isSelected));
     }
-    // findAndSelect(){
-    //     this.messageID = localStorage.getItem("messageID")
-    //     for(let i = 0; i<this.messageObject.Messages.length;i++){
-    //       if(this.messageID == this.messageObject.Messages[i].messageID){
-    //         this.messageObject.Messages[i].isSelected = true;
-    //       }else this.messageObject.Messages[i].isSelected = false;
-    //     }
-        
-    // }
+ 
 }
 

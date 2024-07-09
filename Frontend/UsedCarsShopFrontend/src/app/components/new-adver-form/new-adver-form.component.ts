@@ -28,7 +28,9 @@ export class NewAdverFormComponent {
   constructor(private router:Router, private dashboard: DashboardService){
 
   }
-
+  ngOnInit():void{
+    localStorage.setItem("currentRoute", "New adver")
+  }
   
 
   onFileSelected(event: Event): void {

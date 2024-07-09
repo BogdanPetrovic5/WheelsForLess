@@ -35,7 +35,8 @@ export class WebsocketMessagesService {
           message: data.Message,
           receiverUsername: data.ReceiverUsername,
           senderUsername: data.SenderUsername,
-          dateSent: new Date(data.dateSent)
+          dateSent: new Date(data.dateSent),
+          isNew:data.isNew
         } as any);
         this._messageService.incrementMessages()
       };

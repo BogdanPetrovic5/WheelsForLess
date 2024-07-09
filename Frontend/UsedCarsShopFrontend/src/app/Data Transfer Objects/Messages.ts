@@ -9,7 +9,7 @@ export class Messages{
             dateSent:new Date(),
             isSelected:false,
             messageID:0,
-            isNew: false,
+            isNew: Boolean,
             initialSenderID:0,
             advertisement:{
                 adverID: 0,

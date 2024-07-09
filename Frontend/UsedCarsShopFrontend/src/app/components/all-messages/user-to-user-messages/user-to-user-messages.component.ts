@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./user-to-user-messages.component.scss']
 })
 export class UserToUserMessagesComponent implements OnInit{
-  messages: { message: string, receiverUsername:string, senderUsername:string, dateSent: Date }[] = [];
+  messages: { message: string, receiverUsername:string, senderUsername:string, dateSent: Date, isNew:boolean }[] = [];
   currentChat:any;
   private wsUrl:any;
   private wsSub:any;
@@ -22,7 +22,7 @@ export class UserToUserMessagesComponent implements OnInit{
   receiver =""
   currentUsername:any;
   routerSub: Subscription | undefined;
-
+  newMessages = 0;
   constructor(private wsService:WebsocketMessagesService,private messageService:MessagesService, private dashboardService:DashboardService, private router:Router,  private route:ActivatedRoute, private parent:AllMessagesComponent){
 
   }
@@ -63,7 +63,8 @@ export class UserToUserMessagesComponent implements OnInit{
           message: data.message,
           receiverUsername: data.ReceiverUsername,
           senderUsername: data.SenderUsername,
-          dateSent: data.dateSent
+          dateSent: data.dateSent,
+          isNew:data.isNew
         });
         this.sortMessages();
         
@@ -96,7 +97,7 @@ export class UserToUserMessagesComponent implements OnInit{
     let receiver = localStorage.getItem("receiverUsername")
     this.messageService.sendMessage(this.currentUsername, receiver,adverID,this.message).subscribe((response)=>{
         console.log(`${this.currentUsername}:`, this.message);
-        this.messages.unshift({message:this.message, receiverUsername:this.receiver, senderUsername:this.currentUsername, dateSent: new Date()});
+        this.messages.unshift({message:this.message, receiverUsername:this.receiver, senderUsername:this.currentUsername, dateSent: new Date(), isNew:true});
         this.sortMessages();
         this.message = '';
     },(error:HttpErrorResponse)=>{
@@ -108,26 +109,31 @@ export class UserToUserMessagesComponent implements OnInit{
   }
   sortMessages(){
     this.messages.sort((b,a) => {
-     
       return new Date(a.dateSent).getTime() - new Date(b.dateSent).getTime();
-      });
+    });
   }
   removeFromSession(){
     localStorage.removeItem("adverID");
     localStorage.removeItem("messageID");
   }
+  countNewMessages(){
+    for(let i = 1; i < this.messages.length;i++){
+      if(this.messages[i].isNew == true){
+        this.newMessages += 1;
+      }else break;
+    }
+  }
   loadChat(){
-  
     let initialSenderID = localStorage.getItem("initialSenderID");
     this.messageService.getUserToUserMessages(0, initialSenderID,0).subscribe(response=>{
       this.messages = response;
+      console.log(response)
       this.sortMessages();
+      this.countNewMessages();
+      console.log(this.newMessages)
+      this.messageService.decrementMessages(this.newMessages);
       let receiver = this.messages[0].senderUsername == this.currentUsername ? this.messages[0].receiverUsername : this.messages[0].senderUsername
-  
       localStorage.setItem("receiverUsername", receiver)
     })
-
-   
-   
   }
 }
