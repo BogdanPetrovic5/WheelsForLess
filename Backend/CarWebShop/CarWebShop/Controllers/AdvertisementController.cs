@@ -10,6 +10,7 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using CarWebShop.Data;
 using CarWebShop.Utilities;
+using CarWebShop.Extensions;
 
 namespace CarWebShop.Controllers
 {
@@ -30,7 +31,15 @@ namespace CarWebShop.Controllers
             _adverUtility = adverUtility;
             _userUtility = userUtility;
         }
-        
+        [HttpGet("FilterAdvertisement")]
+        public IActionResult filterAdvertisements([FromQuery] AdvertisementFilter filter, int page = 1, int maximumAdvers = 6)
+        {
+            var advertisements = _repository.GetFilteredAdvertisements(filter).Skip((page - 1) * maximumAdvers)
+                .Take(maximumAdvers)
+                .ToList();
+            return Json(advertisements);
+            
+        }
         [HttpPost("PublishAdvertisement")]
         [Authorize]
         public async Task<IActionResult>  PublishAdvertisement([FromForm] AdverDto adverDto,  List<IFormFile> selectedImages)

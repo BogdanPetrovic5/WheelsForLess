@@ -53,6 +53,44 @@ namespace CarWebShop.Repository
                 AdverID = favorites.AdverID
             };
         }
+        public IEnumerable<Advertisement> GetFilteredAdvertisements(AdvertisementFilter filter)
+        {
+            var query = _context.Advertisement.Include(ad => ad.Car).Include(ad => ad.User).Include(ad => ad.FavoritedByUsers).AsQueryable();
+            if(filter != null)
+            {
+                if (!string.IsNullOrEmpty(filter.CarBrand))
+                {
+                    query = query.Where(ad => ad.Car.CarBrand == filter.CarBrand);
+                }
+                if (!string.IsNullOrEmpty(filter.CarModel))
+                {
+                    query = query.Where(ad => ad.Car.CarModel == filter.CarModel);
+                }
+            }
+            var advertisement = query
+                .Select(a => new Advertisement
+                {
+                    CarID = a.CarID,
+                    AdverID = a.AdverID,
+                    UserID = a.UserID,
+                    AdverName = a.AdverName,
+                    Price = a.Price,
+                    UserDto = _adverUtility.ConvertToUserDto(a.User),
+                    CarDto = _adverUtility.ConvertToCarDto(a.Car),
+                    imagePaths = a.imagePaths,
+                    Date = a.Date,
+                    FavoritedByUserDto = a.FavoritedByUsers
+                             .Select(f => new FavoritedByUserDto
+                             {
+                                 UserID = f.UserID,
+                                 AdverID = f.AdverID
+                             })
+                            .ToList()
+                })
+                .OrderBy(a => a.AdverID)
+                .ToList();
+            return advertisement;
+        }
         public ICollection<Advertisement> GetAdvertisements()
         {
             return _context.Advertisement

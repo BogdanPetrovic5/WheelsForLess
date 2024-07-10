@@ -1,4 +1,5 @@
-﻿using CarWebShop.Models;
+﻿using CarWebShop.Dto;
+using CarWebShop.Models;
 
 namespace CarWebShop.Interfaces
 {
@@ -7,5 +8,6 @@ namespace CarWebShop.Interfaces
 
         ICollection<Advertisement> GetAdvertisements();
         ICollection<Advertisement> GetFavorites(int userID);
+        IEnumerable<Advertisement> GetFilteredAdvertisements(AdvertisementFilter filter);
     }
 }
