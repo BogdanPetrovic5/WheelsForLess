@@ -10,7 +10,22 @@
                 </h1>
                 <div>
                     <input type="text" autocomplete="off" name="text" class="input" placeholder="Advertisement Name" [(ngModel)]="AdverName">
-                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Brand" [(ngModel)]="Brand">
+                    <div class="car-brand">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Brand" [(ngModel)]="Brand">
+                        <span class="material-symbols-outlined" (click)="openOptions()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options" *ngIf="brands">
+                            <div class="options-select" *ngFor="let brand of carBrandsWithModels">
+                                <div>
+                                    <input type="radio" [value]="brand.brand" id="{{ brand.brand }}" name="selectedBrands" (change)="selectBrand(brand.brand)">
+                                    <label for="{{ brand.brand }}">{{ brand.brand }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                   
                 </div>
                 <div>
                     <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Model" [(ngModel)]="Model">

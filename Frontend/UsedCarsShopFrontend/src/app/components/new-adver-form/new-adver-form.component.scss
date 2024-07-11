@@ -84,6 +84,61 @@
             outline: none;
             text-indent: 5px;
           }
+          div{
+            width: 48%;
+            input{
+              width: 100% !important;
+              height: 100%;
+            }
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            font-size: 25px;
+            span{
+              position: absolute;
+              font-size: 2em;
+              right: 0;
+              top: -5%;
+              
+              cursor: pointer;
+            }
+            .options{
+              position: absolute;
+              z-index: 1;
+              background-color: rgb(240, 240, 240);
+              width: 100%;
+              bottom: -400px;
+              height: 400px;
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+              overflow-y: scroll;
+              
+              
+              .options-select{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                div{
+                  display: flex;
+                  flex-direction: row;
+                  justify-content:left;
+                  gap: 10px;
+                  width: 90%;
+                  input{
+                    width: 10% !important;
+                    
+                  }
+                  label{
+                    width: 90%;
+                  }
+                }
+              }
+            
+            }
+          }
+          
      
         }
         .images-div{

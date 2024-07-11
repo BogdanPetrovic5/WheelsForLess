@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Messages } from 'src/app/Data Transfer Objects/Messages';
 import { MessagesService } from 'src/app/services/messages.service';
+import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
 
 ;
 @Component({
@@ -21,10 +22,10 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
     isSelectedValue = localStorage.getItem("isSelected");
     messageID:any
     isSelected = this.isSelectedValue === 'true' ? true : false
-    
+    private wsSub:any;
     oldMessages:any
     // private messageEventSubscription:Subscription;
-    constructor(private messagesService:MessagesService,private router:Router,  private route:ActivatedRoute, ){
+    constructor(private messagesService:MessagesService,private router:Router,  private route:ActivatedRoute, private wsService:WebsocketMessagesService){
         this._messageService = messagesService;
         this.messageObject = new Messages();
         // this.messageEventSubscription = this.messagesService.newMessage$.subscribe(
@@ -37,6 +38,7 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
 
     }
     ngOnInit():void{
+   
       this.loadMessages();
       localStorage.setItem("currentRoute", "Inbox")
     }

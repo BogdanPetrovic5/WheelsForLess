@@ -32,6 +32,7 @@ export class AdvertisementComponent implements OnInit{
     let username = localStorage.getItem("Username");
     let receiverUsername = this.card.userDto.userName;
     let adverID = this.card.adverID
+    console.log("Receiver: ", receiverUsername, "Sender: ", username, "AdverID: ", adverID, "Message: ",this.message)
     this._messagesSerivce.sendMessage(username, receiverUsername, adverID,this.message).subscribe((response)=>{
         console.log("Uspenso porata posluka")
     },(error:HttpErrorResponse)=>{

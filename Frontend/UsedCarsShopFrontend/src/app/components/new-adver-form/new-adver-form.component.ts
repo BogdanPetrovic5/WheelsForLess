@@ -2,6 +2,7 @@ import { Component, Type } from '@angular/core';
 import { Router } from '@angular/router';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CarBrandsModelsService } from 'src/app/services/car-brands-models.service';
 
 @Component({
   selector: 'app-new-adver-form',
@@ -25,14 +26,27 @@ export class NewAdverFormComponent {
   token:any
   UserName:any
   selectedFiles: File[] = [];
-  constructor(private router:Router, private dashboard: DashboardService){
-
+  _carBrandsWithModels:CarBrandsModelsService | undefined;
+  carBrandsWithModels:any
+  brands:boolean = false
+  constructor(private router:Router, private dashboard: DashboardService,private brandsWithModelsService:CarBrandsModelsService){
+    this._carBrandsWithModels = brandsWithModelsService;
   }
   ngOnInit():void{
     localStorage.setItem("currentRoute", "New adver")
+    this.loadOptions()
   }
-  
+  openOptions(){
+    this.brands = !this.brands
+  }
 
+  selectBrand(brand:any){
+    this.Brand = brand
+    console.log(this.Brand);
+  }
+  loadOptions(){
+    this.carBrandsWithModels = this._carBrandsWithModels?.getBrandsAndModles();
+  }
   onFileSelected(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const files = inputElement.files;

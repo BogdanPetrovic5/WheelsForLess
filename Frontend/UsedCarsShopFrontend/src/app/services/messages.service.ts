@@ -49,7 +49,7 @@ export class MessagesService {
     })
   }
   decrementMessages(step:any){
-    if(this.messages > 0 ){
+    if(this.messages - step >= 0 ){
       this.messages -= step;
     }
     

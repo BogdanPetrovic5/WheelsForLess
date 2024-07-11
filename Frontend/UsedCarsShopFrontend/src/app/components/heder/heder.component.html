@@ -58,6 +58,9 @@
                         <option *ngFor="let model of carModels" [value]="model" >{{ model }}</option>
                     </select>
                 </div>
+                <button class="filter-button" *ngIf="selectedBrand != '' && brands" (click)="filterSearch()">
+                    FILTER
+                </button>
             </div>
             <div class="filter-second-section section">
                 <button><img src="/assets/images/sort.png"> Sort</button>

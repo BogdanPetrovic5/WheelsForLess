@@ -87,22 +87,39 @@ app.UseWebSockets();
 app.MapControllers();
 var webSocketManager = app.Services.GetRequiredService<WebSocketConnectionManager>();
 
+
 app.Map("/ws", async context =>
 {
     if (context.WebSockets.IsWebSocketRequest)
     {
-        var webSocket = await context.WebSockets.AcceptWebSocketAsync();
-        
-        string socketParameter = context.Request.Query["socketParameter"];
-        if (string.IsNullOrEmpty(socketParameter))
+        WebSocket webSocket = null;
+        try
         {
-            context.Response.StatusCode = 400;
-            return;
-        }
-        Console.WriteLine(socketParameter);
-        webSocketManager.AddSocket(socketParameter, webSocket);
+            webSocket = await context.WebSockets.AcceptWebSocketAsync();
 
-        await HandleWebSocket(webSocket, webSocketManager, socketParameter);
+            string socketParameter = context.Request.Query["socketParameter"];
+            if (string.IsNullOrEmpty(socketParameter))
+            {
+                context.Response.StatusCode = 400;
+                return;
+            }
+            Console.WriteLine($"WebSocket connected: {socketParameter}");
+            webSocketManager.AddSocket(socketParameter, webSocket);
+
+            await HandleWebSocket(webSocket, webSocketManager, socketParameter);
+        }
+        catch (OperationCanceledException)
+        {
+            Console.WriteLine("WebSocket connection closed by client.");
+        }
+        catch (WebSocketException ex) when (ex.WebSocketErrorCode == WebSocketError.ConnectionClosedPrematurely)
+        {
+            Console.WriteLine("WebSocket connection closed prematurely.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"WebSocket request failed: {ex.Message}");
+        }
     }
     else
     {
@@ -110,17 +127,72 @@ app.Map("/ws", async context =>
     }
 });
 
+
+
+
 app.Run();
 
-async Task HandleWebSocket(WebSocket webSocket, WebSocketConnectionManager webSocketManager, string socketParameter)
+ async Task HandleWebSocket(WebSocket webSocket, WebSocketConnectionManager webSocketManager, string socketParameter)
 {
     var buffer = new byte[1024 * 4];
-    WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-    while (!result.CloseStatus.HasValue)
-    {
-        result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-    }
 
-    await webSocketManager.RemoveSocket(socketParameter);
-    await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+    try
+    {
+        while (webSocket.State == WebSocketState.Open)
+        {
+            var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+            if (result.MessageType == WebSocketMessageType.Close)
+            {
+                Console.WriteLine("Received close message from client.");
+                break;
+            }
+
+            if (webSocket.State == WebSocketState.Open)
+            {
+                var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                Console.WriteLine($"Received message: {message}");
+
+                
+                await webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes($"Echo: {message}")), result.MessageType, result.EndOfMessage, CancellationToken.None);
+            }
+        }
+    }
+    catch (WebSocketException ex)
+    {
+        Console.WriteLine($"WebSocket exception: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Exception: {ex.Message}");
+    }
+    finally
+    {
+        if (webSocket.State == WebSocketState.Open || webSocket.State == WebSocketState.CloseReceived)
+        {
+            try
+            {
+                Console.WriteLine("Attempting to close WebSocket connection.");
+                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Connection closed", CancellationToken.None);
+            }
+            catch (WebSocketException ex)
+            {
+                Console.WriteLine($"WebSocket close exception: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception during WebSocket close: {ex.Message}");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"WebSocket already closed or aborted. State: {webSocket.State}");
+        }
+
+        webSocketManager.RemoveSocket(socketParameter);
+        Console.WriteLine("WebSocket connection closed in HandleWebSocket.");
+    }
 }
+
+
+

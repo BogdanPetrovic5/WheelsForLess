@@ -51,78 +51,75 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            // .align-right, .align-left{
-                // width: fit-content;
-                // background-color: #001524;
-                // border-radius: 50px;
-                // min-height: fit-content;
-                // padding: 20px 20px;
-                // font-family: 'Nunito', sans-serif;
-                //  color: white;
-            //      margin-top: 0 !important;
-            //      margin-bottom:  5px !important;
-            //     margin: 30px;
-            // }
-            // .align-right{
-            //     align-self: flex-end;
+            .align-right, .align-left{
+                width: fit-content;
+                background-color: #001524;
+                border-radius: 50px;
+                min-height: fit-content;
+                padding: 20px 20px;
+                font-family: 'Nunito', sans-serif;
+                 color: white;
+                 margin-top: 0 !important;
+                 margin-bottom:  5px !important;
+                margin: 30px;
+            }
+            .align-right{
+                align-self: flex-end;
                
-            // }
-            // .align-left{
-            //     align-self: flex-start;
+            }
+            .align-left{
+                align-self: flex-start;
                
-            // }
-            // .chat-partner{
-            //     height: 40px;
+            }
+         
+            // .receiver-message {
+            //     display: flex;
+            //     flex-direction: column;
+            //     align-items: flex-start;
+            //     text-align: left;
             //     width: 100%;
-            // }
-            .receiver-message {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                text-align: left;
-                width: 100%;
-                padding-bottom: 3px;
-                border-radius: 10px;
-               font-size: 20px;
+            //     padding-bottom: 3px;
+            //     border-radius: 10px;
+            //    font-size: 20px;
                
-                div{
-                    width: fit-content;
-                    padding: 20px 20px;
-                    background-color: #001524;;
-                    font-size: 0.9em;
-                    font-family: 'Nunito',sans-serif;
-                    color: white;
-                    border-radius: 50px;
-                    margin-left: 10px;
-                }
-            }
+            //     div{
+            //         width: fit-content;
+            //         padding: 20px 20px;
+            //         background-color: #001524;;
+            //         font-size: 0.9em;
+            //         font-family: 'Nunito',sans-serif;
+            //         color: white;
+            //         border-radius: 50px;
+            //         margin-left: 10px;
+            //     }
+            // }
             
-            .sender-message {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-end;
-                text-align: right;
-               padding-bottom: 3px;
-                border-radius: 10px;
-                width: 100%;
-                font-size: 20px;
-                div{
-                    width: fit-content;
-                    padding: 20px 20px;
-                    background-color: #001524;;
-                    font-size: 0.9em;
-                    font-family: 'Nunito',sans-serif;
-                    color: white;
-                    border-radius: 50px;
-                    margin-right: 10px;
-                }
-            }
+            // .sender-message {
+            //     display: flex;
+            //     flex-direction: column;
+            //     align-items: flex-end;
+            //     text-align: right;
+            //    padding-bottom: 3px;
+            //     border-radius: 10px;
+            //     width: 100%;
+            //     font-size: 20px;
+            //     div{
+            //         width: fit-content;
+            //         padding: 20px 20px;
+            //         background-color: #001524;;
+            //         font-size: 0.9em;
+            //         font-family: 'Nunito',sans-serif;
+            //         color: white;
+            //         border-radius: 50px;
+            //         margin-right: 10px;
+            //     }
+            // }
             
-            .divider {
-                margin: 10px 0;
-                height: 100px;
+            // .divider {
+            //     margin: 10px 0;
+            //     height: 100px;
                 
-            }
+            // }
         }
            
             

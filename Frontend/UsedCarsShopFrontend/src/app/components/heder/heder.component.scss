@@ -148,6 +148,17 @@ header {
                     max-height: 300px; 
                     
                 }
+                .filter-button{
+                    width: 90%;
+                    background-color: #00365c !important;
+                    padding: 20px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 5px;
+                    color: white;
+                    font-family: 'NUnito', sans-serif;
+                }
                 button{
                     width: 90%;
                     align-self: center;

@@ -5,6 +5,8 @@ import { Advertisement } from 'src/app/Data Transfer Objects/Advertisements';
 import { LoadingService } from 'src/app/services/loading.service';
 import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
 import { environment } from 'src/environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dasboard',
@@ -23,6 +25,9 @@ export class DasboardComponent {
     pageSize= 1;
     private wsSub:any;
     private wsURL:any;
+    public selectedBrand:any;
+    public selectedModel:any;
+    private subscriptions: Subscription = new Subscription();
     constructor(private dashService:DashboardService, private router:Router, private route:ActivatedRoute, private loadingService:LoadingService,private wsService:WebsocketMessagesService){
       this.advertisementObject = new Advertisement();
     }
@@ -36,6 +41,7 @@ export class DasboardComponent {
       this.dashService.getUserId(username).subscribe(response =>{
         this.userID = response;
         localStorage.setItem("userID", this.userID);
+        this.connectToWebsocket();
       })
       this.loadingService.show();
       this.route.queryParams.subscribe(params =>{
@@ -47,7 +53,29 @@ export class DasboardComponent {
         this.loadingService.showForDuration(2000);
       })
       this.username = localStorage.getItem("Username")
-      this.connectToWebsocket();
+    this.subscriptions.add(
+      this.dashService.filterBrand$.subscribe(() => {
+        this.applyFilters();
+      })
+    );
+
+    this.subscriptions.add(
+      this.dashService.filterModel$.subscribe(() => {
+        this.applyFilters();
+      })
+    );
+    }
+    applyFilters(){
+      const brand = this.dashService.currentBrand;
+      const model = this.dashService.currentModel;
+      console.log(brand, model)
+      if(brand != null || model != null){
+        this.dashService.filterAdvertisements(brand, model).subscribe((response)=>{
+          this.advertisementObject.Advertisements = response
+        },(error:HttpErrorResponse)=>{
+          console.log(error);
+        })
+      }
     }
     connectToWebsocket(){
       let userID = localStorage.getItem("userID");
@@ -63,34 +91,47 @@ export class DasboardComponent {
     updateUrl(): void {
         this.router.navigate([], { relativeTo: this.route, queryParams: { page: this.currentPage } });
     }
+    ngDoCheck():void{
+     
+      
+    }
+
     ngOnDestroy():void{
+    
       if (this.wsSub) {
+
         this.wsSub.unsubscribe();
       }
       this.wsService.close();
     }
+
     changeToForm(){
         this.adverForm = true
         this.dashboard = false
         this.adver = false
     }
+
     toDashboard(){
         this.loadAdvertisements()
         this.adverForm = false
         this.dashboard = true
         this.adver = false
     }
+
     showDropdown(){
         this.options = true
     }
+
     closeDropdown(){
         this.options = false
     }
+
     logout(){
       this.router.navigate(["/Login"]);
       localStorage.removeItem("Username");
       localStorage.removeItem("Token");
     }
+
     navigateToAdvertisement(card:any){
         this.router.navigate(['/Advertisement']);
         let currentRoute = card.carDto.brand + " " + card.carDto.model

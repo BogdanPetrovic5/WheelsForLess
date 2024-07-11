@@ -64,7 +64,7 @@ namespace CarWebShop.Controllers
             using (SqlCommand command = new SqlCommand(query, sqlConnection))
             {
                 int initialSenderID = senderID;
-                Console.WriteLine(initialSenderID);
+                
                 string checkForInitialMessage = "SELECT TOP 1 InitialSenderID FROM Messages WHERE AdverID = @AdverID AND (SenderID = @SenderID OR ReceiverID = @SenderID)";
                 using (SqlCommand checkCommand = new SqlCommand(checkForInitialMessage, sqlConnection))
                 {
@@ -100,15 +100,32 @@ namespace CarWebShop.Controllers
                 {
                     var message = JsonSerializer.Serialize(messageDto);
 
-                    //
+                   
+
                     var chatWebsocketTarget = $"{receiverID}-{messageDto.AdverID}-{initialSenderID}";
                     Console.WriteLine("Chat Websocket Target: " + chatWebsocketTarget);
-                    await _webSocketManager.SendMessageToUserAsync(chatWebsocketTarget, message);
+                    try
+                    {
+                        await _webSocketManager.SendMessageToUserAsync(chatWebsocketTarget, message);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Failed to send message to chat WebSocket: {ex.Message}");
+                      
+                    }
 
-                    
+
                     var userWebsocketTarget = receiverID.ToString();
                     Console.WriteLine("User Websocket Target: " + userWebsocketTarget);
-                    await _webSocketManager.SendMessageToUserAsync(userWebsocketTarget, message);
+                    try
+                    {
+                        await _webSocketManager.SendMessageToUserAsync(userWebsocketTarget, message);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Failed to send message to user WebSocket: {ex.Message}");
+                      
+                    }
                     return Ok();
                 }
                 else return StatusCode(500, "Failed to insert message into the database.");

@@ -67,8 +67,6 @@ export class UserToUserMessagesComponent implements OnInit{
           isNew:data.isNew
         });
         this.sortMessages();
-        
-        // this.messageService.announceNewMessage(data)
       },
       (error) => console.log('WebSocket error:', error),
       () => console.log('WebSocket connection closed')

@@ -12,7 +12,7 @@ namespace CarWebShop.Utilities
 
         public void AddSocket(string socketParameter, WebSocket socket)
         {
-            Console.WriteLine(socketParameter);
+            
             _sockets.TryAdd(socketParameter, socket);
         }
 
@@ -24,18 +24,26 @@ namespace CarWebShop.Utilities
             }
         }
 
-        public async Task SendMessageToUserAsync(string userId, string message)
+        public async Task SendMessageToUserAsync(string socketParameter, string message)
         {
-           
-            if (_sockets.TryGetValue(userId, out var socket) && socket.State == WebSocketState.Open)
+            if (_sockets.TryGetValue(socketParameter, out var socket) && socket.State == WebSocketState.Open)
             {
-                Console.WriteLine($"Pogodilo: {userId}");
-                var buffer = Encoding.UTF8.GetBytes(message);
-                await socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                try
+                {
+                    var buffer = Encoding.UTF8.GetBytes(message);
+                    await socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                    Console.WriteLine($"Message sent to user/chat {socketParameter}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Failed to send message to user/chat {socketParameter}: {ex.Message}");
+                    
+                }
             }
             else
             {
-                Console.WriteLine(userId.Length);
+                Console.WriteLine($"User/User in the chat: {socketParameter} not found or WebSocket not open");
+                
             }
         }
 

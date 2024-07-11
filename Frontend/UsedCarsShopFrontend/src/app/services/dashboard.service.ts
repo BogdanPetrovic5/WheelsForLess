@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 @Injectable({
@@ -8,8 +8,18 @@ import { environment } from 'src/environments/environment';
 export class DashboardService {
   card:any
   private storageKey = 'adverDetails';
+  private filterBrandSubject = new BehaviorSubject<any | null>(null);
+  private filterModelSubject = new BehaviorSubject<any | null>(null);
+
+  filterBrand$ = this.filterBrandSubject.asObservable();
+  filterModel$ = this.filterModelSubject.asObservable();
+
+  private currentFilterBrand: any | null = null;
+  private currentFilterModel: any | null = null;
+
+  public filteredResult:any;
   constructor(private http:HttpClient) { }
-  getAllAdvers(currentPage:any, pageSize: number = 24 ):Observable<any>{
+  getAllAdvers(currentPage:any, pageSize: number = 16 ):Observable<any>{
     return this.http.get<any>(`${environment.apiUrl}/api/Advertisement/GetAdvertisements?page=${currentPage}&maximumAdvers=${pageSize}`)
   }
   getUserId(username:any){
@@ -25,6 +35,30 @@ export class DashboardService {
       },{
         headers:httpHeaders
       })
+  }
+  set filterBrand(brand: any | null) {
+    this.filterBrandSubject.next(brand);
+  }
+
+  set filterModel(model: any | null) {
+    this.filterModelSubject.next(model);
+  }
+  get currentBrand(): any | null {
+    return this.filterBrandSubject?.getValue();
+  }
+
+  get currentModel(): any | null {
+    return this.filterModelSubject?.getValue();
+  }
+  filterAdvertisements(selectedBrand?:any, selectedModel?:any):Observable<any>{
+    let page = 1;
+    let maximumAdvers = 16;
+    let url = `${environment.apiUrl}/api/Advertisement/FilterAdvertisement?CarBrand=${selectedBrand}&page=${page}&maximumAdvers=${maximumAdvers}`
+
+    if(selectedModel){
+      url+=`&CarModel=${selectedModel}`
+    }
+    return this.http.get<any>(url)
   }
   placeAdvertisement(Token: string,data:FormData): Observable<any> {
     const httpHeaders = new HttpHeaders({

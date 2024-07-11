@@ -59,7 +59,10 @@
                     </div>
                 </div>
             </div>
-            
+            <div class="navigation-buttons">
+                <button (click)="prevPage()" [ngClass]="currentPage == 1 ?'disable':''">prev</button>
+                <button (click)="nextPage()" [disabled]="advertisementObject.Advertisements.length < 16" [ngClass]="advertisementObject.Advertisements.length < 16 ? 'disable':''">next</button>
+            </div>
         </section>
         
         
