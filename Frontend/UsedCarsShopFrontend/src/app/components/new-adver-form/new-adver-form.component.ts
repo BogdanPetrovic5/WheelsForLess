@@ -2,7 +2,7 @@ import { Component, Type } from '@angular/core';
 import { Router } from '@angular/router';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CarBrandsModelsService } from 'src/app/services/car-brands-models.service';
+import { CarDetails } from 'src/app/services/car-details.service';
 
 @Component({
   selector: 'app-new-adver-form',
@@ -10,42 +10,97 @@ import { CarBrandsModelsService } from 'src/app/services/car-brands-models.servi
   styleUrls: ['./new-adver-form.component.scss']
 })
 export class NewAdverFormComponent {
-
   AdverName = "";
-  Brand= "";
-  Model= "";
-  Year= "";
-  BodyType= "";
-  FuelType= "";
+  Brand = "";
+  Model = "";
+  Year = "";
+  BodyType = "";
+  FuelType = "";
   Price = "";
   HorsePower ="";
   EngineVolume ="";
   Propulsion = "";
   Mileage = "";
+  
   UserID:any
   token:any
   UserName:any
   selectedFiles: File[] = [];
-  _carBrandsWithModels:CarBrandsModelsService | undefined;
-  carBrandsWithModels:any
+  carModels:any
+
+  _carBrandsWithModels:CarDetails | undefined;
+  carBrandsWithModels:any;
+  _bodyTypes:CarDetails | undefined;
+  bodyTypes:any;
+  _fuelTypes:CarDetails | undefined
+  fuelTypes:any
+  _propulsionTypes:CarDetails | undefined
+  propulsionTypes:any
+
   brands:boolean = false
-  constructor(private router:Router, private dashboard: DashboardService,private brandsWithModelsService:CarBrandsModelsService){
-    this._carBrandsWithModels = brandsWithModelsService;
+  models:boolean = false
+  body:boolean = false
+  fuel:boolean = false
+  propulsion:boolean = false
+  constructor(private router:Router, private dashboard: DashboardService,private carDetailsService:CarDetails){
+    this._carBrandsWithModels = carDetailsService;
+    this._bodyTypes = carDetailsService;
+    this._fuelTypes = carDetailsService;
+    this._propulsionTypes = carDetailsService;
   }
   ngOnInit():void{
     localStorage.setItem("currentRoute", "New adver")
     this.loadOptions()
   }
-  openOptions(){
+
+  openOptionsBrands(){
     this.brands = !this.brands
+  }
+  openOptionsModels(){
+    this.models = !this.models
+  }
+  openBodyTypes(){
+    this.body = !this.body
+  }
+  openFuelTypes(){
+    this.fuel = !this.fuel
+  }
+  openPropulsionTypes(){
+    this.propulsion = !this.propulsion
   }
 
   selectBrand(brand:any){
     this.Brand = brand
+    this.loadModels()
     console.log(this.Brand);
+    this.brands = false
+  }
+  selectModel(model:any){
+    this.Model = model;
+    this.models = false
+  }
+  selectBodyType(type:any){
+    this.BodyType = type;
+  }
+  selectFuelType(type:any){
+    this.FuelType = type
+  }
+  selectPropulsionType(type:any){
+    this.Propulsion = type;
+  }
+  
+  loadModels(){
+    const brand = this.carBrandsWithModels.find((item:any) => item.brand === this.Brand);
+
+    this.carModels = brand ? brand.models : [];
+    console.log(this.carModels)
+
   }
   loadOptions(){
     this.carBrandsWithModels = this._carBrandsWithModels?.getBrandsAndModles();
+    this.bodyTypes = this._bodyTypes?.getBodyTypes();
+    this.fuelTypes = this._fuelTypes?.getFuelTypes();
+    this.propulsionTypes = this._propulsionTypes?.getPropulsionTypes();
   }
   onFileSelected(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -53,9 +108,7 @@ export class NewAdverFormComponent {
 
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-        
         this.selectedFiles.push(files[i]); 
-        
       }
     }
     console.log(this.selectedFiles)

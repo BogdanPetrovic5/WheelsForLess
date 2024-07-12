@@ -6,7 +6,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
 import { environment } from 'src/environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dasboard',
@@ -53,17 +53,15 @@ export class DasboardComponent {
         this.loadingService.showForDuration(2000);
       })
       this.username = localStorage.getItem("Username")
-    this.subscriptions.add(
-      this.dashService.filterBrand$.subscribe(() => {
-        this.applyFilters();
-      })
-    );
-
-    this.subscriptions.add(
-      this.dashService.filterModel$.subscribe(() => {
-        this.applyFilters();
-      })
-    );
+      this.subscriptions.add(
+        combineLatest([
+          this.dashService.filterBrand$,
+          this.dashService.filterModel$
+        ]).subscribe(()=>{
+          this.applyFilters()
+        })
+      )
+     
     }
     applyFilters(){
       const brand = this.dashService.currentBrand;

@@ -10,9 +10,9 @@
                 </h1>
                 <div>
                     <input type="text" autocomplete="off" name="text" class="input" placeholder="Advertisement Name" [(ngModel)]="AdverName">
-                    <div class="car-brand">
-                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Brand" [(ngModel)]="Brand">
-                        <span class="material-symbols-outlined" (click)="openOptions()">
+                    <div class="car-options">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Brand" [(ngModel)]="Brand" [disabled]="Brand != ''">
+                        <span class="material-symbols-outlined" (click)="openOptionsBrands()">
                             arrow_drop_down
                         </span>
                         <div class="options" *ngIf="brands">
@@ -28,12 +28,56 @@
                    
                 </div>
                 <div>
-                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Model" [(ngModel)]="Model">
+                    <div class="car-options">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Model" [(ngModel)]="Model" [disabled]="Model != ''">
+                        <span class="material-symbols-outlined" (click)="openOptionsModels()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options" *ngIf="models && Brand != ''">
+                            <div class="options-select" *ngFor="let model of carModels">
+                                <div>
+                                    <input type="radio" [value]="model" id="{{ model }}" name="selectedModel" (change)="selectModel(model)">
+                                    <label for="{{ model }}">{{ model }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    
                     <input type="text" autocomplete="off" name="text" class="input" placeholder="Year" [(ngModel)]="Year">
                 </div>
                 <div>
-                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Body Type" [(ngModel)]="BodyType">
-                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Fuel Type" [(ngModel)]="FuelType">
+                    <div class="car-options">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Body Type" [(ngModel)]="BodyType" [disabled]="BodyType != ''">
+                        <span class="material-symbols-outlined" (click)="openBodyTypes()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options body-type" *ngIf="body">
+                            <div class="options-select" *ngFor="let type of bodyTypes">
+                                <div>
+                                    <input type="radio" [value]="type" id="{{ type }}" name="selectedModel" (change)="selectBodyType(type)">
+                                    <label for="{{ type }}">{{ type }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-options">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Fuel Type" [(ngModel)]="FuelType">
+                        <span class="material-symbols-outlined" (click)="openFuelTypes()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options body-type" *ngIf="fuel">
+                            <div class="options-select" *ngFor="let type of fuelTypes">
+                                <div>
+                                    <input type="radio" [value]="type" id="{{ type }}" name="selectedModel" (change)="selectFuelType(type)">
+                                    <label for="{{ type }}">{{ type }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                   
                 </div>
                 <div>
                     <input type="text" autocomplete="off" name="text" class="input" placeholder="Price" [(ngModel)]="Price">
@@ -44,7 +88,22 @@
                     <input type="text" autocomplete="off" name="text" class="input" placeholder="Mileage" [(ngModel)]="Mileage">
                 </div>
                 <div>
-                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Propulsion" [(ngModel)]="Propulsion">
+                    <div class="car-options ">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Propulsion" [(ngModel)]="Propulsion">
+                        <span class="material-symbols-outlined" (click)="openPropulsionTypes()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options propulsion" *ngIf="propulsion">
+                            <div class="options-select" *ngFor="let type of propulsionTypes">
+                                <div>
+                                    <input type="radio" [value]="type" id="{{ type }}" name="selectedModel" (change)="selectPropulsionType(type)">
+                                    <label for="{{ type }}">{{ type }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                   
                     <div class="file-type" (change)="onFileSelected($event)">
                         <label> 
                             Select files!

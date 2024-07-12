@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CarBrandsModelsService } from 'src/app/services/car-brands-models.service';
+import { CarDetails } from 'src/app/services/car-details.service';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
@@ -22,12 +22,13 @@ export class HederComponent implements OnInit{
   public options = false
   public _messageService:MessagesService
   public numberMessages:any
-  _carBrandsWithModels:CarBrandsModelsService | undefined;
+  _carBrandsWithModels:CarDetails | undefined;
   carBrandsWithModels:any
   carModels: string[] = [];
   brands = false;
   models = false;
-  constructor(private router:Router, private wsService:WebsocketMessagesService, private messageService:MessagesService, private brandsWithModelsService:CarBrandsModelsService, private dashService:DashboardService){
+  bodyType = false
+  constructor(private router:Router, private wsService:WebsocketMessagesService, private messageService:MessagesService, private brandsWithModelsService:CarDetails, private dashService:DashboardService){
       this._messageService = messageService;
       this._carBrandsWithModels = brandsWithModelsService;
   }

@@ -56,6 +56,7 @@ export class DashboardService {
     let url = `${environment.apiUrl}/api/Advertisement/FilterAdvertisement?CarBrand=${selectedBrand}&page=${page}&maximumAdvers=${maximumAdvers}`
 
     if(selectedModel){
+      
       url+=`&CarModel=${selectedModel}`
     }
     return this.http.get<any>(url)
