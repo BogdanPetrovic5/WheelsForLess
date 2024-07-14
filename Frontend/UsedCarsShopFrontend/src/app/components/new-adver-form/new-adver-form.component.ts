@@ -42,6 +42,8 @@ export class NewAdverFormComponent {
   body:boolean = false
   fuel:boolean = false
   propulsion:boolean = false
+
+  published:boolean = false;
   constructor(private router:Router, private dashboard: DashboardService,private carDetailsService:CarDetails){
     this._carBrandsWithModels = carDetailsService;
     this._bodyTypes = carDetailsService;
@@ -139,9 +141,9 @@ export class NewAdverFormComponent {
         formData.append("selectedImages", this.selectedFiles[i]);
     }
     this.token = localStorage.getItem("Token");
-    console.log(this.token)
+    
     this.dashboard.placeAdvertisement(this.token, formData).subscribe(response =>{
-      alert("Uspesno postavljen oglas")
+     
       this.AdverName = "";
       this.Brand= "";
       this.Model= "";
@@ -154,6 +156,10 @@ export class NewAdverFormComponent {
       this.Propulsion = "";
       this.Mileage = "";
       this.selectedFiles = []
+      this.published = true;
+      setTimeout(()=>{
+        this.published = false
+      }, 1000)
     }, (error:HttpErrorResponse) =>{
       console.log("Jok more")
     })

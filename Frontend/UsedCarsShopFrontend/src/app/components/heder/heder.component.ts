@@ -29,6 +29,7 @@ export class HederComponent implements OnInit{
   models:boolean = false;
   bodyType:boolean = false
   filter:boolean = false;
+  currentRoute:any = ""
   constructor(private router:Router, private wsService:WebsocketMessagesService, private messageService:MessagesService, private brandsWithModelsService:CarDetails, private dashService:DashboardService){
       this._messageService = messageService;
       this._carBrandsWithModels = brandsWithModelsService;
@@ -36,6 +37,7 @@ export class HederComponent implements OnInit{
   ngOnInit():void{
     this.username = localStorage.getItem("Username")
     this.loadOptions();
+    this.currentRoute = localStorage.getItem("currentRoute");
   }
   showOptions(){
     this.brands = !this.brands

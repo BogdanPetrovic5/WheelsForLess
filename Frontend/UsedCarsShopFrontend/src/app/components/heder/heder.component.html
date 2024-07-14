@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="filters">
-            <div class="filter-first-section section">
+            <div class="filter-first-section section" *ngIf="currentRoute === 'Dashboard'">
                 <button (click)="showOptions()"><img src="/assets/images/setting.png"> Filters</button>
                 <div [ngClass]="brands ? 'filter-drop-down open' : 'filter-drop-down'">
                     <label for="car-brand">Select a car brand:</label>
