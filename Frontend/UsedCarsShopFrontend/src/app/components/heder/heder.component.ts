@@ -25,9 +25,10 @@ export class HederComponent implements OnInit{
   _carBrandsWithModels:CarDetails | undefined;
   carBrandsWithModels:any
   carModels: string[] = [];
-  brands = false;
-  models = false;
-  bodyType = false
+  brands:boolean = false;
+  models:boolean = false;
+  bodyType:boolean = false
+  filter:boolean = false;
   constructor(private router:Router, private wsService:WebsocketMessagesService, private messageService:MessagesService, private brandsWithModelsService:CarDetails, private dashService:DashboardService){
       this._messageService = messageService;
       this._carBrandsWithModels = brandsWithModelsService;
@@ -44,23 +45,29 @@ export class HederComponent implements OnInit{
     this.carBrandsWithModels = this._carBrandsWithModels?.getBrandsAndModles();
   }
   filterSearch(){
+   
     this.dashService.filterBrand = this.selectedBrand;
     this.dashService.filterModel = this.selectedModel;
-    
+ 
   }
   loadModels(){
-   
+   this.selectedModel = null;
    const brand = this.carBrandsWithModels.find((item:any) => item.brand === this.selectedBrand)
  
    this.carModels = brand ? brand.models : []
    this.models = true;
-   
+  
   }
   navigateToFav() {
     this.router.navigate(['/Favorites'])
   }
   navigateToHome() {  
     this.router.navigate(['/Dashboard'])
+    
+    sessionStorage.removeItem("brand")
+    sessionStorage.removeItem("model")
+
+    
   }
   navigateToAdvertisement(card:any){
     this.router.navigate(['/Advertisement']);
@@ -69,7 +76,12 @@ export class HederComponent implements OnInit{
   navigateToMessages(){
     this.router.navigate(['/Messages/Inbox']);
   }
-
+  chooseModel(){
+   
+    this.filter = false;
+    
+   
+  }
 
   sendMessage(){
     this.router.navigate(['/NewMessage'])

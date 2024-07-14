@@ -22,6 +22,10 @@
              </section>
         </section> -->
         <section class="items">
+            <div class="no-results" *ngIf="advertisementObject.Advertisements.length == 0">
+                <img src="/assets/images/Search engines-rafiki.png">
+                <h1>No results :( </h1>
+            </div>
             <div class="items-content">
                 <div class="card" *ngFor="let card of advertisementObject.Advertisements" (click)="navigateToAdvertisement(card)">
                     <div class="elemental-info">
@@ -60,8 +64,8 @@
                 </div>
             </div>
             <div class="navigation-buttons">
-                <button (click)="prevPage()" [ngClass]="currentPage == 1 ?'disable':''">prev</button>
-                <button (click)="nextPage()" [disabled]="advertisementObject.Advertisements.length < 16" [ngClass]="advertisementObject.Advertisements.length < 16 ? 'disable':''">next</button>
+                <button (click)="prevPage()" [disabled]="currentPage == 1" [ngClass]="currentPage == 1 ?'disable':''">prev</button>
+                <button (click)="nextPage()" [disabled]="advertisementObject.Advertisements.length < pageSize" [ngClass]="advertisementObject.Advertisements.length < pageSize ? 'disable':''">next</button>
             </div>
         </section>
         

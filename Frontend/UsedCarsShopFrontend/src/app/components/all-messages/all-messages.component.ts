@@ -4,6 +4,7 @@ import { Component, DoCheck, HostListener, OnChanges, OnInit, ViewChild } from '
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Messages } from 'src/app/Data Transfer Objects/Messages';
+import { LoadingService } from 'src/app/services/loading.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
 
@@ -24,8 +25,10 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
     isSelected = this.isSelectedValue === 'true' ? true : false
     private wsSub:any;
     oldMessages:any
+
+    isLoading:boolean = false;
     // private messageEventSubscription:Subscription;
-    constructor(private messagesService:MessagesService,private router:Router,  private route:ActivatedRoute, private wsService:WebsocketMessagesService){
+    constructor(private messagesService:MessagesService,private router:Router,  private route:ActivatedRoute, private wsService:WebsocketMessagesService, private loadingService:LoadingService){
         this._messageService = messagesService;
         this.messageObject = new Messages();
         // this.messageEventSubscription = this.messagesService.newMessage$.subscribe(
@@ -38,7 +41,6 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
 
     }
     ngOnInit():void{
-   
       this.loadMessages();
       localStorage.setItem("currentRoute", "Inbox")
     }
@@ -72,22 +74,18 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
     }
     loadMessages(){
       let username = localStorage.getItem("Username")
+      this.isLoading = true
       this._messageService.getUserMessages(username).subscribe(response=>{
         this.messageObject.Messages = response;
         this.sortMessages()
         this.messageID = localStorage.getItem("messageID")
         console.log( this.messageObject.Messages)
-        
-
         this.oldMessages = localStorage.getItem("oldMessages")
         if(this.oldMessages){
-          
         }else{
           localStorage.setItem("oldMessages",JSON.stringify(this.messageObject.Messages));
         }
-        // if(this.messageID != undefined && this.messageID != null){
-        //   this.findAndSelect();
-        // }
+       this.isLoading = false
       }, (error:HttpErrorResponse)=>{
         console.log(error);
       })

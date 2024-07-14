@@ -54,11 +54,11 @@
                 </div>
                 <div [ngClass]="models ? 'models-drop-down open' : 'models-drop-down'">
                     <label for="car-brand">Select a car model:</label>
-                    <select id="car-brand" [(ngModel)]="selectedModel" >
+                    <select id="car-brand" [(ngModel)]="selectedModel" (change)="chooseModel()">
                         <option *ngFor="let model of carModels" [value]="model" >{{ model }}</option>
                     </select>
                 </div>
-                <button class="filter-button" *ngIf="selectedBrand != null && brands" (click)="filterSearch()">
+                <button class="filter-button" *ngIf="selectedBrand != null && brands" (click)="filterSearch()" [disabled] = "filter">
                     FILTER
                 </button>
             </div>

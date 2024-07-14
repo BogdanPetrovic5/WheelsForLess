@@ -19,6 +19,7 @@ export class DashboardService {
 
   public filteredResult:any;
   constructor(private http:HttpClient) { }
+
   getAllAdvers(currentPage:any, pageSize: number = 16 ):Observable<any>{
     return this.http.get<any>(`${environment.apiUrl}/api/Advertisement/GetAdvertisements?page=${currentPage}&maximumAdvers=${pageSize}`)
   }
@@ -50,10 +51,10 @@ export class DashboardService {
   get currentModel(): any | null {
     return this.filterModelSubject?.getValue();
   }
-  filterAdvertisements(selectedBrand?:any, selectedModel?:any):Observable<any>{
-    let page = 1;
+  filterAdvertisements(selectedBrand?:any, selectedModel?:any, currentPage?:any):Observable<any>{
+    let page = currentPage;
     let maximumAdvers = 16;
-    let url = `${environment.apiUrl}/api/Advertisement/FilterAdvertisement?CarBrand=${selectedBrand}&page=${page}&maximumAdvers=${maximumAdvers}`
+    let url = `${environment.apiUrl}/api/Advertisement/FilterAdvertisement?CarBrand=${selectedBrand}&page=${currentPage}&maximumAdvers=${maximumAdvers}`
 
     if(selectedModel){
       
