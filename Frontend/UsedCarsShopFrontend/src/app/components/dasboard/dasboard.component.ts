@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener} from '@angular/core';
 import { DashboardService } from 'src/app/services/dashboard.service';
-import { Router, NavigationExtras,ActivatedRoute  } from '@angular/router';
+import { Router, NavigationExtras,ActivatedRoute, NavigationEnd  } from '@angular/router';
 import { Advertisement } from 'src/app/Data Transfer Objects/Advertisements';
 import { LoadingService } from 'src/app/services/loading.service';
 import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
@@ -28,12 +28,14 @@ export class DasboardComponent {
     public selectedBrand:any;
     public selectedModel:any;
     subscriptions: Subscription = new Subscription();
+    routerSub: Subscription | undefined;
     constructor(private dashService:DashboardService, private router:Router, private route:ActivatedRoute, private loadingService:LoadingService,private wsService:WebsocketMessagesService){
       this.advertisementObject = new Advertisement();
     }
     
     
     ngOnInit(){
+      
       
       localStorage.setItem("currentRoute", "Dashboard")
       localStorage.setItem("year", "")

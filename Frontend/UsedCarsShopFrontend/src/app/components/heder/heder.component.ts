@@ -64,11 +64,13 @@ export class HederComponent implements OnInit{
     this.router.navigate(['/Favorites'])
   }
   navigateToHome() {  
-    this.router.navigate(['/Dashboard'])
-    
     sessionStorage.removeItem("brand")
     sessionStorage.removeItem("model")
-
+    this.dashService.filterBrand = null
+    this.dashService.filterModel = null
+    this.router.navigate(['/Dashboard'], { queryParams: { page: 1 } });
+    
+   
     
   }
   navigateToAdvertisement(card:any){
