@@ -8,11 +8,13 @@ import { NewAdverFormComponent } from './components/new-adver-form/new-adver-for
 import { FavoriteDashboardComponent } from './components/favorite-dashboard/favorite-dashboard.component';
 import { UserToUserMessagesComponent } from './components/all-messages/user-to-user-messages/user-to-user-messages.component';
 import { AllMessagesComponent } from './components/all-messages/all-messages.component';
+import { AuthGuard } from './guards/auth.guard';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
   {path:'', redirectTo:"/Login", pathMatch:"full"},
-  {path:"Login", component:LoginRegisterComponent},
-  {path:"Dashboard", component:DasboardComponent},
+  {path:"Login", component:LoginRegisterComponent, canActivate:[LoginGuard]},
+  {path:"Dashboard", component:DasboardComponent, canActivate:[AuthGuard]},
   {path:"Advertisement", component:AdvertisementComponent},
   {path:"New Adver", component:NewAdverFormComponent},
   {path:'Favorites', component:FavoriteDashboardComponent},
