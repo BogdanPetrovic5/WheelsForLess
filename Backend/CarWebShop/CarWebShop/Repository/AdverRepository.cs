@@ -87,7 +87,6 @@ namespace CarWebShop.Repository
                              })
                             .ToList()
                 })
-                .OrderBy(a => a.AdverID)
                 .ToList();
             return advertisement;
         }
@@ -115,7 +114,6 @@ namespace CarWebShop.Repository
                             .ToList()
 
                 })
-                .OrderBy(a => a.AdverID)
                 .ToList();
         }
 
@@ -144,7 +142,8 @@ namespace CarWebShop.Repository
 
 
 
-            }).Where(a => a.FavoritedByUserDto.Any(f => f.UserID == userID)).ToList();
+            }).Where(a => a.FavoritedByUserDto.Any(f => f.UserID == userID))
+            .ToList();
         }
 
     }

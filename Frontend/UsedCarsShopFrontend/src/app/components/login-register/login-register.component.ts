@@ -11,7 +11,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 export class LoginRegisterComponent {
 
 ngOnInit():void{
-  localStorage.removeItem("isSelected")
+  sessionStorage.removeItem("isSelected")
 }
 
 ChangeFormToLogin() {
@@ -64,11 +64,11 @@ ChangeFormToRegister() {
     
     this.auth.login(this.LoginUserName, this.LoginPassword).subscribe((token) =>{
       
-      localStorage.setItem("Token", token.value)
-      localStorage.setItem("Username", this.LoginUserName)
+      
       this.router.navigate(["/Dashboard"])
     }, (error:HttpErrorResponse) =>{
       console.log(error);
     })
   }
+  
 }

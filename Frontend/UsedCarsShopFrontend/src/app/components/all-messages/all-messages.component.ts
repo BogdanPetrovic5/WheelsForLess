@@ -18,9 +18,9 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
  
     private readonly _messageService:MessagesService 
     messageObject:Messages;
-    currentUsername = localStorage.getItem("Username")
+    currentUsername = sessionStorage.getItem("Username")
     currentUrl = this.router.url;
-    isSelectedValue = localStorage.getItem("isSelected");
+    isSelectedValue = sessionStorage.getItem("isSelected");
     messageID:any
     isSelected = this.isSelectedValue === 'true' ? true : false
     private wsSub:any;
@@ -42,48 +42,34 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
     }
     ngOnInit():void{
       this.loadMessages();
-      localStorage.setItem("currentRoute", "Inbox")
+      sessionStorage.setItem("currentRoute", "Inbox")
     }
 
     ngOnChanges():void{
    
     }
     ngOnDestroy():void{
-      localStorage.removeItem("messageID");
+      sessionStorage.removeItem("messageID");
+      sessionStorage.removeItem("isSelected")
     }
-    // handleNewMessage(data:any){
-    //   const chat = this.messageObject.Messages.find((msg: any) => msg.initialSenderID === data.initialSenderID && msg.adverID == data.adverID);
-    //   console.log("Data: ", data)
-    //   if (chat) {
-    //     chat.isNew = true;
-    //     this.highlightNewChat(chat);
-    //   }
-    // }
-    // highlightNewChat(chat:any){
-    //   console.log("Uso funckija")
-    //   const chatElement = document.getElementById(`chat-${chat.adverID}-${chat.initialSenderID}`);
-    //   if(chatElement){
-    //     console.log("uso if")
-    //     chatElement.classList.add("new-message")
-    //   }
-    // }
+   
     sortMessages(){
       this.messageObject.Messages.sort((b,a) => {
         return new Date(a.dateSent).getTime() - new Date(b.dateSent).getTime();
       });
     }
     loadMessages(){
-      let username = localStorage.getItem("Username")
+      let username = sessionStorage.getItem("Username")
       this.isLoading = true
       this._messageService.getUserMessages(username).subscribe(response=>{
         this.messageObject.Messages = response;
         this.sortMessages()
-        this.messageID = localStorage.getItem("messageID")
+        this.messageID = sessionStorage.getItem("messageID")
         console.log( this.messageObject.Messages)
-        this.oldMessages = localStorage.getItem("oldMessages")
+        this.oldMessages = sessionStorage.getItem("oldMessages")
         if(this.oldMessages){
         }else{
-          localStorage.setItem("oldMessages",JSON.stringify(this.messageObject.Messages));
+          sessionStorage.setItem("oldMessages",JSON.stringify(this.messageObject.Messages));
         }
        this.isLoading = false
       }, (error:HttpErrorResponse)=>{
@@ -91,9 +77,7 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
       })
     }
 
-    highlightNewMessages(){
-
-    }
+   
     selectChat(chat:any){
       this.isSelected = true;
       chat.isSelected = true;
@@ -111,16 +95,16 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
         })
       }
      
-      let wsUrl =`${localStorage.getItem("userID")}-${chat.adverID}-${chat.initialSenderID}`;
-      localStorage.setItem("wsUrl", wsUrl);
+      let wsUrl =`${sessionStorage.getItem("userID")}-${chat.adverID}-${chat.initialSenderID}`;
+      sessionStorage.setItem("wsUrl", wsUrl);
       this.router.navigate([`/Messages/Inbox/Direct/${wsUrl}`])
       
     }
     setToStorage(chat:any){
-      localStorage.setItem("adverID", chat.adverID)
-      localStorage.setItem("messageID", chat.messageID);
-      localStorage.setItem("initialSenderID", chat.initialSenderID)
-      localStorage.setItem("isSelected", JSON.stringify(this.isSelected));
+      sessionStorage.setItem("adverID", chat.adverID)
+      sessionStorage.setItem("messageID", chat.messageID);
+      sessionStorage.setItem("initialSenderID", chat.initialSenderID)
+      sessionStorage.setItem("isSelected", JSON.stringify(this.isSelected));
     }
  
 }

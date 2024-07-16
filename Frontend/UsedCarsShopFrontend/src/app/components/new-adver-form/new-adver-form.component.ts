@@ -51,7 +51,7 @@ export class NewAdverFormComponent {
     this._propulsionTypes = carDetailsService;
   }
   ngOnInit():void{
-    localStorage.setItem("currentRoute", "New adver")
+    sessionStorage.setItem("currentRoute", "New adver")
     this.loadOptions()
   }
 
@@ -120,7 +120,7 @@ export class NewAdverFormComponent {
     
   }
   placeAdver(){
-    this.UserName = localStorage.getItem("Username");
+    this.UserName = sessionStorage.getItem("Username");
  
     const formData = new FormData();
     formData.append("AdverName", this.AdverName);
@@ -140,7 +140,7 @@ export class NewAdverFormComponent {
     for (let i = 0; i < this.selectedFiles.length; i++) {
         formData.append("selectedImages", this.selectedFiles[i]);
     }
-    this.token = localStorage.getItem("Token");
+    this.token = sessionStorage.getItem("Token");
     
     this.dashboard.placeAdvertisement(this.token, formData).subscribe(response =>{
      

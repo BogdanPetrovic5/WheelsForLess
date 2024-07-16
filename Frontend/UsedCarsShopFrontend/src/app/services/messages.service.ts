@@ -12,8 +12,8 @@ export class MessagesService {
   public messages = 0;
   number:any
   constructor(private http:HttpClient) { 
-    if(localStorage.getItem("newMessages") != undefined){
-      this.number = localStorage.getItem("newMessages");
+    if(sessionStorage.getItem("newMessages") != undefined){
+      this.number = sessionStorage.getItem("newMessages");
       this.number = parseInt( this.number, 10);
     }
    
@@ -35,8 +35,8 @@ export class MessagesService {
   
   }
   getUserToUserMessages(currentUserID?:any,initialSenderID?:any ,adverID?:any){
-      adverID = localStorage.getItem("adverID");
-      currentUserID = localStorage.getItem("userID");
+      adverID = sessionStorage.getItem("adverID");
+      currentUserID = sessionStorage.getItem("userID");
 
       return this.http.get<any>(`${environment.apiUrl}/api/Messages/GetMessages/${currentUserID}/${initialSenderID}/${adverID}`)
   }
@@ -53,11 +53,11 @@ export class MessagesService {
       this.messages -= step;
     }
     
-    localStorage.setItem("newMessages", JSON.stringify(this.messages))
+    sessionStorage.setItem("newMessages", JSON.stringify(this.messages))
   }
   incrementMessages(){
     this.messages += 1;
-    localStorage.setItem("newMessages", JSON.stringify(this.messages));
+    sessionStorage.setItem("newMessages", JSON.stringify(this.messages));
   }
   getNumberMessages(){
     return this.messages;

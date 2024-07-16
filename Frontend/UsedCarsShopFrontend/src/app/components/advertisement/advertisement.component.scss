@@ -373,6 +373,20 @@
                   background-color: white;
                   border-radius: 10px;
                   font-size: 25px;
+                  position: relative;
+                  .material-symbols-sharp{
+                    position: absolute;
+                    font-size: 2em;
+                    right: 20px;
+                    top:50px;
+                    cursor: pointer;
+                  }
+                  .not-wished{
+                   color: rgb(168, 168, 168) !important;
+                  }
+                  .wished{
+                    color: #001524 !important;
+                  }
                   .contact-header{
                     width: 100%;
                     font-size: 25px;

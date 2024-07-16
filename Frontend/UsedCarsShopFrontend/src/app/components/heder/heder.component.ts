@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CarDetails } from 'src/app/services/car-details.service';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { MessagesService } from 'src/app/services/messages.service';
@@ -30,14 +31,14 @@ export class HederComponent implements OnInit{
   bodyType:boolean = false
   filter:boolean = false;
   currentRoute:any = ""
-  constructor(private router:Router, private wsService:WebsocketMessagesService, private messageService:MessagesService, private brandsWithModelsService:CarDetails, private dashService:DashboardService){
+  constructor(private router:Router, private wsService:WebsocketMessagesService, private messageService:MessagesService, private brandsWithModelsService:CarDetails, private dashService:DashboardService, private auth:AuthenticationService){
       this._messageService = messageService;
       this._carBrandsWithModels = brandsWithModelsService;
   }
   ngOnInit():void{
-    this.username = localStorage.getItem("Username")
+    this.username = sessionStorage.getItem("Username")
     this.loadOptions();
-    this.currentRoute = localStorage.getItem("currentRoute");
+    this.currentRoute = sessionStorage.getItem("currentRoute");
   }
   showOptions(){
     this.brands = !this.brands
@@ -50,10 +51,12 @@ export class HederComponent implements OnInit{
    
     this.dashService.filterBrand = this.selectedBrand;
     this.dashService.filterModel = this.selectedModel;
- 
+    sessionStorage.removeItem("model")
+    sessionStorage.removeItem("brand")
   }
   loadModels(){
    this.selectedModel = null;
+   
    const brand = this.carBrandsWithModels.find((item:any) => item.brand === this.selectedBrand)
  
    this.carModels = brand ? brand.models : []
@@ -110,10 +113,7 @@ export class HederComponent implements OnInit{
       this.wsService.close()
     }
     this.router.navigate(["/Login"]);
-    localStorage.removeItem("Username");
-    localStorage.removeItem("Token");
-    localStorage.removeItem("userID")
-    localStorage.removeItem("adverID")
+    this.auth.logout()
   }
 
  

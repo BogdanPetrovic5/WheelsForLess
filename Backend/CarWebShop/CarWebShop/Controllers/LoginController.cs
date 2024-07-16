@@ -46,11 +46,18 @@ namespace CarWebShop.Controllers
                         if (reader.HasRows && passwordCheck)
                         {
                             var token = Generate(user);
-                            return Json(Ok(token));
+                            var cookieOptions = new CookieOptions
+                            {
+                                HttpOnly = true,
+                                Expires = DateTime.Now.AddMinutes(30)
+                            };
+                            Response.Cookies.Append("jwtToken", token, cookieOptions);
+
+                            return Ok(Json(token));
                         }
                         else
                         {
-                            // User not found
+                            
                             return NotFound(); 
                         }
                     }
@@ -73,7 +80,7 @@ namespace CarWebShop.Controllers
             var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
                 _configuration["Jwt:Audience"], 
                 claims, 
-                expires:DateTime.Now.AddDays(366),
+                expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
 

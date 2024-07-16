@@ -37,17 +37,17 @@ export class DasboardComponent {
     ngOnInit(){
       
       
-      localStorage.setItem("currentRoute", "Dashboard")
-      localStorage.setItem("year", "")
-      let username = localStorage.getItem("Username")
+      sessionStorage.setItem("currentRoute", "Dashboard")
+      sessionStorage.setItem("year", "")
+      let username = sessionStorage.getItem("Username")
       
       this.dashService.getUserId(username).subscribe(response =>{
         this.userID = response;
-        localStorage.setItem("userID", this.userID);
+        sessionStorage.setItem("userID", this.userID);
         this.connectToWebsocket();
       })
       
-      this.username = localStorage.getItem("Username")
+      this.username = sessionStorage.getItem("Username")
       this.subscriptions.add(
         combineLatest([
           this.dashService.filterBrand$,
@@ -70,8 +70,6 @@ export class DasboardComponent {
     }
 
     applyFilters(){
-      // this.currentPage = 1;
-    
      const brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
       const model = this.dashService.currentModel || sessionStorage.getItem("model")
       if(brand){
@@ -80,9 +78,9 @@ export class DasboardComponent {
       if(model){
         sessionStorage.setItem("model", model);
       }
-      console.log(brand, model)
+     
       if ((brand != null) || (model != null)) {
-        console.log("Uslo je u filter")
+       
         this.currentPage = 1;
         this.updateUrlWithFilters(brand,model);
         this.dashService.filterAdvertisements(brand, model, this.currentPage).subscribe((response)=>{
@@ -94,20 +92,29 @@ export class DasboardComponent {
       }
     }
 
-    connectToWebsocket(){
-      let userID = localStorage.getItem("userID");
-      userID = userID ? userID.toString() : "";
-      this.wsURL =  `${environment.wsUrl}?socketParameter=${userID}`;
-      this.wsSub = this.wsService.connect(this.wsURL).subscribe((data:any) =>{
+   
+  connectToWebsocket(): void {
+    let token = sessionStorage.getItem('Token');
+    let userID = sessionStorage.getItem('userID') || '';
 
-      },
+    if (token) {
+      this.wsURL = `${environment.wsUrl}?socketParameter=${userID}`;
+      
+      this.wsSub = this.wsService.connect(this.wsURL).subscribe(
+        (data: any) => {
+          
+        },
         (error) => console.log('WebSocket error:', error),
         () => console.log('WebSocket connection closed')
       );
+    } else {
+      console.error('Token not found in sessionStorage. Please log in first.');
+     
     }
+  }
 
     updateUrlWithFilters(brand: string, model: string) {
-      console.log("Uslo")
+     
       const queryParams: any = {};
       if (brand) {
         queryParams.brand = brand;
@@ -152,16 +159,16 @@ export class DasboardComponent {
 
     logout(){
       this.router.navigate(["/Login"]);
-      localStorage.removeItem("Username");
-      localStorage.removeItem("Token");
+      sessionStorage.removeItem("Username");
+      sessionStorage.removeItem("Token");
     }
 
     navigateToAdvertisement(card:any){
         this.router.navigate(['/Advertisement']);
         let currentRoute = card.carDto.brand + " " + card.carDto.model
         let carYear = card.carDto.year
-        localStorage.setItem("currentRoute", currentRoute)
-        localStorage.setItem("year", carYear)
+        sessionStorage.setItem("currentRoute", currentRoute)
+        sessionStorage.setItem("year", carYear)
         this.dashService.setCard(card);
     }
     nextPage() {
@@ -184,15 +191,16 @@ export class DasboardComponent {
       this.loadAdvertisements();
     }
     loadAdvertisements() {
-      this.username = localStorage.getItem("Username");
+      this.username = sessionStorage.getItem("Username");
       const brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
       const model = this.dashService.currentModel || sessionStorage.getItem("model")
-      console.log(brand, model);
       
+      this.loadingService.show()
       if ((brand != null) || (model != null)) {
         
         this.dashService.filterAdvertisements(brand, model, this.currentPage).subscribe(response => {
           this.advertisementObject.Advertisements = response;
+          this.loadingService.hide();
           for (let i = 0; i < this.advertisementObject.Advertisements.length; i++) {
             for (let j = 0; j < this.advertisementObject.Advertisements[i].imagePaths.length; j++) {
               this.advertisementObject.Advertisements[i].imagePaths[j].imagePath = this.advertisementObject.Advertisements[i].imagePaths[j].imagePath.replace(/\\/g, "/");
@@ -202,8 +210,8 @@ export class DasboardComponent {
       }else {
         this.dashService.getAllAdvers(this.currentPage, this.pageSize).subscribe(response => {
           this.advertisementObject.Advertisements = response;
-          console.log(response)
-          
+       
+          this.loadingService.hide();
           for (let i = 0; i < this.advertisementObject.Advertisements.length; i++) {
             for (let j = 0; j < this.advertisementObject.Advertisements[i].imagePaths.length; j++) {
               this.advertisementObject.Advertisements[i].imagePaths[j].imagePath = this.advertisementObject.Advertisements[i].imagePaths[j].imagePath.replace(/\\/g, "/");

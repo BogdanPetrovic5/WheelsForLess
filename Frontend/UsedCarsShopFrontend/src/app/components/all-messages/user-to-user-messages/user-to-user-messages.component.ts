@@ -40,7 +40,7 @@ export class UserToUserMessagesComponent implements OnInit{
    this.connectToWebSocket();
    this.messages = [];
    this.loadChat();
-   this.currentUsername = localStorage.getItem("Username");
+   this.currentUsername = sessionStorage.getItem("Username");
    this.parent.isSelected = true
   }
   reloadComponent() {
@@ -49,9 +49,9 @@ export class UserToUserMessagesComponent implements OnInit{
   }
   
   connectToWebSocket(){
-    let userID = localStorage.getItem("userID");
-    let adverID = localStorage.getItem("adverID");
-    let initialSenderID = localStorage.getItem("initialSenderID");
+    let userID = sessionStorage.getItem("userID");
+    let adverID = sessionStorage.getItem("adverID");
+    let initialSenderID = sessionStorage.getItem("initialSenderID");
     userID = userID ? userID.toString() : ""; 
     adverID = adverID ? adverID.toString() : ""; 
     let wsQuery = userID + "-" + adverID + "-" + initialSenderID;
@@ -86,13 +86,13 @@ export class UserToUserMessagesComponent implements OnInit{
     this.wsService.close();
   }
   getAllMessages(){
-    this.currentUsername = localStorage.getItem("Username");
+    this.currentUsername = sessionStorage.getItem("Username");
     this.messageService.getUserToUserMessages(this.currentUsername, )
   }
   sendMessage(){
-    this.currentUsername = localStorage.getItem("Username");
-    let adverID = localStorage.getItem("adverID");
-    let receiver = localStorage.getItem("receiverUsername")
+    this.currentUsername = sessionStorage.getItem("Username");
+    let adverID = sessionStorage.getItem("adverID");
+    let receiver = sessionStorage.getItem("receiverUsername")
     this.messageService.sendMessage(this.currentUsername, receiver,adverID,this.message).subscribe((response)=>{
         console.log(`${this.currentUsername}:`, this.message);
         this.messages.unshift({message:this.message, receiverUsername:this.receiver, senderUsername:this.currentUsername, dateSent: new Date(), isNew:true});
@@ -105,14 +105,16 @@ export class UserToUserMessagesComponent implements OnInit{
   updateRoutesParameters(wsUrl?:string){
     this.router.navigate([], { relativeTo: this.route, queryParams: { page: wsUrl } });
   }
+
   sortMessages(){
     this.messages.sort((b,a) => {
       return new Date(a.dateSent).getTime() - new Date(b.dateSent).getTime();
     });
   }
   removeFromSession(){
-    localStorage.removeItem("adverID");
-    localStorage.removeItem("messageID");
+    sessionStorage.removeItem("adverID");
+    sessionStorage.removeItem("messageID");
+    sessionStorage.removeItem("selectedChat")
   }
   countNewMessages(){
     for(let i = 1; i < this.messages.length;i++){
@@ -122,7 +124,7 @@ export class UserToUserMessagesComponent implements OnInit{
     }
   }
   loadChat(){
-    let initialSenderID = localStorage.getItem("initialSenderID");
+    let initialSenderID = sessionStorage.getItem("initialSenderID");
     this.messageService.getUserToUserMessages(0, initialSenderID,0).subscribe(response=>{
       this.messages = response;
       console.log(response)
@@ -131,7 +133,7 @@ export class UserToUserMessagesComponent implements OnInit{
       console.log(this.newMessages)
       this.messageService.decrementMessages(this.newMessages);
       let receiver = this.messages[0].senderUsername == this.currentUsername ? this.messages[0].receiverUsername : this.messages[0].senderUsername
-      localStorage.setItem("receiverUsername", receiver)
+      sessionStorage.setItem("receiverUsername", receiver)
     })
   }
 }

@@ -22,6 +22,9 @@
 
                     </div>
                     <div class="contact">
+                        <span class="material-symbols-sharp" (click)="addToWish()" [ngClass]="isWished ? 'wished':'not-wished'">
+                            favorite
+                        </span>
                         <div class="contact-header">
                             <h1>
                                 Contact seller

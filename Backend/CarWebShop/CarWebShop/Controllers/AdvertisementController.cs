@@ -158,9 +158,12 @@ namespace CarWebShop.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Advertisement>))]
         public ActionResult<IEnumerable<Advertisement>> GetAdvertisements(int page = 1, int maximumAdvers = 6)
         {
-            var Advers = _repository.GetAdvertisements().Skip((page - 1) * maximumAdvers)
-                .Take(maximumAdvers)
-                .ToList();
+            var Advers = _repository
+                .GetAdvertisements()
+                .OrderByDescending(ad=>ad.Date)
+                .Skip((page - 1) * maximumAdvers) 
+                .Take(maximumAdvers).ToList();
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

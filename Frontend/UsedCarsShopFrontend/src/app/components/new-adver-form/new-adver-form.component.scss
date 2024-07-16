@@ -8,10 +8,10 @@
     background-color: #001524;;
     overflow-y: hidden;
     app-heder{
-      width: 15%;
+      width: 12%;
     }
     .form-content{
-      width:100%;
+      width:88%;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -85,8 +85,29 @@
             outline: none;
             text-indent: 5px;
           }
+          .cm{
+            font-size: 25px;
+            overflow: hidden;
+            display: flex;
+            span{
+              position: absolute;
+              align-self: center;
+              right: -2% !important;
+              top:0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-family: 'Nunito',sans-serif;
+              font-size: 0.9em !important;
+              background-color: rgb(209, 209, 209);
+              height: 110% !important;
+             width: 10%;
+            }
+
+          }
           .car-options{
             width: 48%;
+            position: relative;
             height: 100%;
             input{
               width: 100% !important;

@@ -15,7 +15,7 @@ export class AdvertisementComponent implements OnInit{
   isWished:boolean = false;
   wishlistRemoved:boolean = false;
   wishlistAdded:boolean = false;
-  currentUsername = localStorage.getItem("Username");
+  currentUsername = sessionStorage.getItem("Username");
   chatBubble = false
   message = ""
   private _messagesSerivce:MessagesService
@@ -24,12 +24,12 @@ export class AdvertisementComponent implements OnInit{
   }
   
   openChatBox(){
-    localStorage.setItem("adverID", this.card.adverID)
-    localStorage.setItem("receiver", this.card.userDto.userName)
+    sessionStorage.setItem("adverID", this.card.adverID)
+    sessionStorage.setItem("receiver", this.card.userDto.userName)
     this.chatBubble = !this.chatBubble;
   }
   sendMessage(){
-    let username = localStorage.getItem("Username");
+    let username = sessionStorage.getItem("Username");
     let receiverUsername = this.card.userDto.userName;
     let adverID = this.card.adverID
     console.log("Receiver: ", receiverUsername, "Sender: ", username, "AdverID: ", adverID, "Message: ",this.message)
@@ -40,10 +40,10 @@ export class AdvertisementComponent implements OnInit{
     })
   }
   loadCurrentUserID(){
-    let username = localStorage.getItem("Username")
+    let username = sessionStorage.getItem("Username")
     this.dashboardService.getUserId(username).subscribe(response =>{
       this.userID = response;
-      localStorage.setItem("userID", this.userID);
+      sessionStorage.setItem("userID", this.userID);
     })
   }
   ngOnInit():void{
@@ -53,7 +53,7 @@ export class AdvertisementComponent implements OnInit{
       this.isWished = this.findIsWished()
   }
   findIsWished(){
-      this.userID = localStorage.getItem("userID");
+      this.userID = sessionStorage.getItem("userID");
       return this.card.favoritedByUserDto.find((favorite:any) => favorite.userID == this.userID) !== undefined;
   }
   loadCard(){
@@ -61,8 +61,8 @@ export class AdvertisementComponent implements OnInit{
   }
 
   addToWish(){
-    let username = localStorage.getItem("Username")
-    let token = localStorage.getItem("Token");
+    let username = sessionStorage.getItem("Username")
+    let token = sessionStorage.getItem("Token");
     let isWished = this.findIsWished();
     
     this.dashboardService.addToWish(this.card.adverID, username, token).subscribe(response =>{

@@ -14,8 +14,8 @@ export class BannerComponent {
 
   }
   ngOnInit():void{
-    this.currentRoute = localStorage.getItem("currentRoute");
-    this.year = localStorage.getItem("year")
+    this.currentRoute = sessionStorage.getItem("currentRoute");
+    this.year = sessionStorage.getItem("year")
 
   }
 }

@@ -80,7 +80,7 @@ export class DashboardService {
     return cardData ? JSON.parse(cardData) : null;
   }
   getFavorites(){
-    let username = localStorage.getItem("Username")
+    let username = sessionStorage.getItem("Username")
     return this.http.get<any>(`${environment.apiUrl}/api/Advertisement/GetFavorites?username=${username}`)
   }
 }
