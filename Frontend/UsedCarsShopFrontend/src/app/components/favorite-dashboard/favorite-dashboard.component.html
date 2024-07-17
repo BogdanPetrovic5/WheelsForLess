@@ -1,8 +1,55 @@
-<app-heder></app-heder>
+
 <div class="container">
-    <div class="container-adver-card-wrap">
-        <div class="container-adver-card" *ngFor="let card of favorites.Advertisements">
-            
-        </div>
+    <app-heder></app-heder>
+    <div class="content">
+        <app-banner></app-banner>
+        <section class="items">
+            <div class="no-results" *ngIf="favorites.Advertisements.length == 0">
+                <img src="/assets/images/Search engines-rafiki.png">
+                <h1>No results :( </h1>
+            </div>
+            <div class="items-content">
+                <div class="card" *ngFor="let card of favorites.Advertisements" (click)="navigateToAdvertisement(card)">
+                    <div class="elemental-info">
+                        <div>
+                            <p>
+                                {{ card.date | date:'EEEE, MMMM d' }}
+                            </p>
+                            <h1>{{card.carDto.brand}} {{card.carDto.model}} <span>{{card.carDto.year}}</span></h1>
+                        </div>
+                    </div>
+                    <div class="card-image" >
+                        <img *ngIf="card.imagePaths.length > 0" src="https://localhost:7169/Photos/{{card.imagePaths[0].imagePath}}">
+                        <img class="no-img" *ngIf="card.imagePaths.length == 0" src="/assets/images/photo.png">
+                    </div>
+                    <div class="info">
+                        <div>
+                            <p>
+                              Engine volume: {{card.carDto.engineVolume}} ㎤
+                            </p>
+                            <p>
+                                Horse power: {{card.carDto.horsePower}} ks
+                            </p>
+                        </div>
+                        <div>
+                            <p>
+                                Fuel: {{card.carDto.fuelType}}
+                            </p>
+                            <p>
+                                Mileage: {{card.carDto.mileage}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="price">
+                        <h1> {{ card.price | currency: 'EUR' }}</h1> <button>More</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="navigation-buttons">
+                <button (click)="prevPage()" [disabled]="currentPage == 1" [ngClass]="currentPage == 1 ?'disable':''">prev</button>
+                <button (click)="nextPage()" [disabled]="advertisementObject.Advertisements.length < pageSize" [ngClass]="advertisementObject.Advertisements.length < pageSize ? 'disable':''">next</button>
+            </div> -->
+        </section>
     </div>
+    
 </div>

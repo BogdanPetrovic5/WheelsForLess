@@ -3,24 +3,6 @@
     
     <section class="dashboard-content" *ngIf="dashboard">
         <app-banner></app-banner>
-        <!-- <section class="content">
-            <section class="filter">
-                <div class="filter-menu">
-                     <div class="brands-n-models">
-                         <input type="text" placeholder="Brands">
-                         <input type="text" placeholder="Models">
-                         <input type="text" placeholder="Price range">
-                         <button>SEARCH</button>
-                     </div>
-                     <div class="more-info">
-                         <input type="text" placeholder="From Year ">
-                         <input type="text" placeholder="To Year">
-                         <input type="text" placeholder="Coachbuilder">
-                         <input type="text" placeholder="Gas">
-                     </div>
-                </div>
-             </section>
-        </section> -->
         <section class="items">
             <div class="no-results" *ngIf="advertisementObject.Advertisements.length == 0">
                 <img src="/assets/images/Search engines-rafiki.png">

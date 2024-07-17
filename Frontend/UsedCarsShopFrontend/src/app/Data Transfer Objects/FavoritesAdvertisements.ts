@@ -6,6 +6,8 @@ export class FavoiriteAdvertisement{
           adverName: '',
           carID: 0,
           price: 0,
+          date:new Date(),
+          
           userDto: {
             userID: 0,
             firstName: '',
@@ -23,7 +25,7 @@ export class FavoiriteAdvertisement{
             propulsion:'',
             engineVolume:'',
             horsePower:'',
-            miliage:''
+            mileage:''
           },
           imagePaths:[{
             imagePath:'',

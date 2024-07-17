@@ -23,8 +23,9 @@
                     </div>
                     <div class="contact">
                         <span class="material-symbols-sharp" (click)="addToWish()" [ngClass]="isWished ? 'wished':'not-wished'">
-                            favorite
+                            favorite 
                         </span>
+                        <h1 class="fav-counter">{{card.favoritedByUserDto.length}}</h1>
                         <div class="contact-header">
                             <h1>
                                 Contact seller

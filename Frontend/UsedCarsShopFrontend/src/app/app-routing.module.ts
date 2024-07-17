@@ -11,6 +11,7 @@ import { AllMessagesComponent } from './components/all-messages/all-messages.com
 import { AuthGuard } from './guards/auth.guard';
 import { LoginGuard } from './guards/login.guard';
 
+
 const routes: Routes = [
   {path:'', redirectTo:"/Login", pathMatch:"full"},
   {path:"Login", component:LoginRegisterComponent, canActivate:[LoginGuard]},
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path:"New Adver", component:NewAdverFormComponent, canActivate:[AuthGuard]},
   {path:'Favorites', component:FavoriteDashboardComponent, canActivate:[AuthGuard]},
  
-  {path:'Messages/Inbox', component:AllMessagesComponent, children:[{path:'Direct/:wsUrl', component:UserToUserMessagesComponent}], canActivate:[AuthGuard]}
+  {path:'Messages/Inbox', component:AllMessagesComponent, children:[{path:'Direct/:wsUrl', component:UserToUserMessagesComponent}], canActivate:[AuthGuard]},
+  
 ];
 
 @NgModule({

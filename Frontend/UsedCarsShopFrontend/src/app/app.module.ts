@@ -19,6 +19,7 @@ import { BannerComponent } from './components/banner/banner.component';
 import { AutoLogoutService } from './services/auto-logout.service';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthenticationService } from './services/authentication.service';
+
 export function jwtOptionsFactory() {
   return {
     tokenGetter: () => {
@@ -40,6 +41,7 @@ export function jwtOptionsFactory() {
     LoadingComponent,
     AllMessagesComponent,
     BannerComponent,
+   
     
   ],
   imports: [

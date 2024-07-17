@@ -380,6 +380,17 @@
                     right: 20px;
                     top:50px;
                     cursor: pointer;
+                   
+                  }
+                  .fav-counter{
+                    color: white;
+                    font-size: 0.8em;
+                    font-family: 'Nunito',sans-serif;
+                    position: absolute;
+                    
+                    right:40px;
+                    top:45px;
+                    z-index: 2;
                   }
                   .not-wished{
                    color: rgb(168, 168, 168) !important;
