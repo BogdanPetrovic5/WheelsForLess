@@ -223,20 +223,36 @@
 }
 .info {
   position: absolute;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  width: 320px;
-  padding: 12px;
+  font-family:'Nunito',sans-serif;
+  width: 520px;
+  padding: 22px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #509AF8;
+  background: #09ff00;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   bottom: 5%;
   left: 2%;
+ 
 }
+.info_1{
+  position: absolute;
+  font-family:'Nunito',sans-serif;
+  width: 520px;
+  padding: 22px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  background: #ffae00;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px -3px #111;
+  bottom: 5%;
+  left: 2%;
 
+}
 .info__icon {
   width: 20px;
   height: 20px;
@@ -250,7 +266,7 @@
 
 .info__title {
   font-weight: 500;
-  font-size: 14px;
+  font-size: 24px;
   color: #fff;
 }
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CarDetails } from 'src/app/services/car-details.service';
+import { Form } from '@angular/forms';
 
 @Component({
   selector: 'app-new-adver-form',
@@ -43,6 +44,7 @@ export class NewAdverFormComponent {
   fuel:boolean = false
   propulsion:boolean = false
 
+  empty:boolean = false;
   published:boolean = false;
   constructor(private router:Router, private dashboard: DashboardService,private carDetailsService:CarDetails){
     this._carBrandsWithModels = carDetailsService;
@@ -119,6 +121,14 @@ export class NewAdverFormComponent {
   convertToMB(){
     
   }
+  isEmpty(formData:any){
+    for (let pair of formData.entries()) {
+      if (!pair[1]) { 
+        return true;
+      }
+    }
+    return false;
+  }
   placeAdver(){
     this.UserName = sessionStorage.getItem("Username");
  
@@ -135,33 +145,41 @@ export class NewAdverFormComponent {
     formData.append("EngineVolume", this.EngineVolume);
     formData.append("HorsePower", this.HorsePower);
     formData.append("Mileage", this.Mileage)
-
+    
+    let check = this.isEmpty(formData)
 
     for (let i = 0; i < this.selectedFiles.length; i++) {
         formData.append("selectedImages", this.selectedFiles[i]);
     }
     this.token = sessionStorage.getItem("Token");
-    
-    this.dashboard.placeAdvertisement(this.token, formData).subscribe(response =>{
+    if(!check){
+      this.dashboard.placeAdvertisement(this.token, formData).subscribe(response =>{
      
-      this.AdverName = "";
-      this.Brand= "";
-      this.Model= "";
-      this.Year = "";
-      this.BodyType = "";
-      this.FuelType = "";
-      this.Price = "";
-      this.HorsePower ="";
-      this.EngineVolume ="";
-      this.Propulsion = "";
-      this.Mileage = "";
-      this.selectedFiles = []
-      this.published = true;
-      setTimeout(()=>{
-        this.published = false
-      }, 1000)
-    }, (error:HttpErrorResponse) =>{
-      console.log("Jok more")
-    })
+        this.AdverName = "";
+        this.Brand= "";
+        this.Model= "";
+        this.Year = "";
+        this.BodyType = "";
+        this.FuelType = "";
+        this.Price = "";
+        this.HorsePower ="";
+        this.EngineVolume ="";
+        this.Propulsion = "";
+        this.Mileage = "";
+        this.selectedFiles = []
+        this.published = true;
+        setTimeout(()=>{
+          this.published = false
+        }, 1000)
+      }, (error:HttpErrorResponse) =>{
+        console.log("Jok more")
+      })
+    }else{
+      this.empty = true;
+       setTimeout(()=>{
+          this.empty = false
+        }, 2000)
+    }
+    
   }
 }
