@@ -10,6 +10,7 @@ namespace CarWebShop.Models
         public string UserName { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
+        public int NewMessages { get; set; }
         public ICollection<Advertisement> Advertisements { get; set; }
         public ICollection<Car> Cars { get; set; }
         public ICollection<Favorites> FavoriteAdvertisements { get; set; }

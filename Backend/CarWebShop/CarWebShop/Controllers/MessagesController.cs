@@ -98,8 +98,29 @@ namespace CarWebShop.Controllers
                 int rowsAffected = command.ExecuteNonQuery();
                 if (rowsAffected > 0)
                 {
-                    var message = JsonSerializer.Serialize(messageDto);
+                    string updateNewMessagesQuery = "UPDATE Users SET NewMessages = NewMessages + 1 WHERE UserName = @ReceiverUsername";
+                    using(SqlCommand updateNewMessagesCommand = new SqlCommand(updateNewMessagesQuery, sqlConnection))
+                    {
+                        updateNewMessagesCommand.Parameters.AddWithValue("@ReceiverUsername", messageDto.ReceiverUsername);
+                        int updateRowsAffected = updateNewMessagesCommand.ExecuteNonQuery();
+                        if (updateRowsAffected == 1)
+                        {
+                            Console.WriteLine("New messages count incremented successfully.");
+                        }
+                        else if (rowsAffected == 0)
+                        {
+                          
+                            throw new InvalidOperationException("No rows were affected. Check if the user ID is correct.");
+                        }
+                        else
+                        {
+                            
+                            throw new InvalidOperationException($"Unexpected number of rows affected: {rowsAffected}. Expected exactly one row to be affected.");
+                        }
 
+                    }
+                    var message = JsonSerializer.Serialize(messageDto);
+                    
                    
 
                     var chatWebsocketTarget = $"{receiverID}-{messageDto.AdverID}-{initialSenderID}";
