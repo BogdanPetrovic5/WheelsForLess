@@ -17,9 +17,16 @@
             <button (click)="register()"  *ngIf="registerForm"><h6>REGISTER</h6></button>
             <button *ngIf="loginForm" (click) = "Login()"><h6 >LOGIN</h6></button>
             <button class="change-form-bttn"><h6 *ngIf="registerForm"  (click)="ChangeFormToLogin()">Already Have An Account?</h6><h6 *ngIf="loginForm"  (click)="ChangeFormToRegister()">Don't Have An Account?</h6></button>
+        
         </div>
+        <span class="guest" (click)="navigateToDashboard()">
+            Continue to&nbsp;
+        </span>
     </section>
     <section class="right">
+        <span class="guest" (click)="navigateToDashboard()">
+           &nbsp;website as guest!
+        </span>
         <div class="logo">
             <img src="/assets/images/usc1.png" alt="">
         </div>

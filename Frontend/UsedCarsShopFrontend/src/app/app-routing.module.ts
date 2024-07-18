@@ -15,8 +15,8 @@ import { LoginGuard } from './guards/login.guard';
 const routes: Routes = [
   {path:'', redirectTo:"/Login", pathMatch:"full"},
   {path:"Login", component:LoginRegisterComponent, canActivate:[LoginGuard]},
-  {path:"Dashboard", component:DasboardComponent, canActivate:[AuthGuard]},
-  {path:"Advertisement", component:AdvertisementComponent, canActivate:[AuthGuard]},
+  {path:"Dashboard", component:DasboardComponent},
+  {path:"Advertisement", component:AdvertisementComponent},
   {path:"New Adver", component:NewAdverFormComponent, canActivate:[AuthGuard]},
   {path:'Favorites', component:FavoriteDashboardComponent, canActivate:[AuthGuard]},
  

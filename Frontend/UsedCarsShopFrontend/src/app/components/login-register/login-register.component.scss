@@ -19,9 +19,16 @@ $boxShadow: -15px 0px 23px 3px rgba(181,181,181,1);
     .left{
         display: flex;
         flex-direction: row-reverse;
-        
+        position: relative;
         align-items: center;
-        
+        .guest{
+            position: absolute;
+            bottom: 20%;
+            font-family: 'Nunito',sans-serif;
+            font-size: 26px;
+            font-weight: 600;
+            cursor: pointer;
+        }
         .form{
             height: 50%;
             width: 50%;
@@ -87,7 +94,7 @@ $boxShadow: -15px 0px 23px 3px rgba(181,181,181,1);
                     font-family: sans-serif;
                     font-weight: 600;
                     width: 100%;
-                    
+                    margin: 0;
                 }
             }
             .change-form-bttn{
@@ -107,6 +114,16 @@ $boxShadow: -15px 0px 23px 3px rgba(181,181,181,1);
         flex-direction: row;
         align-items: center;
         background-color: $sectionBgColor;
+        position: relative;
+        .guest{
+            position: absolute;
+            bottom: 20%;
+            font-family: 'Nunito',sans-serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+        }
         .logo{
             height: 50%;
             width: 50%;

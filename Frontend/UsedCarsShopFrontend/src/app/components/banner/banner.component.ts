@@ -9,13 +9,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class BannerComponent {
   currentRoute:any;
   year:any
- 
+  currentUser:string | null = ""
+
   constructor( private router:Router, private route:ActivatedRoute ){
 
   }
   ngOnInit():void{
     this.currentRoute = sessionStorage.getItem("currentRoute");
     this.year = sessionStorage.getItem("year")
-
+    if(sessionStorage.getItem("Username")){
+      this.currentUser = sessionStorage.getItem("Username");
+    }else this.currentUser = "Log in"
+  }
+  navigateToLogin(){
+    if(this.currentUser === "Log in"){
+      this.router.navigate(['/Login'])
+    }
   }
 }

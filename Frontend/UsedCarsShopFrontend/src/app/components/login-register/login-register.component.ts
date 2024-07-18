@@ -39,6 +39,9 @@ ChangeFormToRegister() {
     
     
   }
+  navigateToDashboard(){
+    this.router.navigate(['/Dashboard'])
+  }
   register(){
     const user = {
       FirstName:this.RegisterFirstName,
