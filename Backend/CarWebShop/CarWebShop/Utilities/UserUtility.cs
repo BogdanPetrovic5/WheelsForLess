@@ -30,6 +30,26 @@ namespace CarWebShop.Utilities
             }
             return userId;
         }
+        public int GetNewMessages(string username)
+        {
+            int newMessages = 0;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT NewMessages from Users WHERE UserName = @Username";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Username", username);
+                    var result = command.ExecuteScalar();
+                    if(result != DBNull.Value)
+                    {
+                        newMessages = Convert.ToInt32(result);
+                    }
+                }
+            }
+            return newMessages;
+        }
         public string GetUsernameById(int userID)
         {
             string username = null;

@@ -12,6 +12,19 @@ namespace CarWebShop.Controllers
         {
             _userUtility = userUtility;
         }
+        [HttpGet("GetNewMessages")]
+        public IActionResult GetNewMessages(string username)
+        {
+            int? newMessages = _userUtility.GetNewMessages(username);
+            if(newMessages.HasValue)
+            {
+                return Ok(newMessages.Value);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        } 
         [HttpGet("GetID")]
         public IActionResult GetUserID(string username)
         {
