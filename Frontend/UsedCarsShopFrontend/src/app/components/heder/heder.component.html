@@ -36,7 +36,7 @@
            
         </section>
         <div class="options">
-            <button (click)="navigateToMessages()"><img src="/assets/images/mssgs.png" > Messages <span>{{numberMessages}}</span></button>
+            <button (click)="navigateToMessages()"><img src="/assets/images/mssgs.png" > Messages <span *ngIf="isLoggedIn()">{{numberMessages}}</span></button>
             <button (click)="navigateToFav()"><img src="/assets/images/wishlist.png"> Wishlist</button>
             <button (click)="changeToForm()"><img src="/assets/images/mega.png" > Place an adver</button>
             <div class="hr">
@@ -67,7 +67,7 @@
             </div>
         </div>
     </section>
-    <div class="log-out">
+    <div class="log-out" *ngIf="isLoggedIn()">
         <button (click)="logout()"><img src="/assets/images/lout.png"> Logout</button>
     </div>
 </header>

@@ -21,8 +21,8 @@ export class AutoLogoutService {
     const token = this.auth.getToken();
     
     if (token && this.jwtHelper.isTokenExpired(token)) {
-      alert("Token expired!")
-      console.log('Token expired. Logging out.');
+      alert("Session expired!")
+      console.log('Session expired. Logging out.');
       this.router.navigate(['/Login'])
       this.auth.logout(); 
       clearInterval(this.timer); 

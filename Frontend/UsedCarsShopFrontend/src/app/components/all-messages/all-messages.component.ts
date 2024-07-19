@@ -87,9 +87,9 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
       this.setToStorage(chat);
       console.log("MessageID: ", chat.messageID)
       if(isNewPrev == true){
-        this.messagesService.decrementMessages(1);
+        
         this.messagesService.openMessage(chat.messageID).subscribe((response)=>{
-         
+          this._messageService.decrementUnreadMessages(1);
         }, (error:HttpErrorResponse)=>{
           console.log(error);
         })

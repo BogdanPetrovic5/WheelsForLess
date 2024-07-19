@@ -42,8 +42,10 @@ export class WebsocketMessagesService {
           dateSent: new Date(data.dateSent),
           isNew: data.isNew
         } as MessageEvent);
-
-        this.messagesService.incrementMessages();
+        if(sessionStorage.getItem("Username") !== data.SenderUsername && sessionStorage.getItem("direct") == null){
+          this.messagesService.incrementUnreadMessages(1);
+        }
+       
       };
 
       this.ws!.onerror = (error) => {

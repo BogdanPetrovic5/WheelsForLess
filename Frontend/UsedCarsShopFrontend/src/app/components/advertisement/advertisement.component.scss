@@ -325,6 +325,7 @@
         height: 100%;
         display: flex;
         flex-direction: column;
+        position: relative;
         app-banner{
           .banner-container{
             .banner-navigation{
@@ -647,4 +648,63 @@
 
 .info__close path {
     fill: #fff;
+}
+.info {
+  position: absolute;
+  font-family:'Nunito',sans-serif;
+  width: 520px;
+  padding: 22px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  background: #06aa00;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px -3px #111;
+  bottom: 5%;
+  left: 2%;
+ 
+}
+.info_1{
+  position: absolute;
+  font-family:'Nunito',sans-serif;
+  width: 520px;
+  padding: 22px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  background: #ffae00;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px -3px #111;
+  bottom: 5%;
+  left: 2%;
+
+}
+.info__icon {
+  width: 20px;
+  height: 20px;
+  transform: translateY(-2px);
+  margin-right: 8px;
+}
+
+.info__icon path {
+  fill: #fff;
+}
+
+.info__title {
+  font-weight: 500;
+  font-size: 24px;
+  color: #fff;
+}
+
+.info__close {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.info__close path {
+  fill: #fff;
 }

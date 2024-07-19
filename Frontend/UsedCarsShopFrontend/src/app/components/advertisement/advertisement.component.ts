@@ -16,11 +16,12 @@ export class AdvertisementComponent implements OnInit{
   isWished:boolean = false;
   wishlistRemoved:boolean = false;
   wishlistAdded:boolean = false;
+  sent:boolean = false;
   currentUsername = sessionStorage.getItem("Username");
   chatBubble = false
   message = ""
   private _messagesSerivce:MessagesService
-
+  
   adverID:any
   constructor(private route:ActivatedRoute, private dashboardService:DashboardService, private router:Router, private messagesService:MessagesService){
     this._messagesSerivce = messagesService;
@@ -130,8 +131,11 @@ export class AdvertisementComponent implements OnInit{
     let receiverUsername = this.card.userDto.userName;
     let adverID = this.card.adverID
     console.log("Receiver: ", receiverUsername, "Sender: ", username, "AdverID: ", adverID, "Message: ",this.message)
+    this.sent = true;
     this._messagesSerivce.sendMessage(username, receiverUsername, adverID,this.message).subscribe((response)=>{
-        console.log("Uspenso porata posluka")
+        setTimeout(()=>{
+          this.sent = false
+        }, 2000)
     },(error:HttpErrorResponse)=>{
         console.log("Error kurac: ", error)
     })

@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CarDetails } from 'src/app/services/car-details.service';
 import { DashboardService } from 'src/app/services/dashboard.service';
@@ -31,6 +32,8 @@ export class HederComponent implements OnInit{
   bodyType:boolean = false
   filter:boolean = false;
   currentRoute:any = ""
+
+  subscriptions: Subscription = new Subscription();
   constructor(private router:Router, private wsService:WebsocketMessagesService, private messageService:MessagesService, private brandsWithModelsService:CarDetails, private dashService:DashboardService, private auth:AuthenticationService){
       this._messageService = messageService;
       this._carBrandsWithModels = brandsWithModelsService;
@@ -39,6 +42,18 @@ export class HederComponent implements OnInit{
     this.username = sessionStorage.getItem("Username")
     this.loadOptions();
     this.currentRoute = sessionStorage.getItem("currentRoute");
+    this.loadNewMessages()
+
+    this.subscriptions.add(
+      this.messageService.unreadMessages$.subscribe((newMessages: number)=>{
+        this.numberMessages += newMessages
+      })
+    )
+    this.subscriptions.add(
+      this.messageService.unreadMessagesStep$.subscribe((step:number)=>{
+        this.numberMessages -= step;
+      })
+    )
   }
   showOptions(){
     this.brands = !this.brands
@@ -48,11 +63,19 @@ export class HederComponent implements OnInit{
     this.carBrandsWithModels = this._carBrandsWithModels?.getBrandsAndModles();
   }
   filterSearch(){
-   
     this.dashService.filterBrand = this.selectedBrand;
     this.dashService.filterModel = this.selectedModel;
     sessionStorage.removeItem("model")
     sessionStorage.removeItem("brand")
+  }
+  loadNewMessages(){
+    let username = sessionStorage.getItem("Username")
+    this.dashService.loadNewMessages(username).subscribe((response)=>{
+      this.numberMessages = response
+      console.log(this.numberMessages)
+    },(error:HttpErrorResponse)=>{
+      console.log(error)
+    })
   }
   loadModels(){
    this.selectedModel = null;
@@ -62,6 +85,11 @@ export class HederComponent implements OnInit{
    this.carModels = brand ? brand.models : []
    this.models = true;
   
+  }
+  isLoggedIn():boolean{
+    if(sessionStorage.getItem("Token")){
+      return true
+    }else return false
   }
   navigateToFav() {
     this.router.navigate(['/Favorites'])
@@ -97,9 +125,7 @@ export class HederComponent implements OnInit{
   changeToForm(){
     this.router.navigate(['/New Adver'])
   }
-  ngDoCheck():void{
-    this.numberMessages = this._messageService.getNumberMessages()
-  }
+ 
   showDropdown(){
     this.options = true
   }

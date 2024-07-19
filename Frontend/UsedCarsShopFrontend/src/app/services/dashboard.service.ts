@@ -37,6 +37,9 @@ export class DashboardService {
         headers:httpHeaders
       })
   }
+  loadNewMessages(username?:any):Observable<any>{
+    return this.http.get<any>(`${environment.apiUrl}/api/User/GetNewMessages?username=${username}`)
+  }
   set filterBrand(brand: any | null) {
     this.filterBrandSubject.next(brand);
   }

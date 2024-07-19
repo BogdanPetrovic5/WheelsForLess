@@ -29,14 +29,13 @@ export class DasboardComponent {
     public selectedModel:any;
     subscriptions: Subscription = new Subscription();
     routerSub: Subscription | undefined;
+    
     constructor(private dashService:DashboardService, private router:Router, private route:ActivatedRoute, private loadingService:LoadingService,private wsService:WebsocketMessagesService){
       this.advertisementObject = new Advertisement();
     }
     
     
   ngOnInit(){
-      
-      
     sessionStorage.setItem("currentRoute", "Dashboard")
     sessionStorage.setItem("year", "")
     let username = sessionStorage.getItem("Username")
@@ -68,7 +67,7 @@ export class DasboardComponent {
     })
       
   }
-
+  
   applyFilters(){
     const brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
     const model = this.dashService.currentModel || sessionStorage.getItem("model")

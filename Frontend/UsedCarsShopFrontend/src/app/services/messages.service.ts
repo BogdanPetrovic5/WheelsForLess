@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 @Injectable({
@@ -10,16 +10,24 @@ export class MessagesService {
   private newMessageSource = new Subject<any>();
   newMessage$ = this.newMessageSource.asObservable();
   public messages = 0;
-  number:any
+  
+
+  private unreadMessagesSubject = new BehaviorSubject<any | null>(null)
+  unreadMessages$ = this.unreadMessagesSubject.asObservable();
+
+  private unreadMessagesStepSubject = new BehaviorSubject<any | null>(null);
+  unreadMessagesStep$ = this.unreadMessagesStepSubject.asObservable()
+
+  public unreadMessages:number = 0
   constructor(private http:HttpClient) { 
-    if(sessionStorage.getItem("newMessages") != undefined){
-      this.number = sessionStorage.getItem("newMessages");
-      this.number = parseInt( this.number, 10);
-    }
+    // if(sessionStorage.getItem("newMessages") != undefined){
+    //   this.number = sessionStorage.getItem("newMessages");
+    //   this.number = parseInt( this.number, 10);
+    // }
    
-    if(this.number != undefined){
-      this.messages = this.number;
-    }
+    // if(this.number != undefined){
+    //   this.messages = this.number;
+    // }
     
   }
   openMessage(messageID:any):Observable<any>{
@@ -40,6 +48,7 @@ export class MessagesService {
 
       return this.http.get<any>(`${environment.apiUrl}/api/Messages/GetMessages/${currentUserID}/${initialSenderID}/${adverID}`)
   }
+ 
   sendMessage(senderUsername?:any, receiverUsername?:any, adverID?:any, message?:any):Observable<any>{
     return this.http.post<any>(`${environment.apiUrl}/api/Messages/SendMessage`,{
       Message:message,
@@ -59,9 +68,22 @@ export class MessagesService {
     this.messages += 1;
     sessionStorage.setItem("newMessages", JSON.stringify(this.messages));
   }
-  getNumberMessages(){
-    return this.messages;
+  
+  incrementUnreadMessages(step:any | null){
+    this.unreadMessagesSubject.next(step);
   }
+  // get unreadMessages():any | null{
+  //   return this.unreadMessagesSubject?.getValue();
+  // }
+
+  decrementUnreadMessages(step:any | null){
+    this.unreadMessagesStepSubject.next(step);
+  }
+
+
+
+
+
   setChat(chat:any){
     sessionStorage.setItem(this.storageKey, JSON.stringify(chat))
   }
@@ -69,7 +91,5 @@ export class MessagesService {
     const currentChat = sessionStorage.getItem(this.storageKey)
     return currentChat ? JSON.parse(currentChat) : null
   }
-  announceNewMessage(data: any){
-    this.newMessageSource.next(data)
-  }
+ 
 }
