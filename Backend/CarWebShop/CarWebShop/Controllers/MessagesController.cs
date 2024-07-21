@@ -33,13 +33,28 @@ namespace CarWebShop.Controllers
             string query = "UPDATE Messages SET IsNew = 0 WHERE MessageID = @MessageID";
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             sqlConnection.Open();
-            using (SqlCommand command = new SqlCommand(query, sqlConnection))
+            using (SqlCommand updateMessagesCommand = new SqlCommand(query, sqlConnection))
             {
-                command.Parameters.AddWithValue("@MessageID", openMessageDto.MessageID);
-                int rowsAffected = command.ExecuteNonQuery();
+                updateMessagesCommand.Parameters.AddWithValue("@MessageID", openMessageDto.MessageID);
+                int rowsAffected = updateMessagesCommand.ExecuteNonQuery();
 
                 if (rowsAffected > 0)
                 {
+                    string secondQuery = "UPDATE Users SET NewMessages = NewMessages - @Step WHERE UserName = @UserName";
+                    using (SqlCommand updateUserCommand = new SqlCommand(secondQuery, sqlConnection))
+                    {
+                        updateUserCommand.Parameters.AddWithValue("@Step", openMessageDto.UnreadMessages);
+                        updateUserCommand.Parameters.AddWithValue("@UserName", openMessageDto.UserName);
+                        int rowsAffected_1 = updateUserCommand.ExecuteNonQuery();
+                        if(rowsAffected_1 > 0)
+                        {
+                            Console.WriteLine("Users affected!");
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("No rows were affected. Check if the user ID is correct.");
+                        }
+                    }
                     return Ok();
                 }
                 else return BadRequest();

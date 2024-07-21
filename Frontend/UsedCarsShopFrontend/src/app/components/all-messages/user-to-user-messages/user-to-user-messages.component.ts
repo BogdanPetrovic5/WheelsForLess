@@ -22,7 +22,8 @@ export class UserToUserMessagesComponent implements OnInit{
   receiver:any =""
   currentUsername:any;
   routerSub: Subscription | undefined;
-  newMessages = 0;
+  newMessages:any = 0;
+  isSender:any;
   constructor(private wsService:WebsocketMessagesService,private messageService:MessagesService, private dashboardService:DashboardService, private router:Router,  private route:ActivatedRoute, private parent:AllMessagesComponent){
 
   }
@@ -43,7 +44,7 @@ export class UserToUserMessagesComponent implements OnInit{
     this.loadChat();
     this.currentUsername = sessionStorage.getItem("Username");
     this.parent.isSelected = true
-    }
+  }
     reloadComponent() {
       this.disconnectFromWebsocket();
       window.location.reload()
@@ -56,7 +57,7 @@ export class UserToUserMessagesComponent implements OnInit{
       userID = userID ? userID.toString() : ""; 
       adverID = adverID ? adverID.toString() : ""; 
       let wsQuery = userID + "-" + adverID + "-" + initialSenderID;
-      console.log(wsQuery)
+    
       this.wsUrl = `${environment.wsUrl}?socketParameter=${wsQuery}`
       this.wsSub = this.wsService.connect(this.wsUrl).subscribe(
         (data: any) => {
@@ -94,7 +95,7 @@ export class UserToUserMessagesComponent implements OnInit{
     let adverID = sessionStorage.getItem("adverID");
     let receiver = sessionStorage.getItem("receiverUsername")
     this.messageService.sendMessage(this.currentUsername, receiver,adverID,this.message).subscribe((response)=>{
-        console.log(`${this.currentUsername}:`, this.message);
+        
         this.messages.unshift({message:this.message, receiverUsername:this.receiver, senderUsername:this.currentUsername, dateSent: new Date(), isNew:true});
         this.sortMessages();
         this.message = '';
@@ -118,25 +119,45 @@ export class UserToUserMessagesComponent implements OnInit{
     sessionStorage.removeItem("direct");
   }
   countNewMessages(){
-    for(let i = 1; i < this.messages.length;i++){
+
+    for(let i = 0; i < this.messages.length;i++){
       if(this.messages[i].isNew == true){
-        this.newMessages += 1;
-        
+        this.newMessages+= 1;
       }else break;
     }
 
   }
   loadChat(){
     let initialSenderID = sessionStorage.getItem("initialSenderID");
+    let messageID = sessionStorage.getItem("messageID")
+    if (messageID !== null) {
+      messageID = JSON.parse(messageID);
+    }
+    this.isSender  = sessionStorage.getItem("check");
+    this.isSender = JSON.parse(this.isSender)
+    let username = sessionStorage.getItem("Username");
+    
     this.messageService.getUserToUserMessages(0, initialSenderID,0).subscribe(response=>{
       this.messages = response;
       console.log(response)
+      
       this.sortMessages();
       this.countNewMessages();
-      
-      this.messageService.decrementUnreadMessages(this.newMessages);
+      if(this.isSender){
+        this.parent.markAsRead(messageID);
+        this.messageService.decrementUnreadMessages(this.newMessages);
+        
+        this.messageService.openMessage(messageID, username, this.newMessages).
+        subscribe(()=>{
+        
+        },(error:HttpErrorResponse)=>{
+          console.log(error);
+        })
+      }
+     
       let receiver = this.messages[0].senderUsername == this.currentUsername ? this.messages[0].receiverUsername : this.messages[0].senderUsername
       sessionStorage.setItem("receiverUsername", receiver)
+      
     })
   }
 }

@@ -18,15 +18,17 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
  
     private readonly _messageService:MessagesService 
     messageObject:Messages;
-    currentUsername = sessionStorage.getItem("Username")
+    currentUsername:any;
     currentUrl = this.router.url;
     isSelectedValue = sessionStorage.getItem("isSelected");
     messageID:any
-    isSelected = this.isSelectedValue === 'true' ? true : false
+    // isSelected = this.isSelectedValue === 'true' ? true : false
     private wsSub:any;
     oldMessages:any
 
     isLoading:boolean = false;
+    unreadMessages:any = 0;
+    isSelected = this.isSelectedValue === 'true' ? true : false
     // private messageEventSubscription:Subscription;
     constructor(private messagesService:MessagesService,private router:Router,  private route:ActivatedRoute, private wsService:WebsocketMessagesService, private loadingService:LoadingService){
         this._messageService = messagesService;
@@ -42,6 +44,7 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
     }
     ngOnInit():void{
       this.loadMessages();
+      this.currentUsername = sessionStorage.getItem("Username")
       sessionStorage.setItem("currentRoute", "Inbox")
     }
 
@@ -66,37 +69,34 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
         this.sortMessages()
         this.messageID = sessionStorage.getItem("messageID")
         console.log( this.messageObject.Messages)
-        this.oldMessages = sessionStorage.getItem("oldMessages")
-        if(this.oldMessages){
-        }else{
-          sessionStorage.setItem("oldMessages",JSON.stringify(this.messageObject.Messages));
-        }
+      
+       
        this.isLoading = false
       }, (error:HttpErrorResponse)=>{
         console.log(error);
       })
     }
 
-   
-    selectChat(chat:any){
-      this.isSelected = true;
-      chat.isSelected = true;
-      let isNewPrev = chat.isNew;
-      chat.isNew = false;
-      this._messageService.setChat(chat);
-      this.setToStorage(chat);
-      console.log("MessageID: ", chat.messageID)
-      if(isNewPrev == true){
-        
-        this.messagesService.openMessage(chat.messageID).subscribe((response)=>{
-          this._messageService.decrementUnreadMessages(1);
-        }, (error:HttpErrorResponse)=>{
-          console.log(error);
-        })
+    markAsRead(messageID: any) {
+      const index = this.messageObject.Messages.findIndex((message: any) => message.messageID === messageID);
+      if (index !== -1) {
+        this.messageObject.Messages[index].isNew = false;
+       
       }
-     
+    }
+    selectChat(chat:any){
+      
+      chat.isSelected = true;
+      this.setToStorage(chat)
+      sessionStorage.setItem("messageID", chat.messageID);
+
+      if(chat.senderUsername !== this.currentUsername){
+        sessionStorage.setItem("check", "true")
+      }else sessionStorage.setItem("check", "false")
+
       let wsUrl =`${sessionStorage.getItem("userID")}-${chat.adverID}-${chat.initialSenderID}`;
       sessionStorage.setItem("wsUrl", wsUrl);
+     
       this.router.navigate([`/Messages/Inbox/Direct/${wsUrl}`])
       
     }

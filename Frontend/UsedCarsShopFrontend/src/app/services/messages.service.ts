@@ -10,7 +10,9 @@ export class MessagesService {
   private newMessageSource = new Subject<any>();
   newMessage$ = this.newMessageSource.asObservable();
   public messages = 0;
+  public messageID:any;
   
+  // public unreadMessages:any = 0;
 
   private unreadMessagesSubject = new BehaviorSubject<any | null>(null)
   unreadMessages$ = this.unreadMessagesSubject.asObservable();
@@ -19,21 +21,23 @@ export class MessagesService {
   unreadMessagesStep$ = this.unreadMessagesStepSubject.asObservable()
 
   public unreadMessages:number = 0
-  constructor(private http:HttpClient) { 
-    // if(sessionStorage.getItem("newMessages") != undefined){
-    //   this.number = sessionStorage.getItem("newMessages");
-    //   this.number = parseInt( this.number, 10);
-    // }
-   
-    // if(this.number != undefined){
-    //   this.messages = this.number;
-    // }
-    
+  constructor(private http:HttpClient) {
   }
-  openMessage(messageID:any):Observable<any>{
+  // updateUsers(username:any, step:number):Observable<any>{
+  //   return this.http.put<any>(`${environment.apiUrl}/api/User/UpdateNewMessages`,{
+  //     username:username,
+  //     step:step
+  //   });
+  // }
+  openMessage(messageID:any, username:any, newMessages:any):Observable<any>{
+    console.log("Service, MessageID: ", messageID)
+    console.log("Service, username: ", username);
+
     const url = `${environment.apiUrl}/api/Messages/OpenMessage`;
     return this.http.put<any>(url,{
-      MessageID:messageID
+      MessageID:messageID,
+      UserName:username,
+      UnreadMessages:newMessages
     })
   }
   getUserMessages(cuurentUsername?:any):Observable<any>{
@@ -72,18 +76,9 @@ export class MessagesService {
   incrementUnreadMessages(step:any | null){
     this.unreadMessagesSubject.next(step);
   }
-  // get unreadMessages():any | null{
-  //   return this.unreadMessagesSubject?.getValue();
-  // }
-
   decrementUnreadMessages(step:any | null){
     this.unreadMessagesStepSubject.next(step);
   }
-
-
-
-
-
   setChat(chat:any){
     sessionStorage.setItem(this.storageKey, JSON.stringify(chat))
   }
