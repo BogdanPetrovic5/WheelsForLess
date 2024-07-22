@@ -23,7 +23,10 @@ namespace CarWebShop.Utilities
                 await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closed by the WebSocketManager", CancellationToken.None);
             }
         }
-
+        public bool IsUserConnected(string socketParameter)
+        {
+            return _sockets.TryGetValue(socketParameter, out var socket) && socket.State == WebSocketState.Open;
+        }
         public async Task SendMessageToUserAsync(string socketParameter, string message)
         {
             if (_sockets.TryGetValue(socketParameter, out var socket) && socket.State == WebSocketState.Open)

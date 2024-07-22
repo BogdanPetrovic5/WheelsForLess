@@ -113,27 +113,9 @@ namespace CarWebShop.Controllers
                 int rowsAffected = command.ExecuteNonQuery();
                 if (rowsAffected > 0)
                 {
-                    string updateNewMessagesQuery = "UPDATE Users SET NewMessages = NewMessages + 1 WHERE UserName = @ReceiverUsername";
-                    using(SqlCommand updateNewMessagesCommand = new SqlCommand(updateNewMessagesQuery, sqlConnection))
-                    {
-                        updateNewMessagesCommand.Parameters.AddWithValue("@ReceiverUsername", messageDto.ReceiverUsername);
-                        int updateRowsAffected = updateNewMessagesCommand.ExecuteNonQuery();
-                        if (updateRowsAffected == 1)
-                        {
-                            Console.WriteLine("New messages count incremented successfully.");
-                        }
-                        else if (rowsAffected == 0)
-                        {
-                          
-                            throw new InvalidOperationException("No rows were affected. Check if the user ID is correct.");
-                        }
-                        else
-                        {
-                            
-                            throw new InvalidOperationException($"Unexpected number of rows affected: {rowsAffected}. Expected exactly one row to be affected.");
-                        }
-
-                    }
+                    bool messageSentInChat = false;
+                    bool messageSentOutChat = false;
+                   
                     var message = JsonSerializer.Serialize(messageDto);
                     
                    
@@ -142,12 +124,21 @@ namespace CarWebShop.Controllers
                     Console.WriteLine("Chat Websocket Target: " + chatWebsocketTarget);
                     try
                     {
+                       
                         await _webSocketManager.SendMessageToUserAsync(chatWebsocketTarget, message);
+                        if (_webSocketManager.IsUserConnected(chatWebsocketTarget))
+                        {
+                            messageSentInChat = true;
+                        }
+                       
+
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine($"Failed to send message to chat WebSocket: {ex.Message}");
-                      
+                        messageSentOutChat = true;
+
+
                     }
 
 
@@ -155,12 +146,62 @@ namespace CarWebShop.Controllers
                     Console.WriteLine("User Websocket Target: " + userWebsocketTarget);
                     try
                     {
+                       
                         await _webSocketManager.SendMessageToUserAsync(userWebsocketTarget, message);
+                        if (_webSocketManager.IsUserConnected(userWebsocketTarget))
+                        {
+                            messageSentOutChat = true;
+                        }
+
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine($"Failed to send message to user WebSocket: {ex.Message}");
-                      
+                        messageSentOutChat = true;
+
+
+                    }
+                    if (messageSentOutChat)
+                    {
+                        string updateNewMessagesQuery = "UPDATE Users SET NewMessages = NewMessages + 1 WHERE UserName = @ReceiverUsername";
+                        using (SqlCommand updateNewMessagesCommand = new SqlCommand(updateNewMessagesQuery, sqlConnection))
+                        {
+                            updateNewMessagesCommand.Parameters.AddWithValue("@ReceiverUsername", messageDto.ReceiverUsername);
+                            int updateRowsAffected = updateNewMessagesCommand.ExecuteNonQuery();
+                            if (updateRowsAffected == 1)
+                            {
+                                Console.WriteLine("New messages count incremented successfully.");
+                            }
+                            else if (rowsAffected == 0)
+                            {
+
+                                throw new InvalidOperationException("No rows were affected. Check if the user ID is correct.");
+                            }
+                            else
+                            {
+
+                                throw new InvalidOperationException($"Unexpected number of rows affected: {rowsAffected}. Expected exactly one row to be affected.");
+                            }
+
+                        }
+                    }
+
+                    if (messageSentInChat)
+                    {
+                        string updateIsNewQuery = "UPDATE Messages SET IsNew = @IsNew WHERE SenderID = @SenderID AND ReceiverID = @ReceiverID AND AdverID = @AdverID";
+                        using (SqlCommand updateIsNewCommand = new SqlCommand(updateIsNewQuery, sqlConnection))
+                        {
+                            updateIsNewCommand.Parameters.AddWithValue("@SenderID", senderID);
+                            updateIsNewCommand.Parameters.AddWithValue("@ReceiverID", receiverID);
+                            updateIsNewCommand.Parameters.AddWithValue("@AdverID", messageDto.AdverID);
+                            updateIsNewCommand.Parameters.AddWithValue("@IsNew",false);
+                            
+                            int result_1 = updateIsNewCommand.ExecuteNonQuery();
+                            if(result_1 > 0)
+                            {
+                                Console.WriteLine("To false!");
+                            }
+                        }
                     }
                     return Ok();
                 }

@@ -46,6 +46,7 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
       this.loadMessages();
       this.currentUsername = sessionStorage.getItem("Username")
       sessionStorage.setItem("currentRoute", "Inbox")
+
     }
 
     ngOnChanges():void{
@@ -69,7 +70,8 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
         this.sortMessages()
         this.messageID = sessionStorage.getItem("messageID")
         console.log( this.messageObject.Messages)
-      
+        
+        
        
        this.isLoading = false
       }, (error:HttpErrorResponse)=>{
