@@ -7,6 +7,7 @@ import { CarDetails } from 'src/app/services/car-details.service';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
+import { DasboardComponent } from '../dasboard/dasboard.component';
 
 @Component({
   selector: 'app-heder',
@@ -34,7 +35,7 @@ export class HederComponent implements OnInit{
   currentRoute:any = ""
 
   subscriptions: Subscription = new Subscription();
-  constructor(private router:Router, private wsService:WebsocketMessagesService, private messageService:MessagesService, private brandsWithModelsService:CarDetails, private dashService:DashboardService, private auth:AuthenticationService){
+  constructor(private router:Router, private wsService:WebsocketMessagesService, private messageService:MessagesService, private brandsWithModelsService:CarDetails, private dashService:DashboardService, private auth:AuthenticationService, private dashboardComponent:DasboardComponent){
       this._messageService = messageService;
       this._carBrandsWithModels = brandsWithModelsService;
   }
@@ -140,6 +141,7 @@ export class HederComponent implements OnInit{
     }
     this.router.navigate(["/Login"]);
     this.auth.logout()
+    this.dashboardComponent.closeConnection()
   }
 
  

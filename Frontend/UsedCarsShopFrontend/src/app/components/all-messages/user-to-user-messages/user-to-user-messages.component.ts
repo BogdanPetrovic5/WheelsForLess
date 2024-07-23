@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { AllMessagesComponent } from '../all-messages.component';
 import { Subscription } from 'rxjs';
+import { DasboardComponent } from '../../dasboard/dasboard.component';
+
 @Component({
   selector: 'app-user-to-user-messages',
   templateUrl: './user-to-user-messages.component.html',
@@ -24,7 +26,7 @@ export class UserToUserMessagesComponent implements OnInit{
   routerSub: Subscription | undefined;
   newMessages:any = 0;
   isSender:any;
-  constructor(private wsService:WebsocketMessagesService,private messageService:MessagesService, private dashboardService:DashboardService, private router:Router,  private route:ActivatedRoute, private parent:AllMessagesComponent){
+  constructor(private wsService:WebsocketMessagesService,private messageService:MessagesService, private dashboardService:DashboardService, private router:Router,  private route:ActivatedRoute, private parent:AllMessagesComponent, private dasboardComponent:DasboardComponent){
 
   }
   @HostListener('window:beforeunload', ['$event'])
@@ -32,6 +34,7 @@ export class UserToUserMessagesComponent implements OnInit{
     this.reloadComponent();
   }
   ngOnInit(): void {
+    
     this.routerSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.reloadComponent();

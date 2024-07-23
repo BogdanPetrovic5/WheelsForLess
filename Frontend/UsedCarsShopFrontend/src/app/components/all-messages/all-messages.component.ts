@@ -7,6 +7,7 @@ import { Messages } from 'src/app/Data Transfer Objects/Messages';
 import { LoadingService } from 'src/app/services/loading.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
+import { DasboardComponent } from '../dasboard/dasboard.component';
 
 ;
 @Component({
@@ -30,7 +31,7 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
     unreadMessages:any = 0;
     isSelected = this.isSelectedValue === 'true' ? true : false
     // private messageEventSubscription:Subscription;
-    constructor(private messagesService:MessagesService,private router:Router,  private route:ActivatedRoute, private wsService:WebsocketMessagesService, private loadingService:LoadingService){
+    constructor(private messagesService:MessagesService,private router:Router,  private route:ActivatedRoute, private wsService:WebsocketMessagesService, private loadingService:LoadingService, private dashboardComponent:DasboardComponent){
         this._messageService = messagesService;
         this.messageObject = new Messages();
         // this.messageEventSubscription = this.messagesService.newMessage$.subscribe(
@@ -43,6 +44,7 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
 
     }
     ngOnInit():void{
+      this.dashboardComponent.closeConnection()
       this.loadMessages();
       this.currentUsername = sessionStorage.getItem("Username")
       sessionStorage.setItem("currentRoute", "Inbox")

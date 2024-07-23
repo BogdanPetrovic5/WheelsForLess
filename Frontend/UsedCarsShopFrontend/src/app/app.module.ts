@@ -65,7 +65,8 @@ export function jwtOptionsFactory() {
     UserToUserMessagesComponent,
     AutoLogoutService,
     JwtHelperService,
-    AuthenticationService
+    AuthenticationService,
+    DasboardComponent
   ],
   bootstrap: [AppComponent]
 })

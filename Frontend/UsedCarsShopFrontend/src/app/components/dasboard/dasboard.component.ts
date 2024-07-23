@@ -127,12 +127,14 @@ export class DasboardComponent {
     
     
   }
-
-  ngOnDestroy():void{
+  closeConnection(){
     if (this.wsSub) {
       this.wsSub.unsubscribe();
     }
     this.wsService.close();
+  }
+  ngOnDestroy():void{
+   
   }
 
   changeToForm(){

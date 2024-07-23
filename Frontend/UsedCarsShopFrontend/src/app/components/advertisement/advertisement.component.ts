@@ -94,7 +94,7 @@ export class AdvertisementComponent implements OnInit{
         this.loadCard()
         this.isWished = true;
 
-        this.showNotification()
+        this.wishlistAddedNotification()
       }else{
      
         console.log(this.card)
@@ -105,7 +105,7 @@ export class AdvertisementComponent implements OnInit{
      
         this.isWished = false;
       
-        this.showNotification()
+        this.wishlistRemovedNotification()
       }
       this.findIsWished();
       
@@ -113,7 +113,15 @@ export class AdvertisementComponent implements OnInit{
       console.log(error)
     })
   }
-  showNotification(){
+  wishlistAddedNotification(){
+    setTimeout(()=>{
+      this.wishlistAdded = true;
+    },100)
+    setTimeout(()=>{
+      this.wishlistAdded = false;
+    },2000)
+  }
+  wishlistRemovedNotification(){
     setTimeout(()=>{
       this.wishlistRemoved = true;
     },100)
