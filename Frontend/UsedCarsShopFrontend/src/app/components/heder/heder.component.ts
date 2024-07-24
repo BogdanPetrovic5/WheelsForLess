@@ -17,7 +17,7 @@ import { DasboardComponent } from '../dasboard/dasboard.component';
 export class HederComponent implements OnInit{
   selectedBrand: string | null = null;
   selectedModel: string | null = null;
-
+  sortParameter: string |null = null;
   public username:any
   public dashboard = true
   public adverForm = false
@@ -118,7 +118,9 @@ export class HederComponent implements OnInit{
     
    
   }
-
+  chooseSort(){
+     
+  }
   sendMessage(){
     this.router.navigate(['/NewMessage'])
   }

@@ -32,13 +32,35 @@ namespace CarWebShop.Controllers
             _userUtility = userUtility;
         }
         [HttpGet("FilterAdvertisement")]
-        public IActionResult filterAdvertisements([FromQuery] AdvertisementFilter filter, int page = 1, int maximumAdvers = 6)
+        public IActionResult FilterAdvertisements([FromQuery] AdvertisementFilter filter, int page = 1, int maximumAdvers = 6)
         {
             var advertisements = _repository.GetFilteredAdvertisements(filter).Skip((page - 1) * maximumAdvers)
                 .Take(maximumAdvers)
                 .ToList();
             return Json(advertisements);
             
+        }
+        [HttpGet("SortAdvertisements")]
+        public IActionResult SortAdvertisements(string sortParameter)
+        {
+            List<Advertisement> advertisements = new List<Advertisement>();
+            if (sortParameter == "By Date Ascending")
+            {
+                advertisements = _repository.GetAdvertisements().OrderBy(a => a.Date).ToList();
+            }else if (sortParameter == "By Date Descending")
+            {
+                advertisements = _repository.GetAdvertisements().OrderByDescending(a => a.Date).ToList();
+            }
+            else if (sortParameter == "By Year Ascending")
+            {
+                advertisements = _repository.GetAdvertisements().OrderBy(a => a.CarDto.Year).ToList();
+            }
+            else if (sortParameter == "By Year Descending")
+            {
+                advertisements = _repository.GetAdvertisements().OrderByDescending(a => a.CarDto.Year).ToList();
+            }
+            return Json(advertisements);
+
         }
         [HttpPost("PublishAdvertisement")]
         [Authorize]

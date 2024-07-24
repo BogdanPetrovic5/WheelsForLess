@@ -63,12 +63,34 @@
                 </button>
             </div>
             <div class="filter-second-section section">
-                <button><img src="/assets/images/sort.png"> Sort</button>
+                <button><img src="/assets/images/sort.png"> Sort by</button>
+                <select id="sort-option" [(ngModel)]="sortParameter" (change)="chooseSort()">
+
+                    <option>
+                        By Date Ascending
+                    </option>
+                    <option>
+                        By Date Descending
+                    </option>
+                    <option>
+                        By Year Ascending
+                    </option>
+                    <option>
+                        By Year Descending
+                    </option>
+                    <option>
+                        By Price Ascending
+                    </option>
+                    <option>
+                        By Price Descending
+                    </option>
+                </select>
             </div>
         </div>
     </section>
     <div class="log-out" *ngIf="isLoggedIn()">
         <button (click)="logout()"><img src="/assets/images/lout.png"> Logout</button>
+        
     </div>
 </header>
 

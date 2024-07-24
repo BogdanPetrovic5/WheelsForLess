@@ -128,16 +128,21 @@ namespace CarWebShop.Controllers
                         await _webSocketManager.SendMessageToUserAsync(chatWebsocketTarget, message);
                         if (_webSocketManager.IsUserConnected(chatWebsocketTarget))
                         {
+                            if(messageSentOutChat == true)
+                            {
+                                messageSentOutChat = false;
+                            }
                             messageSentInChat = true;
                         }
-                       
+                        else messageSentOutChat = true;
+
+
 
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine($"Failed to send message to chat WebSocket: {ex.Message}");
                         messageSentOutChat = true;
-
 
                     }
 
@@ -148,16 +153,12 @@ namespace CarWebShop.Controllers
                     {
                        
                         await _webSocketManager.SendMessageToUserAsync(userWebsocketTarget, message);
-                        if (_webSocketManager.IsUserConnected(userWebsocketTarget))
-                        {
-                            messageSentOutChat = true;
-                        }
+                       
 
-                    }
-                    catch (Exception ex)
+                    } catch (Exception ex)
                     {
                         Console.WriteLine($"Failed to send message to user WebSocket: {ex.Message}");
-                        messageSentOutChat = true;
+                       
 
 
                     }

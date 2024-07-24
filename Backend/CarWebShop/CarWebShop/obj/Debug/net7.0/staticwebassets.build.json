@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "nzDl3CJrpRNybqsgZzMspgF5xxsfgP9D6e4y0gOzIvo=",
+  "Hash": "TCupL7nXqcibU9YCJg9SD572u7MHSmE17SKFc+WEtlk=",
   "Source": "CarWebShop",
   "BasePath": "_content/CarWebShop",
   "Mode": "Default",
@@ -168,6 +168,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Photos\\Bogdan69\\42\\maxresdefault (1).jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogdan69\\43\\800px-2020_Volkswagen_Golf_Style_1.5_Front.jpg",
+      "SourceId": "CarWebShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
+      "BasePath": "_content/CarWebShop",
+      "RelativePath": "Photos/Bogdan69/43/800px-2020_Volkswagen_Golf_Style_1.5_Front.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Photos\\Bogdan69\\43\\800px-2020_Volkswagen_Golf_Style_1.5_Front.jpg"
     },
     {
       "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogi5\\15\\kopija2.jpg",

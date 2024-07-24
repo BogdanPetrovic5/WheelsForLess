@@ -102,6 +102,13 @@ header {
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            .filter-second-section select{
+                outline: none;
+                border: none;
+                border-radius: 5px;
+                height: 40px;
+                width: 80%;
+            }
             .section{
                 font-size: 25px;
                 margin-top: 20px;
