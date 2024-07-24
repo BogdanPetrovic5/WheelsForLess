@@ -8,6 +8,6 @@ namespace CarWebShop.Interfaces
 
         ICollection<Advertisement> GetAdvertisements();
         ICollection<Advertisement> GetFavorites(int userID);
-        IEnumerable<Advertisement> GetFilteredAdvertisements(AdvertisementFilter filter);
+        ICollection<Advertisement> GetFilteredAdvertisements(AdvertisementFilter filter);
     }
 }

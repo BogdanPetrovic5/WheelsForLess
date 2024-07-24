@@ -53,7 +53,7 @@ namespace CarWebShop.Repository
                 AdverID = favorites.AdverID
             };
         }
-        public IEnumerable<Advertisement> GetFilteredAdvertisements(AdvertisementFilter filter)
+        public ICollection<Advertisement> GetFilteredAdvertisements(AdvertisementFilter filter)
         {
             var query = _context.Advertisement.Include(ad => ad.Car).Include(ad => ad.User).Include(ad => ad.FavoritedByUsers).AsQueryable();
             if(filter != null)

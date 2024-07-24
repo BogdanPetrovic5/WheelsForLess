@@ -87,6 +87,10 @@ export class HederComponent implements OnInit{
    this.models = true;
   
   }
+  chooseSort(){
+    
+    this.dashService.setSortParameter = this.sortParameter
+  }
   isLoggedIn():boolean{
     if(sessionStorage.getItem("Token")){
       return true
@@ -113,14 +117,9 @@ export class HederComponent implements OnInit{
     this.router.navigate(['/Messages/Inbox']);
   }
   chooseModel(){
-   
     this.filter = false;
-    
-   
   }
-  chooseSort(){
-     
-  }
+
   sendMessage(){
     this.router.navigate(['/NewMessage'])
   }

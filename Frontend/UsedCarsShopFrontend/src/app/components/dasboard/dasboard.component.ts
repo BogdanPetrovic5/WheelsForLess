@@ -27,7 +27,10 @@ export class DasboardComponent {
     private wsURL:any;
     public selectedBrand:any;
     public selectedModel:any;
-    subscriptions: Subscription = new Subscription();
+    subscriptionsFilter: Subscription = new Subscription();
+    subscriptionsSort: Subscription = new Subscription()
+
+    public sort:string |null= null;
     routerSub: Subscription | undefined;
     
     constructor(private dashService:DashboardService, private router:Router, private route:ActivatedRoute, private loadingService:LoadingService,private wsService:WebsocketMessagesService){
@@ -36,18 +39,35 @@ export class DasboardComponent {
     
     
   ngOnInit(){
+    this.username = sessionStorage.getItem("Username")
+    this.setRoutes();
+    this.establishConnectionWithSocekt();
+    this.setupSubscriptionsForFilterAndSort();
+    this.setupQueryParameters();
+  }
+  setupQueryParameters(){
+    this.route.queryParams.subscribe(param =>{
+      this.currentPage = +param['page'] || 1
+      const brand =  this.dashService.currentBrand || sessionStorage.getItem("brand")
+      const model = this.dashService.currentModel || sessionStorage.getItem("model")
+      this.updateUrlWithFilters(brand,model);
+      this.loadAdvertisements();
+    })
+  }
+  setRoutes(){
     sessionStorage.setItem("currentRoute", "Dashboard")
     sessionStorage.setItem("year", "")
+  }
+  establishConnectionWithSocekt(){
     let username = sessionStorage.getItem("Username")
-    
     this.dashService.getUserId(username).subscribe(response =>{
       this.userID = response;
       sessionStorage.setItem("userID", this.userID);
       this.connectToWebsocket();
     })
-    
-    this.username = sessionStorage.getItem("Username")
-    this.subscriptions.add(
+  }
+  setupSubscriptionsForFilterAndSort(){
+    this.subscriptionsFilter.add(
       combineLatest([
         this.dashService.filterBrand$,
         this.dashService.filterModel$
@@ -57,17 +77,36 @@ export class DasboardComponent {
         this.applyFilters();
       })
     );
-    
-    this.route.queryParams.subscribe(param =>{
-      this.currentPage = +param['page'] || 1
-      const brand =  this.dashService.currentBrand || sessionStorage.getItem("brand")
-      const model = this.dashService.currentModel || sessionStorage.getItem("model")
-      this.updateUrlWithFilters(brand,model);
-      this.loadAdvertisements();
-    })
+    this.subscriptionsSort.add(
+      this.dashService.sortParameter$.subscribe((sort)=>{
       
+        this.applySort()
+      })
+    )
   }
+  applySort(){
+    const brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
+    const model = this.dashService.currentModel || sessionStorage.getItem("model")
+    if(brand){
+      sessionStorage.setItem("brand", brand);
+    }
+    if(model){
+      sessionStorage.setItem("model", model);
+    }
   
+
+    const sortParameter = this.dashService.getSortParameter || sessionStorage.getItem("sort")
+    
+    if(sortParameter) sessionStorage.setItem("sort", sortParameter);
+    if(sortParameter != ""){
+      this.dashService.sortAdvertisements(sortParameter, brand, model,this.currentPage).subscribe((response)=>{
+        this.advertisementObject.Advertisements = response
+     },(error:HttpErrorResponse)=>{
+       console.log(error)
+     })
+    }
+   
+  }
   applyFilters(){
     const brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
     const model = this.dashService.currentModel || sessionStorage.getItem("model")
@@ -195,9 +234,9 @@ export class DasboardComponent {
     this.username = sessionStorage.getItem("Username");
     const brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
     const model = this.dashService.currentModel || sessionStorage.getItem("model")
-    
+    const sort = this.dashService.getSortParameter || sessionStorage.getItem("sort")
     this.loadingService.show()
-    if ((brand != null) || (model != null)) {
+    if ((brand != null) || (model != null) ) {
       
       this.dashService.filterAdvertisements(brand, model, this.currentPage).subscribe(response => {
         this.advertisementObject.Advertisements = response;
@@ -208,10 +247,20 @@ export class DasboardComponent {
           }
         }
       });
-    }else {
+    }else if(brand == null && model == null && sort == null){
       this.dashService.getAllAdvers(this.currentPage, this.pageSize).subscribe(response => {
         this.advertisementObject.Advertisements = response;
       
+        this.loadingService.hide();
+        for (let i = 0; i < this.advertisementObject.Advertisements.length; i++) {
+          for (let j = 0; j < this.advertisementObject.Advertisements[i].imagePaths.length; j++) {
+            this.advertisementObject.Advertisements[i].imagePaths[j].imagePath = this.advertisementObject.Advertisements[i].imagePaths[j].imagePath.replace(/\\/g, "/");
+          }
+        }
+      });
+    }else if(sort != null){
+      this.dashService.sortAdvertisements(sort, brand, model,this.currentPage).subscribe(response => {
+        this.advertisementObject.Advertisements = response;
         this.loadingService.hide();
         for (let i = 0; i < this.advertisementObject.Advertisements.length; i++) {
           for (let j = 0; j < this.advertisementObject.Advertisements[i].imagePaths.length; j++) {

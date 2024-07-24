@@ -41,26 +41,35 @@ namespace CarWebShop.Controllers
             
         }
         [HttpGet("SortAdvertisements")]
-        public IActionResult SortAdvertisements(string sortParameter)
+        public IActionResult SortAdvertisements(string sortParameter, [FromQuery] AdvertisementFilter filter, int page = 1, int maximumAdvers = 16)
         {
             List<Advertisement> advertisements = new List<Advertisement>();
-            if (sortParameter == "By Date Ascending")
-            {
-                advertisements = _repository.GetAdvertisements().OrderBy(a => a.Date).ToList();
-            }else if (sortParameter == "By Date Descending")
-            {
-                advertisements = _repository.GetAdvertisements().OrderByDescending(a => a.Date).ToList();
-            }
-            else if (sortParameter == "By Year Ascending")
-            {
-                advertisements = _repository.GetAdvertisements().OrderBy(a => a.CarDto.Year).ToList();
-            }
-            else if (sortParameter == "By Year Descending")
-            {
-                advertisements = _repository.GetAdvertisements().OrderByDescending(a => a.CarDto.Year).ToList();
-            }
-            return Json(advertisements);
 
+            if (filter.CarModel == null && filter.CarBrand == null)
+            {
+                advertisements = _repository.GetAdvertisements().ToList();
+            }
+            else
+            {
+                advertisements = _repository.GetFilteredAdvertisements(filter).ToList();
+            }
+
+            advertisements = sortParameter switch
+            {
+                "By Date Ascending" => advertisements.OrderBy(a => a.Date).ToList(),
+                "By Date Descending" => advertisements.OrderByDescending(a => a.Date).ToList(),
+                "By Year Ascending" => advertisements.OrderBy(a => a.CarDto.Year).ToList(),
+                "By Year Descending" => advertisements.OrderByDescending(a => a.CarDto.Year).ToList(),
+                "By Price Ascending" => advertisements.OrderBy(a => a.Price).ToList(),
+                "By Price Descending" => advertisements.OrderByDescending(a => a.Price).ToList(),
+                _ => advertisements
+            };
+
+            var result = advertisements.Skip((page - 1) * maximumAdvers)
+                                       .Take(maximumAdvers)
+                                       .ToList();
+
+            return Json(result);
         }
         [HttpPost("PublishAdvertisement")]
         [Authorize]

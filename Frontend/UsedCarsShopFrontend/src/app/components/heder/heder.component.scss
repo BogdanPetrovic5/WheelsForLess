@@ -119,6 +119,11 @@ header {
                 justify-content: flex-start;
                 align-items: center;
                 gap: 5px;
+                .sort{
+                    font-size: 0.8em !important;
+                    align-self: center !important;
+                    text-align: center !important;
+                }
                 .filter-drop-down, .models-drop-down{
                     width: 90%;
                   
@@ -154,6 +159,9 @@ header {
                 .filter-drop-down.open, .models-drop-down.open{
                     max-height: 300px; 
                     
+                }
+                #sort-option{
+                    margin-bottom: 20px;
                 }
                 .filter-button{
                     width: 90%;

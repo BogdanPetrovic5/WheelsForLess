@@ -10,9 +10,12 @@ export class DashboardService {
   private storageKey = 'adverDetails';
   private filterBrandSubject = new BehaviorSubject<any | null>(null);
   private filterModelSubject = new BehaviorSubject<any | null>(null);
+  private sortParameterSubject = new BehaviorSubject<any | null>(null);
+
 
   filterBrand$ = this.filterBrandSubject.asObservable();
   filterModel$ = this.filterModelSubject.asObservable();
+  sortParameter$ = this.sortParameterSubject.asObservable();
 
   private currentFilterBrand: any | null = null;
   private currentFilterModel: any | null = null;
@@ -37,9 +40,7 @@ export class DashboardService {
         headers:httpHeaders
       })
   }
-  loadNewMessages(username?:any):Observable<any>{
-    return this.http.get<any>(`${environment.apiUrl}/api/User/GetNewMessages?username=${username}`)
-  }
+ 
   set filterBrand(brand: any | null) {
     this.filterBrandSubject.next(brand);
   }
@@ -53,6 +54,30 @@ export class DashboardService {
 
   get currentModel(): any | null {
     return this.filterModelSubject?.getValue();
+  }
+
+  set setSortParameter(sort:any | null){
+    this.sortParameterSubject.next(sort)
+  }
+  get getSortParameter():any |null{
+    return this.sortParameterSubject?.getValue();
+  }
+
+
+  loadNewMessages(username?:any):Observable<any>{
+    return this.http.get<any>(`${environment.apiUrl}/api/User/GetNewMessages?username=${username}`)
+  }
+  sortAdvertisements(sortParameter:string, brand?:string, model?:string,currentPage?:any):Observable<any>{
+    let maximumAdvers = 16;
+    console.log("Sort api: ", sortParameter, brand, model);
+    let url = `${environment.apiUrl}/api/Advertisement/SortAdvertisements?sortParameter=${sortParameter}&page=${currentPage}&maximumAdvers=${maximumAdvers}`
+    if(brand != null){
+      url += `&CarBrand=${brand}`
+    }
+    if(model != null){
+      url += `&CarModel=${model}`
+    }
+    return this.http.get(url)
   }
   filterAdvertisements(selectedBrand?:any, selectedModel?:any, currentPage?:any):Observable<any>{
     let page = currentPage;

@@ -64,7 +64,7 @@
             </div>
             <div class="filter-second-section section">
                 <button><img src="/assets/images/sort.png"> Sort by</button>
-                <select id="sort-option" [(ngModel)]="sortParameter" (change)="chooseSort()">
+                <select id="sort-option" [(ngModel)]="sortParameter" >
 
                     <option>
                         By Date Ascending
@@ -85,6 +85,9 @@
                         By Price Descending
                     </option>
                 </select>
+                <button *ngIf="sortParameter" class="filter-button" (click)="chooseSort()">
+                    Apply Sort
+                </button>
             </div>
         </div>
     </section>
