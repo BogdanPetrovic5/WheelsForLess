@@ -99,7 +99,6 @@ export class NewAdverFormComponent {
   
   loadModels(){
     const brand = this.carBrandsWithModels.find((item:any) => item.brand === this.Brand);
-
     this.carModels = brand ? brand.models : [];
     console.log(this.carModels)
 
@@ -133,6 +132,20 @@ export class NewAdverFormComponent {
     }
     return false;
   }
+  emptyFields(){
+    this.AdverName = "";
+    this.Brand= "";
+    this.Model= "";
+    this.Year = "";
+    this.BodyType = "";
+    this.FuelType = "";
+    this.Price = "";
+    this.HorsePower ="";
+    this.EngineVolume ="";
+    this.Propulsion = "";
+    this.Mileage = "";
+    this.selectedFiles = []
+  }
   placeAdver(){
     this.UserName = sessionStorage.getItem("Username");
  
@@ -158,19 +171,7 @@ export class NewAdverFormComponent {
     this.token = sessionStorage.getItem("Token");
     if(!check){
       this.dashboard.placeAdvertisement(this.token, formData).subscribe(response =>{
-     
-        this.AdverName = "";
-        this.Brand= "";
-        this.Model= "";
-        this.Year = "";
-        this.BodyType = "";
-        this.FuelType = "";
-        this.Price = "";
-        this.HorsePower ="";
-        this.EngineVolume ="";
-        this.Propulsion = "";
-        this.Mileage = "";
-        this.selectedFiles = []
+        this.emptyFields()
         this.published = true;
         setTimeout(()=>{
           this.published = false

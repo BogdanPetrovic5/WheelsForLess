@@ -21,16 +21,19 @@ export class DasboardComponent {
     public adver = false
     public userID:any
     public options = false
-    currentPage = 1;
-    pageSize = 16;
+    public currentPage = 1;
+    public pageSize = 16;
     private wsSub:any;
     private wsURL:any;
-    public selectedBrand:any;
-    public selectedModel:any;
+  
+    public brand:any;
+    public model:any;
+    public sort:any;
+
     subscriptionsFilter: Subscription = new Subscription();
     subscriptionsSort: Subscription = new Subscription()
 
-    public sort:string |null= null;
+   
     routerSub: Subscription | undefined;
     
     constructor(
@@ -96,7 +99,6 @@ export class DasboardComponent {
     })
   }
   setupSubscriptionsForFilterAndSort(){
- 
     this.subscriptionsFilter.add(
       combineLatest([
         this.dashService.filterBrand$,
@@ -115,8 +117,9 @@ export class DasboardComponent {
       })
     )
   }
+  
   applySort(){
-   
+  
     const brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
     const model = this.dashService.currentModel || sessionStorage.getItem("model")
    
@@ -197,10 +200,7 @@ export class DasboardComponent {
     }
     this.router.navigate([], { relativeTo: this.route, queryParams: {page:this.currentPage, brand: queryParams.brand ? queryParams.brand : null, model: queryParams.model ? queryParams.model : null} });
   }
-  ngDoCheck():void{
-    
-    
-  }
+
   closeConnection(){
 
     if (this.wsSub) {
@@ -208,53 +208,7 @@ export class DasboardComponent {
     }
     this.wsService.close();
   }
-  ngOnDestroy():void{
-   
-  }
 
-  changeToForm(){
-      this.adverForm = true
-      this.dashboard = false
-      this.adver = false
-  }
-
-  toDashboard(){
-      this.loadAdvertisements()
-      this.adverForm = false
-      this.dashboard = true
-      this.adver = false
-  }
-
-  showDropdown(){
-      this.options = true
-  }
-
-  closeDropdown(){
-      this.options = false
-  }
-  navigateToAdvertisement(card:any){
-      this.router.navigate(['/Advertisement']);
-      let currentRoute = card.carDto.brand + " " + card.carDto.model
-      let carYear = card.carDto.year
-      sessionStorage.setItem("currentRoute", currentRoute)
-      sessionStorage.setItem("year", carYear)
-      this.dashService.setCard(card);
-  }
-  nextPage() {
-    this.currentPage += 1;
-    const brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
-    const model = this.dashService.currentModel || sessionStorage.getItem("model")
-    this.updateUrlWithFilters(brand, model);
-    this.loadAdvertisements();
-  }
-
-  prevPage() {
-    this.currentPage -= 1;
-    const brand = this.dashService.currentBrand;
-    const model = this.dashService.currentModel;
-    this.updateUrlWithFilters(brand, model);
-    this.loadAdvertisements();
-  }
   private replaceBackslashesInImagePaths(advertisements: any[]): any[] {
     if (!Array.isArray(advertisements)) {
       return [];
@@ -296,17 +250,67 @@ export class DasboardComponent {
      
     });
   }
+  loadFilterAndSortParameters(){
+    this.brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
+    this.model = this.dashService.currentModel || sessionStorage.getItem("model")
+    this.sort = this.dashService.getSortParameter || sessionStorage.getItem("sort")
+  }
   private loadAdvertisements() {
+    this.loadFilterAndSortParameters()
+    this.loadingService.show()
+    if ((this.brand != null) || (this.model != null) ) {
+      this.loadFilteredAdvertisements(this.brand, this.model)
+    }else if(this.brand == null && this.model == null && this.sort == null){
+      this.loadAllAdvertisements()
+    }else if(this.sort != null){
+      this.loadSortedAdvertisements(this.brand, this.model,this.sort)
+    }
+  }
+
+
+
+  //Navigation
+  changeToForm(){
+    this.adverForm = true
+    this.dashboard = false
+    this.adver = false
+  }
+
+  toDashboard(){
+    this.loadAdvertisements()
+    this.adverForm = false
+    this.dashboard = true
+    this.adver = false
+  }
+
+  showDropdown(){
+    this.options = true
+  }
+
+  closeDropdown(){
+    this.options = false
+  }
+  navigateToAdvertisement(card:any){
+    this.router.navigate(['/Advertisement']);
+    let currentRoute = card.carDto.brand + " " + card.carDto.model
+    let carYear = card.carDto.year
+    sessionStorage.setItem("currentRoute", currentRoute)
+    sessionStorage.setItem("year", carYear)
+    this.dashService.setCard(card);
+  }
+  nextPage() {
+    this.currentPage += 1;
     const brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
     const model = this.dashService.currentModel || sessionStorage.getItem("model")
-    const sort = this.dashService.getSortParameter || sessionStorage.getItem("sort")
-    this.loadingService.show()
-    if ((brand != null) || (model != null) ) {
-      this.loadFilteredAdvertisements(brand, model)
-    }else if(brand == null && model == null && sort == null){
-      this.loadAllAdvertisements()
-    }else if(sort != null){
-      this.loadSortedAdvertisements(brand, model,sort)
-    }
+    this.updateUrlWithFilters(brand, model);
+    this.loadAdvertisements();
+  }
+
+  prevPage() {
+    this.currentPage -= 1;
+    const brand = this.dashService.currentBrand;
+    const model = this.dashService.currentModel;
+    this.updateUrlWithFilters(brand, model);
+    this.loadAdvertisements();
   }
 }
