@@ -55,7 +55,7 @@ export class HederComponent implements OnInit{
     this.loadOptions();
     this.currentRoute = sessionStorage.getItem("currentRoute");
     this.loadNewMessages();
-    this.loadSubscriptions()
+    this.loadSubscriptions();
   }
   loadSubscriptions(){
     this.subscriptions.add(
@@ -93,12 +93,9 @@ export class HederComponent implements OnInit{
   }
   loadModels(){
    this.selectedModel = null;
-   
    const brand = this.carBrandsWithModels.find((item:any) => item.brand === this.selectedBrand)
- 
    this.carModels = brand ? brand.models : []
    this.models = true;
-  
   }
   chooseSort(){
     
