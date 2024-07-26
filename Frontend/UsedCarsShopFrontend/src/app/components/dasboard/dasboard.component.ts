@@ -33,24 +33,52 @@ export class DasboardComponent {
     public sort:string |null= null;
     routerSub: Subscription | undefined;
     
-    constructor(private dashService:DashboardService, private router:Router, private route:ActivatedRoute, private loadingService:LoadingService,private wsService:WebsocketMessagesService){
+    constructor(
+      private dashService:DashboardService, 
+      private router:Router, 
+      private route:ActivatedRoute, 
+      private loadingService:LoadingService,
+      private wsService:WebsocketMessagesService
+    ){
+      //Initilizing advertisement object in constructor
       this.advertisementObject = new Advertisement();
+      //Initilizing advertisement object in constructor
     }
     
     
   ngOnInit(){
+    //Initilizing component
+    this.initilizeComponent()
+    //Initilizing component
+  }
+  initilizeComponent(){
+    //Getting username from session storage and storing in to username variable
     this.username = sessionStorage.getItem("Username")
+    //Setting up the routes, or headers(better say) for each Component in session storage. When I navigate to dashboard in Banner component in h1 it will be placed Dashboard.
     this.setRoutes();
+
+    //Connection with webscoket is established
     this.establishConnectionWithSocekt();
+
+    //'Listening' for changes inside of dashboard service regarding the sort and filter parameters from Header component
     this.setupSubscriptionsForFilterAndSort();
+
+    //Setting up query parameters of URL on page initilizing so navigating can work properly
     this.setupQueryParameters();
   }
   setupQueryParameters(){
+
     this.route.queryParams.subscribe(param =>{
+      //Current page is set to be of value 'page' in query param, if there is not query default is 1
       this.currentPage = +param['page'] || 1
+      //It gets whatever is brand set to in Header component. If page is reloaded it loads it from session storage, considering that when we choose what brand we would like to see, application sets key "brabd" with specified value in session storage
       const brand =  this.dashService.currentBrand || sessionStorage.getItem("brand")
+      //Same goes for model
       const model = this.dashService.currentModel || sessionStorage.getItem("model")
+
+      //Updating URL with now added query parameters with values from brand and model.
       this.updateUrlWithFilters(brand,model);
+      //Loading advertisements into advertisement object that was initilized in constructor
       this.loadAdvertisements();
     })
   }
@@ -59,14 +87,18 @@ export class DasboardComponent {
     sessionStorage.setItem("year", "")
   }
   establishConnectionWithSocekt(){
-    let username = sessionStorage.getItem("Username")
-    this.dashService.getUserId(username).subscribe(response =>{
+    //Getting userid based on current logged in user.
+    this.dashService.getUserId(this.username).subscribe(response =>{
       this.userID = response;
+      //Setting up ID in session storage
       sessionStorage.setItem("userID", this.userID);
+      //Connecting with websocket In api call due to its asynchronous nature  
       this.connectToWebsocket();
     })
   }
   setupSubscriptionsForFilterAndSort(){
+    //Combining both responses of filter(brand and model) with debaunce time. If its done separately without debaunce time it will require double call for eg. 
+    //If user Set brand 'BMW' and model '525' without debaunce and combineLatest it would first filter only 'BMW' cars, and it would require of user to click filter button once again for the application can show all '525' models of brand 'BMW'. So now with this kind of approach it will wait for 'filterBrand$' to emit new value then if 'filterModel$' doesn't emit anything within 300ms delay period it will apply only 'brand' filter otherwise if 'filterMode$' emitts value within 300ms it will apply both 'brand' and 'model' filters.
     this.subscriptionsFilter.add(
       combineLatest([
         this.dashService.filterBrand$,
@@ -77,6 +109,7 @@ export class DasboardComponent {
         this.applyFilters();
       })
     );
+    //It waits for 'sort' parameter and then it applies the sorting for specified items(filtered, or not)
     this.subscriptionsSort.add(
       this.dashService.sortParameter$.subscribe((sort)=>{
       
@@ -85,8 +118,10 @@ export class DasboardComponent {
     )
   }
   applySort(){
+    //If currentBrand is not null constant brand will take its value otherwise it will load value from session storage same goes for model
     const brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
     const model = this.dashService.currentModel || sessionStorage.getItem("model")
+    //Storing inside of sessionStorage
     if(brand){
       sessionStorage.setItem("brand", brand);
     }
@@ -94,10 +129,11 @@ export class DasboardComponent {
       sessionStorage.setItem("model", model);
     }
   
-
+    //Geting sort parameter and setting it up in session storage
     const sortParameter = this.dashService.getSortParameter || sessionStorage.getItem("sort")
     
     if(sortParameter) sessionStorage.setItem("sort", sortParameter);
+    //Sorting
     if(sortParameter != ""){
       this.dashService.sortAdvertisements(sortParameter, brand, model,this.currentPage).subscribe((response)=>{
         this.advertisementObject.Advertisements = response
@@ -108,8 +144,10 @@ export class DasboardComponent {
    
   }
   applyFilters(){
+    //If currentBrand is not null constant brand will take its value otherwise it will load value from session storage same goes for model
     const brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
     const model = this.dashService.currentModel || sessionStorage.getItem("model")
+    //Storing it in session storage
     if(brand){
       sessionStorage.setItem("brand", brand);
     }
@@ -118,7 +156,6 @@ export class DasboardComponent {
     }
     
     if ((brand != null) || (model != null)) {
-      
       this.currentPage = 1;
       this.updateUrlWithFilters(brand,model);
       this.dashService.filterAdvertisements(brand, model, this.currentPage).subscribe((response)=>{
@@ -132,6 +169,7 @@ export class DasboardComponent {
 
    
   connectToWebsocket(): void {
+    //Connecting to websocket
     let token = sessionStorage.getItem('Token');
     let userID = sessionStorage.getItem('userID') || '';
 
@@ -152,7 +190,7 @@ export class DasboardComponent {
   }
 
   updateUrlWithFilters(brand: string, model: string) {
-    
+    //Updating url with currend brand with/out model values
     const queryParams: any = {};
     if (brand) {
       queryParams.brand = brand;
@@ -167,6 +205,7 @@ export class DasboardComponent {
     
   }
   closeConnection(){
+    //Closing ws connection on demand
     if (this.wsSub) {
       this.wsSub.unsubscribe();
     }
@@ -212,6 +251,7 @@ export class DasboardComponent {
       this.dashService.setCard(card);
   }
   nextPage() {
+    //Navigating throug pages
     this.currentPage += 1;
     const brand = this.dashService.currentBrand || sessionStorage.getItem("brand")
     const model = this.dashService.currentModel || sessionStorage.getItem("model")
@@ -222,6 +262,7 @@ export class DasboardComponent {
   }
 
   prevPage() {
+     //Navigating throug pages
     this.currentPage -= 1;
     const brand = this.dashService.currentBrand;
     const model = this.dashService.currentModel;

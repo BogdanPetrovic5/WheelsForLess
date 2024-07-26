@@ -12,29 +12,34 @@ import { Router } from '@angular/router';
 export class FavoriteDashboardComponent implements OnInit{
   favorites: FavoiriteAdvertisement;
 
-  constructor(private dashboardService:DashboardService, private router:Router){
+  constructor(
+    private dashboardService:DashboardService, 
+    private router:Router
+  ){
     this.favorites = new FavoiriteAdvertisement();
   }
-   ngOnInit(): void {
+  ngOnInit(): void {
+      //Initilizing the component
       this.loadFavorites()
       sessionStorage.setItem("currentRoute", "Favorites")
       sessionStorage.removeItem("year")
-   }
-   loadFavorites(){
-      this.dashboardService.getFavorites().subscribe(response=>{
-            
-        this.favorites.Advertisements = response
-        console.log("Favorites: ", this.favorites)
-    },(error:HttpErrorResponse)=>{
-      console.log(error)
-    })
-   }
-   navigateToAdvertisement(card:any){
+      //Initilizing the component
+  }
+  loadFavorites(){
+    this.dashboardService.getFavorites().subscribe(response=>{
+          
+      this.favorites.Advertisements = response
+      console.log("Favorites: ", this.favorites)
+  },(error:HttpErrorResponse)=>{
+    console.log(error)
+  })
+  }
+  navigateToAdvertisement(card:any){
     this.router.navigate(['/Advertisement']);
     let currentRoute = card.carDto.brand + " " + card.carDto.model
     let carYear = card.carDto.year
     sessionStorage.setItem("currentRoute", currentRoute)
     sessionStorage.setItem("year", carYear)
     this.dashboardService.setCard(card);
-}
+  }
 }

@@ -30,13 +30,17 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
     isLoading:boolean = false;
     unreadMessages:any = 0;
     isSelected = this.isSelectedValue === 'true' ? true : false
-    // private messageEventSubscription:Subscription;
-    constructor(private messagesService:MessagesService,private router:Router,  private route:ActivatedRoute, private wsService:WebsocketMessagesService, private loadingService:LoadingService, private dashboardComponent:DasboardComponent){
+    
+    constructor(
+      private messagesService:MessagesService,
+      private router:Router,
+      private route:ActivatedRoute, 
+      private wsService:WebsocketMessagesService, 
+      private loadingService:LoadingService, 
+      private dashboardComponent:DasboardComponent
+    ){
         this._messageService = messagesService;
         this.messageObject = new Messages();
-        // this.messageEventSubscription = this.messagesService.newMessage$.subscribe(
-        //   data => this.handleNewMessage(data)
-        // );
     }
 
     
@@ -44,13 +48,14 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
 
     }
     ngOnInit():void{
+      this.initilizeComponent()
+    }
+    initilizeComponent(){
       this.dashboardComponent.closeConnection()
       this.loadMessages();
       this.currentUsername = sessionStorage.getItem("Username")
       sessionStorage.setItem("currentRoute", "Inbox")
-
     }
-
     ngOnChanges():void{
    
     }

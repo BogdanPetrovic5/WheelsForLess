@@ -26,7 +26,14 @@ export class UserToUserMessagesComponent implements OnInit{
   routerSub: Subscription | undefined;
   newMessages:any = 0;
   isSender:any;
-  constructor(private wsService:WebsocketMessagesService,private messageService:MessagesService, private dashboardService:DashboardService, private router:Router,  private route:ActivatedRoute, private parent:AllMessagesComponent, private dasboardComponent:DasboardComponent){
+  constructor(
+    private wsService:WebsocketMessagesService,
+    private messageService:MessagesService,
+    private router:Router,  
+    private route:ActivatedRoute,
+    private parent:AllMessagesComponent,
+    private dasboardComponent:DasboardComponent
+  ){
 
   }
   @HostListener('window:beforeunload', ['$event'])
@@ -34,55 +41,68 @@ export class UserToUserMessagesComponent implements OnInit{
     this.reloadComponent();
   }
   ngOnInit(): void {
-    
+    this.initilizeComponent();
+  }
+  initilizeComponent(){
+    this.checkForRoutes();
+    this.loadSetSession()
+    this.connectToWebSocket();
+    this.loadChat();
+    this.parent.isSelected = true
+  }
+  checkForRoutes(){
     this.routerSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.reloadComponent();
       }
     });
+  }
+  
+  loadSetSession(){
     this.receiver = sessionStorage.getItem("receiverUsername");
     sessionStorage.setItem("direct", this.receiver)
-    this.connectToWebSocket();
-    this.messages = [];
-    this.loadChat();
     this.currentUsername = sessionStorage.getItem("Username");
-    this.parent.isSelected = true
-  }
-    reloadComponent() {
-      this.disconnectFromWebsocket();
-      window.location.reload()
-    }
-  
-    connectToWebSocket(){
-      let userID = sessionStorage.getItem("userID");
-      let adverID = sessionStorage.getItem("adverID");
-      let initialSenderID = sessionStorage.getItem("initialSenderID");
-      userID = userID ? userID.toString() : ""; 
-      adverID = adverID ? adverID.toString() : ""; 
-      let wsQuery = userID + "-" + adverID + "-" + initialSenderID;
-    
-      this.wsUrl = `${environment.wsUrl}?socketParameter=${wsQuery}`
-      this.wsSub = this.wsService.connect(this.wsUrl).subscribe(
-        (data: any) => {
-          this.messages.unshift({
-            message: data.message,
-            receiverUsername: data.ReceiverUsername,
-            senderUsername: data.SenderUsername,
-            dateSent: data.dateSent,
-            isNew:data.isNew
-          });
-          this.sortMessages();
-        },
-        (error) => console.log('WebSocket error:', error),
-        () => console.log('WebSocket connection closed')
-    );
-
+    this.messages = [];
   }
   ngOnDestroy():void{
     this.removeFromSession();
     this.disconnectFromWebsocket();
     this.parent.isSelected = false
   }
+  validateMessage(message?:string):boolean{
+    message = this.message;
+    return message.trim().length == 0
+  }
+  reloadComponent() {
+    this.disconnectFromWebsocket();
+    window.location.reload()
+  }
+  
+  connectToWebSocket(){
+    let userID = sessionStorage.getItem("userID");
+    let adverID = sessionStorage.getItem("adverID");
+    let initialSenderID = sessionStorage.getItem("initialSenderID");
+    userID = userID ? userID.toString() : ""; 
+    adverID = adverID ? adverID.toString() : ""; 
+    let wsQuery = userID + "-" + adverID + "-" + initialSenderID;
+
+    this.wsUrl = `${environment.wsUrl}?socketParameter=${wsQuery}`
+    this.wsSub = this.wsService.connect(this.wsUrl).subscribe(
+      (data: any) => {
+        this.messages.unshift({
+          message: data.message,
+          receiverUsername: data.ReceiverUsername,
+          senderUsername: data.SenderUsername,
+          dateSent: data.dateSent,
+          isNew:data.isNew
+        });
+        this.sortMessages();
+      },
+      (error) => console.log('WebSocket error:', error),
+      () => console.log('WebSocket connection closed')
+    );
+  }
+  
   disconnectFromWebsocket(){
     if (this.wsSub) {
       this.wsSub.unsubscribe();
@@ -122,13 +142,11 @@ export class UserToUserMessagesComponent implements OnInit{
     sessionStorage.removeItem("direct");
   }
   countNewMessages(){
-
     for(let i = 0; i < this.messages.length;i++){
       if(this.messages[i].isNew == true){
         this.newMessages+= 1;
       }else break;
     }
-
   }
   loadChat(){
     let initialSenderID = sessionStorage.getItem("initialSenderID");

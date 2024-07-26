@@ -23,13 +23,24 @@ export class AdvertisementComponent implements OnInit{
   private _messagesSerivce:MessagesService
   
   adverID:any
-  constructor(private route:ActivatedRoute, private dashboardService:DashboardService, private router:Router, private messagesService:MessagesService){
+  constructor(
+    private route:ActivatedRoute, 
+    private dashboardService:DashboardService, 
+    private router:Router, 
+    private messagesService:MessagesService
+  ){
     this._messagesSerivce = messagesService;
   }
-  
-  
-
   ngOnInit():void{
+    this.initilizeComponent()
+  }
+  initilizeComponent(){
+    this.checkForRoutes()
+    this.loadCard();
+    this.loadCurrentUserID()
+    this.loadQueryParams()
+  }
+  checkForRoutes(){
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -37,8 +48,8 @@ export class AdvertisementComponent implements OnInit{
       this.loadCurrentUserID();
       this.findIsWished()
     });
-    this.loadCard();
-    this.loadCurrentUserID()
+  }
+  loadQueryParams(){
     this.route.queryParams.subscribe(param =>{
       this.adverID = +param['adverID'] || this.card.adverID
       const brand =  this.card.carDto.brand
@@ -46,7 +57,6 @@ export class AdvertisementComponent implements OnInit{
       this.updateUrl(brand,model);
     
     })
-   
   }
   updateUrl(brand:string, model:string){
     const queryParams: any = {};

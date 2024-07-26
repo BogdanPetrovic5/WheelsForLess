@@ -35,16 +35,29 @@ export class HederComponent implements OnInit{
   currentRoute:any = ""
 
   subscriptions: Subscription = new Subscription();
-  constructor(private router:Router, private wsService:WebsocketMessagesService, private messageService:MessagesService, private brandsWithModelsService:CarDetails, private dashService:DashboardService, private auth:AuthenticationService, private dashboardComponent:DasboardComponent){
+  constructor(
+    private router:Router, 
+    private wsService:WebsocketMessagesService, 
+    private messageService:MessagesService, 
+    private brandsWithModelsService:CarDetails, 
+    private dashService:DashboardService, 
+    private auth:AuthenticationService, 
+    private dashboardComponent:DasboardComponent
+  ){
       this._messageService = messageService;
       this._carBrandsWithModels = brandsWithModelsService;
   }
   ngOnInit():void{
+    this.initilizeComponent()
+  }
+  initilizeComponent(){
     this.username = sessionStorage.getItem("Username")
     this.loadOptions();
     this.currentRoute = sessionStorage.getItem("currentRoute");
-    this.loadNewMessages()
-
+    this.loadNewMessages();
+    this.loadSubscriptions()
+  }
+  loadSubscriptions(){
     this.subscriptions.add(
       this.messageService.unreadMessages$.subscribe((newMessages: number)=>{
         this.numberMessages += newMessages

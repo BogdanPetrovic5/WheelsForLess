@@ -11,9 +11,9 @@ export class BannerComponent {
   year:any
   currentUser:string | null = ""
 
-  constructor( private router:Router, private route:ActivatedRoute ){
-
-  }
+  constructor( 
+    private router:Router
+  ){}
   ngOnInit():void{
     this.currentRoute = sessionStorage.getItem("currentRoute");
     this.year = sessionStorage.getItem("year")

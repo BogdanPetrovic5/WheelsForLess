@@ -35,10 +35,11 @@ ChangeFormToRegister() {
   
   public registerForm = false;
   public loginForm = true;
-  constructor(private auth:AuthenticationService, private router:Router, private loadingService:LoadingService) {
-    
-    
-  }
+  constructor(
+    private auth:AuthenticationService, 
+    private router:Router, 
+    private loadingService:LoadingService
+  ) {}
   navigateToDashboard(){
     this.router.navigate(['/Dashboard'])
   }
