@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DoCheck, HostListener, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, DoCheck, HostListener, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Messages } from 'src/app/Data Transfer Objects/Messages';
@@ -15,7 +15,7 @@ import { DasboardComponent } from '../dasboard/dasboard.component';
   templateUrl: './all-messages.component.html',
   styleUrls: ['./all-messages.component.scss']
 })
-export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
+export class AllMessagesComponent implements OnInit, OnDestroy{
  
     private readonly _messageService:MessagesService 
     messageObject:Messages;
@@ -23,8 +23,8 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
     currentUrl = this.router.url;
     isSelectedValue = sessionStorage.getItem("isSelected");
     messageID:any
-    // isSelected = this.isSelectedValue === 'true' ? true : false
-    private wsSub:any;
+
+ 
     oldMessages:any
 
     isLoading:boolean = false;
@@ -43,27 +43,21 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
         this.messageObject = new Messages();
     }
 
-    
-    ngDoCheck(): void {
-
-    }
     ngOnInit():void{
       this.initilizeComponent()
     }
+    ngOnDestroy():void{
+      sessionStorage.removeItem("messageID");
+      sessionStorage.removeItem("isSelected")
+    }
+    
+    
     initilizeComponent(){
       this.dashboardComponent.closeConnection()
       this.loadMessages();
       this.currentUsername = sessionStorage.getItem("Username")
       sessionStorage.setItem("currentRoute", "Inbox")
     }
-    ngOnChanges():void{
-   
-    }
-    ngOnDestroy():void{
-      sessionStorage.removeItem("messageID");
-      sessionStorage.removeItem("isSelected")
-    }
-   
     sortMessages(){
       this.messageObject.Messages.sort((b,a) => {
         return new Date(a.dateSent).getTime() - new Date(b.dateSent).getTime();
@@ -76,10 +70,6 @@ export class AllMessagesComponent implements DoCheck, OnInit, OnChanges{
         this.messageObject.Messages = response;
         this.sortMessages()
         this.messageID = sessionStorage.getItem("messageID")
-        console.log( this.messageObject.Messages)
-        
-        
-       
        this.isLoading = false
       }, (error:HttpErrorResponse)=>{
         console.log(error);

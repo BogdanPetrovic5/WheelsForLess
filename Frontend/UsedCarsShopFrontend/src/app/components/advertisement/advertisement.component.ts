@@ -91,12 +91,9 @@ export class AdvertisementComponent implements OnInit{
   }
   addToWish(){
     let username = sessionStorage.getItem("Username")
-    console.log(username)
     let token = sessionStorage.getItem("Token");
-    this.isWished = this.card.favoritedByUserDto.find((favorite:any) => favorite.userID == this.userID) !== undefined;
     
-
-    console.log("Is Wished after clicking: ", this.isWished )
+    this.isWished = this.card.favoritedByUserDto.find((favorite:any) => favorite.userID == this.userID) !== undefined;
     this.dashboardService.addToWish(this.card.adverID, username, token).subscribe(response =>{
       if(this.isWished == false){
         this.card.favoritedByUserDto.push({userID:this.userID, user:null, adverID:this.card.adverID, advertisement:null})
@@ -107,7 +104,6 @@ export class AdvertisementComponent implements OnInit{
         this.wishlistAddedNotification()
       }else{
      
-        console.log(this.card)
         this.card.favoritedByUserDto = this.card.favoritedByUserDto.filter((favorite: any) => favorite.userID != this.userID);
       
         this.dashboardService.setCard(this.card)

@@ -43,7 +43,6 @@ export class NewAdverFormComponent {
   body:boolean = false
   fuel:boolean = false
   propulsion:boolean = false
-
   empty:boolean = false;
   published:boolean = false;
   constructor(
@@ -146,10 +145,7 @@ export class NewAdverFormComponent {
     this.Mileage = "";
     this.selectedFiles = []
   }
-  placeAdver(){
-    this.UserName = sessionStorage.getItem("Username");
- 
-    const formData = new FormData();
+  appendToForm(formData:FormData){
     formData.append("AdverName", this.AdverName);
     formData.append("UserName", this.UserName);
     formData.append("Brand", this.Brand);
@@ -162,9 +158,24 @@ export class NewAdverFormComponent {
     formData.append("EngineVolume", this.EngineVolume);
     formData.append("HorsePower", this.HorsePower);
     formData.append("Mileage", this.Mileage)
-    
+  }
+  showPublishedNotification(){
+    this.published = true;
+    setTimeout(()=>{
+      this.published = false
+    }, 1000)
+  }
+  showUnpublishedNotification(){
+    this.empty = true;
+    setTimeout(()=>{
+       this.empty = false
+     }, 2000)
+  }
+  placeAdver(){
+    this.UserName = sessionStorage.getItem("Username");
+    const formData = new FormData();
+    this.appendToForm(formData)
     let check = this.isEmpty(formData)
-
     for (let i = 0; i < this.selectedFiles.length; i++) {
         formData.append("selectedImages", this.selectedFiles[i]);
     }
@@ -172,18 +183,12 @@ export class NewAdverFormComponent {
     if(!check){
       this.dashboard.placeAdvertisement(this.token, formData).subscribe(response =>{
         this.emptyFields()
-        this.published = true;
-        setTimeout(()=>{
-          this.published = false
-        }, 1000)
+        this.showPublishedNotification();
       }, (error:HttpErrorResponse) =>{
-        console.log("Jok more")
+        console.log(error);
       })
     }else{
-      this.empty = true;
-       setTimeout(()=>{
-          this.empty = false
-        }, 2000)
+      this.showUnpublishedNotification()
     }
     
   }

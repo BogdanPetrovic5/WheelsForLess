@@ -26,6 +26,10 @@ export class UserToUserMessagesComponent implements OnInit{
   routerSub: Subscription | undefined;
   newMessages:any = 0;
   isSender:any;
+
+  userID:any
+  initialSenderID:any
+  wsQuery:any
   constructor(
     private wsService:WebsocketMessagesService,
     private messageService:MessagesService,
@@ -77,16 +81,17 @@ export class UserToUserMessagesComponent implements OnInit{
     this.disconnectFromWebsocket();
     window.location.reload()
   }
-  
-  connectToWebSocket(){
+  createUrlForWebsocket(){
     let userID = sessionStorage.getItem("userID");
     let adverID = sessionStorage.getItem("adverID");
     let initialSenderID = sessionStorage.getItem("initialSenderID");
     userID = userID ? userID.toString() : ""; 
     adverID = adverID ? adverID.toString() : ""; 
     let wsQuery = userID + "-" + adverID + "-" + initialSenderID;
-
     this.wsUrl = `${environment.wsUrl}?socketParameter=${wsQuery}`
+  }
+  connectToWebSocket(){
+    this.createUrlForWebsocket();
     this.wsSub = this.wsService.connect(this.wsUrl).subscribe(
       (data: any) => {
         this.messages.unshift({
@@ -141,6 +146,9 @@ export class UserToUserMessagesComponent implements OnInit{
     sessionStorage.removeItem("selectedChat")
     sessionStorage.removeItem("direct");
   }
+
+
+  //Loading messages, opening..
   countNewMessages(){
     for(let i = 0; i < this.messages.length;i++){
       if(this.messages[i].isNew == true){
@@ -148,6 +156,17 @@ export class UserToUserMessagesComponent implements OnInit{
       }else break;
     }
   }
+  messageOperation(messageID:any, username:any){
+    this.parent.markAsRead(messageID);
+    this.messageService.decrementUnreadMessages(this.newMessages);
+    this.messageService.openMessage(messageID, username, this.newMessages).
+    subscribe(()=>{
+    
+    },(error:HttpErrorResponse)=>{
+      console.log(error);
+    })
+  }
+
   loadChat(){
     let initialSenderID = sessionStorage.getItem("initialSenderID");
     let messageID = sessionStorage.getItem("messageID")
@@ -161,21 +180,11 @@ export class UserToUserMessagesComponent implements OnInit{
     this.messageService.getUserToUserMessages(0, initialSenderID,0).subscribe(response=>{
       this.messages = response;
       console.log(response)
-      
       this.sortMessages();
       this.countNewMessages();
       if(this.isSender){
-        this.parent.markAsRead(messageID);
-        this.messageService.decrementUnreadMessages(this.newMessages);
-        
-        this.messageService.openMessage(messageID, username, this.newMessages).
-        subscribe(()=>{
-        
-        },(error:HttpErrorResponse)=>{
-          console.log(error);
-        })
+        this.messageOperation(messageID,username)
       }
-     
       let receiver = this.messages[0].senderUsername == this.currentUsername ? this.messages[0].receiverUsername : this.messages[0].senderUsername
       sessionStorage.setItem("receiverUsername", receiver)
       
