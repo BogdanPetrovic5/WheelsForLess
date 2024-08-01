@@ -18,17 +18,20 @@ import { DasboardComponent } from '../dasboard/dasboard.component';
 export class AllMessagesComponent implements OnInit, OnDestroy{
  
     private readonly _messageService:MessagesService 
-    messageObject:Messages;
     currentUsername:any;
+    messageID:any
+    messageObject:Messages;
+  
+  
     currentUrl = this.router.url;
     isSelectedValue = sessionStorage.getItem("isSelected");
-    messageID:any
+    
 
  
-    oldMessages:any
+    
 
     isLoading:boolean = false;
-    unreadMessages:any = 0;
+  
     isSelected = this.isSelectedValue === 'true' ? true : false
     
     constructor(

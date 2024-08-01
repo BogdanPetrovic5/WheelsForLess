@@ -13,16 +13,20 @@ export class AdvertisementComponent implements OnInit{
   userID:any
   temp:any
   card:any
+  adverID:any
+
   isWished:boolean = false;
   wishlistRemoved:boolean = false;
   wishlistAdded:boolean = false;
   sent:boolean = false;
+  chatBubble:boolean = false
+
+
   currentUsername = sessionStorage.getItem("Username");
-  chatBubble = false
-  message = ""
+  message:string = ""
+ 
   private _messagesSerivce:MessagesService
-  
-  adverID:any
+ 
   constructor(
     private route:ActivatedRoute, 
     private dashboardService:DashboardService, 
@@ -103,12 +107,9 @@ export class AdvertisementComponent implements OnInit{
 
         this.wishlistAddedNotification()
       }else{
-     
         this.card.favoritedByUserDto = this.card.favoritedByUserDto.filter((favorite: any) => favorite.userID != this.userID);
-      
         this.dashboardService.setCard(this.card)
         this.loadCard()
-     
         this.isWished = false;
       
         this.wishlistRemovedNotification()
@@ -151,7 +152,7 @@ export class AdvertisementComponent implements OnInit{
           this.sent = false
         }, 2000)
     },(error:HttpErrorResponse)=>{
-        console.log("Error kurac: ", error)
+      
     })
   }
 

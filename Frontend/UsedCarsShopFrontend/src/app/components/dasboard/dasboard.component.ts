@@ -112,7 +112,6 @@ export class DasboardComponent {
  
     this.subscriptionsSort.add(
       this.dashService.sortParameter$.subscribe((sort)=>{
-      
         this.applySort()
       })
     )

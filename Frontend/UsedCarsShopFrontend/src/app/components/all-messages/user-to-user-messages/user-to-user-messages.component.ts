@@ -21,8 +21,8 @@ export class UserToUserMessagesComponent implements OnInit{
   private wsSub:any;
   adverID:number | undefined
   message = ""
-  receiver:any =""
-  currentUsername:any;
+  receiver:string =""
+  currentUsername:string = "";
   routerSub: Subscription | undefined;
   newMessages:any = 0;
   isSender:any;
@@ -63,9 +63,9 @@ export class UserToUserMessagesComponent implements OnInit{
   }
   
   loadSetSession(){
-    this.receiver = sessionStorage.getItem("receiverUsername");
+    this.receiver = sessionStorage.getItem("receiverUsername") || "";
     sessionStorage.setItem("direct", this.receiver)
-    this.currentUsername = sessionStorage.getItem("Username");
+    this.currentUsername = sessionStorage.getItem("Username") || "";
     this.messages = [];
   }
   ngOnDestroy():void{
@@ -115,11 +115,11 @@ export class UserToUserMessagesComponent implements OnInit{
     this.wsService.close();
   }
   getAllMessages(){
-    this.currentUsername = sessionStorage.getItem("Username");
+    
     this.messageService.getUserToUserMessages(this.currentUsername)
   }
   sendMessage(){
-    this.currentUsername = sessionStorage.getItem("Username");
+    
     let adverID = sessionStorage.getItem("adverID");
     let receiver = sessionStorage.getItem("receiverUsername")
     this.messageService.sendMessage(this.currentUsername, receiver,adverID,this.message).subscribe((response)=>{

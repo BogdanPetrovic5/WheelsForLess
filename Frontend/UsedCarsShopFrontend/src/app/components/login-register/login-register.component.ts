@@ -25,16 +25,16 @@ ChangeFormToRegister() {
   /**
    *
    */
-  public RegisterFirstName = "";
-  public RegisterLastName = "";
-  public RegisterUserName = "";
-  public RegisterPhoneNumber = "";
-  public RegisterPassword = "";
-  public LoginPassword= "";
-  public LoginUserName = "";
+  public RegisterFirstName:string = "";
+  public RegisterLastName:string = "";
+  public RegisterUserName:string = "";
+  public RegisterPhoneNumber:string = "";
+  public RegisterPassword:string = "";
+  public LoginPassword:string= "";
+  public LoginUserName:string = "";
   
-  public registerForm = false;
-  public loginForm = true;
+  public registerForm:boolean = false;
+  public loginForm:boolean = true;
   constructor(
     private auth:AuthenticationService, 
     private router:Router, 
