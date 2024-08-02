@@ -10,10 +10,12 @@ import { UserToUserMessagesComponent } from './components/all-messages/user-to-u
 import { AllMessagesComponent } from './components/all-messages/all-messages.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginGuard } from './guards/login.guard';
+import { LandingComponent } from './components/landing/landing.component';
 
 
 const routes: Routes = [
-  {path:'', redirectTo:"/Login", pathMatch:"full"},
+  {path:'', redirectTo:"/Landing", pathMatch:"full"},
+  {path:"Landing", component:LandingComponent,canActivate:[LoginGuard]},
   {path:"Login", component:LoginRegisterComponent, canActivate:[LoginGuard]},
   {path:"Dashboard", component:DasboardComponent},
   {path:"Advertisement", component:AdvertisementComponent},

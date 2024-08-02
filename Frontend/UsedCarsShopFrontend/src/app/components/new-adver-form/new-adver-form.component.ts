@@ -46,6 +46,7 @@ export class NewAdverFormComponent {
   empty:boolean = false;
   published:boolean = false;
   unpublished:boolean = false;
+  
   adverForm: FormGroup;
   constructor(
     private router:Router, 
@@ -97,17 +98,16 @@ export class NewAdverFormComponent {
   openPropulsionTypes() {
     this.toggleDropdown('propulsion');
   }
+
+
   toggleDropdown(type: 'brands' | 'models' | 'body' | 'fuel' | 'propulsion') {
     this[type] = !this[type];
   }
-
-
   selectBrand(brand: any) {
     this.adverForm.patchValue({ Brand: brand });
     this.Brand = brand
     this.loadModels();
     this.brands = false;
-   
   }
 
   selectModel(model: any) {
@@ -151,7 +151,7 @@ export class NewAdverFormComponent {
         this.selectedFiles.push(files[i]); 
       }
     }
-    console.log(this.selectedFiles)
+  
   }
 
   convertToMB(){

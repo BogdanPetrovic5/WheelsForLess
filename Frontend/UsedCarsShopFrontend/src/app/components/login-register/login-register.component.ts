@@ -13,18 +13,6 @@ export class LoginRegisterComponent {
 ngOnInit():void{
   sessionStorage.removeItem("isSelected")
 }
-
-ChangeFormToLogin() {
-  this.registerForm = false;
-  this.loginForm = true;
-}
-ChangeFormToRegister() {
-  this.registerForm = true;
-  this.loginForm = false;
-}
-  /**
-   *
-   */
   public RegisterFirstName:string = "";
   public RegisterLastName:string = "";
   public RegisterUserName:string = "";
@@ -35,6 +23,8 @@ ChangeFormToRegister() {
   
   public registerForm:boolean = false;
   public loginForm:boolean = true;
+  public warning:boolean = false;
+  public alert:boolean = false;
   constructor(
     private auth:AuthenticationService, 
     private router:Router, 
@@ -42,6 +32,13 @@ ChangeFormToRegister() {
   ) {}
   navigateToDashboard(){
     this.router.navigate(['/Dashboard'])
+  }
+  emptyFields(){
+    this.RegisterFirstName = ""
+    this.RegisterLastName = ""
+    this.RegisterUserName = ""
+    this.RegisterPhoneNumber = ""
+    this.RegisterPassword = ""
   }
   register(){
     const user = {
@@ -51,28 +48,41 @@ ChangeFormToRegister() {
       PhoneNumber:this.RegisterPhoneNumber,
       Password:this.RegisterPassword
     }
-    this.auth.register(this.RegisterFirstName,this.RegisterLastName, this.RegisterUserName,this.RegisterPhoneNumber,this.RegisterPassword).subscribe((repsonse) =>{
+    this.auth.register(user).subscribe((repsonse) =>{
       if (repsonse && repsonse.error) {
         console.log('Server returned an error:', repsonse.error);
       } else {
-        alert("Registration succeded")
+        this.alert = true
+        setTimeout(()=>{
+          this.alert = false
+        }, 1500)
+        this.emptyFields()
+        this.ChangeFormToLogin()
       }
     },(error:HttpErrorResponse) =>{
         if(error.status == 409){
-          alert("User already exists")
+          this.warning = true
+          setTimeout(()=>{
+            this.warning = false
+          }, 1500)
+          
         }
     });
   }
 
   Login() {
-    
     this.auth.login(this.LoginUserName, this.LoginPassword).subscribe((token) =>{
-      
-      
       this.router.navigate(["/Dashboard"])
     }, (error:HttpErrorResponse) =>{
       console.log(error);
     })
   }
-  
+  ChangeFormToLogin() {
+    this.registerForm = false;
+    this.loginForm = true;
+  }
+  ChangeFormToRegister() {
+    this.registerForm = true;
+    this.loginForm = false;
+  }
 }

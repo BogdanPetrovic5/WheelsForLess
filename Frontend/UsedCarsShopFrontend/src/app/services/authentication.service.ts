@@ -12,14 +12,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthenticationService {
 
   constructor(private http: HttpClient,private jwtHelper: JwtHelperService) { }
-  register(RegisterFirstName:string,RegisterLastName:string, RegisterUserName:string,RegisterPhoneNumber:string,RegisterPassword:string, ):Observable<any>{
-      return this.http.post<any>(environment.apiUrl + "/api/Registration/Registration",{
-          FirstName:RegisterFirstName,
-          LastName:RegisterLastName,
-          UserName:RegisterUserName,
-          PhoneNumber:RegisterPhoneNumber,
-          Password:RegisterPassword
-      })
+  register(user:any):Observable<any>{
+      return this.http.post<any>(environment.apiUrl + "/api/Registration/Registration",user)
   }
   
   login(LoginUserName:string, LoginPassword:string):Observable<any>{
