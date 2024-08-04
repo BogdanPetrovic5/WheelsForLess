@@ -32,7 +32,7 @@ namespace CarWebShop.Controllers
         {
             using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
-                string query = "SELECT COUNT(*) FROM Users WHERE UserName = @UserName OR PhoneNumber = @PhoneNumber";
+                string query = "SELECT UserName, PhoneNumber FROM Users WHERE UserName = @UserName OR PhoneNumber = @PhoneNumber";
 
                 using (SqlCommand checkCommand = new SqlCommand(query, connection))
                 {
@@ -40,49 +40,64 @@ namespace CarWebShop.Controllers
                     checkCommand.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
 
                     connection.Open();
-                    int userCount = (int)checkCommand.ExecuteScalar();
-
-                    if (userCount > 0)
+                    using (SqlDataReader reader = checkCommand.ExecuteReader())
                     {
-                        return Conflict();
-                    }
-                    else
-                    {
-                        connection.Close();
-                        string queryInsert = "INSERT INTO Users (FirstName, LastName, UserName, PhoneNumber, Password) " + "VALUES (@FirstName, @LastName, @UserName, @PhoneNumber, @Password)";
-                        string encodedPassword = _encodedPassword.EncodePassword(user.Password);
-                        using (SqlCommand command = new SqlCommand(queryInsert, connection))
+                        if (reader.HasRows)
                         {
-
-                            command.Parameters.AddWithValue("@FirstName", user.FirstName);
-                            command.Parameters.AddWithValue("@LastName", user.LastName);
-                            command.Parameters.AddWithValue("@UserName", user.UserName);
-                            command.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
-                            command.Parameters.AddWithValue("@Password", encodedPassword);
-                            connection.Open();
-
-
-                            userFolderName = user.UserName;
-                            string userFolderPath = Path.Combine(baseFolderPath, userFolderName);
-                            if (!Directory.Exists(userFolderPath))
+                            while (reader.Read())
                             {
-                                Directory.CreateDirectory(userFolderPath);
-                            }
-                            int i = command.ExecuteNonQuery();
-                            connection.Close();
+                                string existingUserName = reader["UserName"].ToString();
+                                string existingPhoneNumber = reader["PhoneNumber"].ToString();
 
-                            if (i > 0)
-                            {
-                                return Ok(); // Return 200 OK status
-                            }
-                            else
-                            {
-                                return BadRequest(); // Return 400 Bad Request status
+                                if (existingUserName == user.UserName)
+                                {
+                                    return StatusCode(409, "Username is already in use."); // Username conflict
+                                }
+                                if (existingPhoneNumber == user.PhoneNumber)
+                                {
+                                    return StatusCode(409, "Phone number is already in use."); // Phone number conflict
+                                }
                             }
                         }
                     }
+
+                    connection.Close();
+                }
+
+                string queryInsert = "INSERT INTO Users (FirstName, LastName, UserName, PhoneNumber, Password) " +
+                                     "VALUES (@FirstName, @LastName, @UserName, @PhoneNumber, @Password)";
+                string encodedPassword = _encodedPassword.EncodePassword(user.Password);
+                using (SqlCommand command = new SqlCommand(queryInsert, connection))
+                {
+                    command.Parameters.AddWithValue("@FirstName", user.FirstName);
+                    command.Parameters.AddWithValue("@LastName", user.LastName);
+                    command.Parameters.AddWithValue("@UserName", user.UserName);
+                    command.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
+                    command.Parameters.AddWithValue("@Password", encodedPassword);
+
+                    connection.Open();
+
+                    userFolderName = user.UserName;
+                    string userFolderPath = Path.Combine(baseFolderPath, userFolderName);
+                    if (!Directory.Exists(userFolderPath))
+                    {
+                        Directory.CreateDirectory(userFolderPath);
+                    }
+
+                    int rowsAffected = command.ExecuteNonQuery();
+                    connection.Close();
+
+                    if (rowsAffected > 0)
+                    {
+                        return Ok(); // Return 200 OK status
+                    }
+                    else
+                    {
+                        return BadRequest(); // Return 400 Bad Request status
+                    }
                 }
             }
+
         }
     }
 

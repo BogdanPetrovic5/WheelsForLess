@@ -16,18 +16,15 @@ export class AuthenticationService {
       return this.http.post<any>(environment.apiUrl + "/api/Registration/Registration",user)
   }
   
-  login(LoginUserName:string, LoginPassword:string):Observable<any>{
-    return this.http.post<any>(environment.apiUrl + "/api/Login/Login",{
-      UserName:LoginUserName,
-      Password:LoginPassword
-    }).pipe(
-      tap(response => this.storeToken(response.value, LoginUserName))
+  login(user:any):Observable<any>{
+    return this.http.post<any>(environment.apiUrl + "/api/Login/Login",user).pipe(
+      tap(response => this.storeToken(response.value, user.UserName))
     );
   }
 
   logout(){
-    sessionStorage.removeItem("Token");
-    sessionStorage.removeItem("Username")
+    sessionStorage.clear()
+
   }
   getToken(){
     return sessionStorage.getItem("Token");

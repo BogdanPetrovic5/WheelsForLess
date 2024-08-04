@@ -3,58 +3,65 @@ import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessagesService } from 'src/app/services/messages.service';
-import { filter } from 'rxjs';
+import { filter, Subject } from 'rxjs';
+import { UserSessionMenagmentService } from 'src/app/services/user-session-menagment.service';
 @Component({
   selector: 'app-advertisement',
   templateUrl: './advertisement.component.html',
   styleUrls: ['./advertisement.component.scss']
 })
 export class AdvertisementComponent implements OnInit{
-  userID:any
+  userID:number | null = null;
   temp:any
   card:any
-  adverID:any
+  adverID:number | null = null;
 
   isWished:boolean = false;
   wishlistRemoved:boolean = false;
   wishlistAdded:boolean = false;
   sent:boolean = false;
-  chatBubble:boolean = false
+  empty:boolean = false;
 
-
-  currentUsername = sessionStorage.getItem("Username");
+  currentUsername:string | null = null;
   message:string = ""
- 
-  private _messagesSerivce:MessagesService
- 
+
+
+  private unsubscribe$ = new Subject<void>();
   constructor(
-    private route:ActivatedRoute, 
-    private dashboardService:DashboardService, 
-    private router:Router, 
-    private messagesService:MessagesService
+    private _route:ActivatedRoute, 
+    private _dashboardService:DashboardService, 
+    private _router:Router, 
+    private _messageService:MessagesService,
+    private _userService:UserSessionMenagmentService
   ){
-    this._messagesSerivce = messagesService;
+ 
   }
   ngOnInit():void{
-    this.initilizeComponent()
+    this.initializeComponent()
   }
-  initilizeComponent(){
+  ngOnDestroy():void{
+    this._dashboardService.setCard(this.card)
+    sessionStorage.setItem("year", "");
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+  initializeComponent(){
+    this.loadCurrentUserData()
     this.checkForRoutes()
     this.loadCard();
-    this.loadCurrentUserID()
     this.loadQueryParams()
   }
   checkForRoutes(){
-    this.router.events.pipe(
+    this._router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.loadCard();
-      this.loadCurrentUserID();
+      this.loadCurrentUserData();
       this.findIsWished()
     });
   }
   loadQueryParams(){
-    this.route.queryParams.subscribe(param =>{
+    this._route.queryParams.subscribe(param =>{
       this.adverID = +param['adverID'] || this.card.adverID
       const brand =  this.card.carDto.brand
       const model = this.card.carDto.model 
@@ -70,8 +77,8 @@ export class AdvertisementComponent implements OnInit{
     if (model) {
       queryParams.model = model;
     }
-    this.router.navigate([], { relativeTo: 
-      this.route, 
+    this._router.navigate([], { relativeTo: 
+      this._route, 
       queryParams: {
         adverID: this.adverID, 
         brand: queryParams.brand ? queryParams.brand : null, 
@@ -79,40 +86,40 @@ export class AdvertisementComponent implements OnInit{
         replaceUrl: true
       });
   }
-  loadCurrentUserID(){
-    this.userID = sessionStorage.getItem("userID")
+  loadCurrentUserData(){
+    this.userID = this._userService.getUserID();
+    this.currentUsername = this._userService.getUsername();
   }
   findIsWished(){
-      this.userID = sessionStorage.getItem("userID");
-      this.isWished = this.card.favoritedByUserDto.find((favorite:any) => favorite.userID == this.userID) !== undefined;
+    if (!this.card || this.userID === null) return;
+    this.isWished = this.card.favoritedByUserDto.find((favorite:any) => favorite.userID == this.userID) !== undefined;
   }
   loadCard(){
-    this.card = this.dashboardService.getCard();
+    this.card = this._dashboardService.getCard();
     this.findIsWished()
   }
-  ngOnDestroy():void{
-    this.dashboardService.setCard(this.card)
-  }
+
   addToWish(){
-    let username = sessionStorage.getItem("Username")
-    let token = sessionStorage.getItem("Token");
+    if (this.userID === null || !this.card) return;
+    let username = this._userService.getUsername()
+    let token = this._userService.getToken()
     
     this.isWished = this.card.favoritedByUserDto.find((favorite:any) => favorite.userID == this.userID) !== undefined;
-    this.dashboardService.addToWish(this.card.adverID, username, token).subscribe(response =>{
+    this._dashboardService.addToWish(this.card.adverID, username, token).subscribe(response =>{
       if(this.isWished == false){
         this.card.favoritedByUserDto.push({userID:this.userID, user:null, adverID:this.card.adverID, advertisement:null})
-        this.dashboardService.setCard(this.card)
+        this._dashboardService.setCard(this.card)
         this.loadCard()
         this.isWished = true;
 
-        this.wishlistAddedNotification()
+        this.showNotification("wishlistAdded")
       }else{
         this.card.favoritedByUserDto = this.card.favoritedByUserDto.filter((favorite: any) => favorite.userID != this.userID);
-        this.dashboardService.setCard(this.card)
+        this._dashboardService.setCard(this.card)
         this.loadCard()
         this.isWished = false;
       
-        this.wishlistRemovedNotification()
+        this.showNotification("wishlistRemoved")
       }
       this.findIsWished();
       
@@ -120,40 +127,42 @@ export class AdvertisementComponent implements OnInit{
       console.log(error)
     })
   }
-  wishlistAddedNotification(){
-    setTimeout(()=>{
-      this.wishlistAdded = true;
-    },100)
-    setTimeout(()=>{
-      this.wishlistAdded = false;
-    },2000)
+  showNotification(type: 'wishlistAdded' | 'wishlistRemoved'): void {
+    this[type] = true;
+    setTimeout(() => {
+      this[type] = false;
+    }, 2000);
   }
-  wishlistRemovedNotification(){
-    setTimeout(()=>{
-      this.wishlistRemoved = true;
-    },100)
-    setTimeout(()=>{
-      this.wishlistRemoved = false;
-    },2000)
-  }
-  openChatBox(){
-    sessionStorage.setItem("adverID", this.card.adverID)
-    sessionStorage.setItem("receiver", this.card.userDto.userName)
-    this.chatBubble = !this.chatBubble;
+
+  isMessageEmpty(){
+    let message = this.message.trim();
+    if(message.length > 0){
+      return true
+    }else return false
   }
   sendMessage(){
-    let username = sessionStorage.getItem("Username");
+  
     let receiverUsername = this.card.userDto.userName;
     let adverID = this.card.adverID
-    console.log("Receiver: ", receiverUsername, "Sender: ", username, "AdverID: ", adverID, "Message: ",this.message)
-    this.sent = true;
-    this._messagesSerivce.sendMessage(username, receiverUsername, adverID,this.message).subscribe((response)=>{
-        setTimeout(()=>{
-          this.sent = false
-        }, 2000)
-    },(error:HttpErrorResponse)=>{
-      
-    })
+   
+    
+    if(this.isMessageEmpty()){
+      this.sent = true;
+      this._messageService.sendMessage(this.currentUsername, receiverUsername, adverID,this.message).subscribe((response)=>{
+          setTimeout(()=>{
+            this.sent = false
+          }, 2000)
+          this.message = "";
+      },(error:HttpErrorResponse)=>{
+        
+      })
+    }else{
+      this.empty = true
+      setTimeout(()=>{
+        this.empty = false
+      }, 2000)
+    }
+   
   }
 
 }

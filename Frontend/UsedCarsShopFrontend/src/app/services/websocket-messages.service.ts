@@ -19,7 +19,7 @@ export class WebsocketMessagesService {
 
   constructor(private messagesService: MessagesService) {}
 
-  public connect(url: string): Subject<MessageEvent> {
+  public connect(url: string | null): Subject<MessageEvent> {
     if (!this.subject) {
       this.subject = this.create(url);
       console.log(`WebSocket connected to ${url}`);
@@ -27,8 +27,11 @@ export class WebsocketMessagesService {
     return this.subject;
   }
 
-  private create(url: string): Subject<MessageEvent> {
-    this.ws = new WebSocket(url);
+  private create(url: string | null): Subject<MessageEvent> {
+    if(url){
+      this.ws = new WebSocket(url);
+    }
+    
 
     const observable = new Observable<MessageEvent>(observer => {
       this.ws!.onmessage = (event) => {

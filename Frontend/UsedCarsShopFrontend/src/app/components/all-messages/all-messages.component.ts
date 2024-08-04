@@ -8,6 +8,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
 import { DasboardComponent } from '../dasboard/dasboard.component';
+import { UserSessionMenagmentService } from 'src/app/services/user-session-menagment.service';
 
 ;
 @Component({
@@ -17,32 +18,26 @@ import { DasboardComponent } from '../dasboard/dasboard.component';
 })
 export class AllMessagesComponent implements OnInit, OnDestroy{
  
-    private readonly _messageService:MessagesService 
-    currentUsername:any;
-    messageID:any
+
+    
+    currentUsername:string | null = null;
+    currentUrl:string | null = null;
+
     messageObject:Messages;
-  
-  
-    currentUrl = this.router.url;
-    isSelectedValue = sessionStorage.getItem("isSelected");
-    
 
- 
-    
-
+    isSelectedValue = sessionStorage.getItem("isSelected") || null;
+  
     isLoading:boolean = false;
-  
+    messagesNotLoaded:boolean = false;
     isSelected = this.isSelectedValue === 'true' ? true : false
     
     constructor(
-      private messagesService:MessagesService,
-      private router:Router,
-      private route:ActivatedRoute, 
-      private wsService:WebsocketMessagesService, 
-      private loadingService:LoadingService, 
-      private dashboardComponent:DasboardComponent
+      private _messageService:MessagesService,
+      private _router:Router,
+      private _dashboard:DasboardComponent,
+      private _userService:UserSessionMenagmentService
     ){
-        this._messageService = messagesService;
+ 
         this.messageObject = new Messages();
     }
 
@@ -50,15 +45,15 @@ export class AllMessagesComponent implements OnInit, OnDestroy{
       this.initilizeComponent()
     }
     ngOnDestroy():void{
-      sessionStorage.removeItem("messageID");
-      sessionStorage.removeItem("isSelected")
+      this._userService.removeItemFromSessionStorage("messageID");
+      this._userService.removeItemFromSessionStorage("isSelected");
+   
     }
-    
-    
     initilizeComponent(){
-      this.dashboardComponent.closeConnection()
+      this._dashboard.closeConnection()
+      this.currentUsername = this._userService.getUsername();
+      this.currentUrl = this._router.url
       this.loadMessages();
-      this.currentUsername = sessionStorage.getItem("Username")
       sessionStorage.setItem("currentRoute", "Inbox")
     }
     sortMessages(){
@@ -67,15 +62,17 @@ export class AllMessagesComponent implements OnInit, OnDestroy{
       });
     }
     loadMessages(){
-      let username = sessionStorage.getItem("Username")
       this.isLoading = true
-      this._messageService.getUserMessages(username).subscribe(response=>{
+      this._messageService.getUserMessages(this.currentUsername).subscribe(response=>{
         this.messageObject.Messages = response;
         this.sortMessages()
-        this.messageID = sessionStorage.getItem("messageID")
+        
        this.isLoading = false
       }, (error:HttpErrorResponse)=>{
-        console.log(error);
+        this.messagesNotLoaded = true;
+        setTimeout(()=>{
+          this.messagesNotLoaded = false
+        }, 1500)
       })
     }
 
@@ -87,26 +84,24 @@ export class AllMessagesComponent implements OnInit, OnDestroy{
       }
     }
     selectChat(chat:any){
-      
       chat.isSelected = true;
       this.setToStorage(chat)
-      sessionStorage.setItem("messageID", chat.messageID);
-
       if(chat.senderUsername !== this.currentUsername){
-        sessionStorage.setItem("check", "true")
-      }else sessionStorage.setItem("check", "false")
+        this._userService.setIsUserAllowedToSeeMessage("true");
+      }else this._userService.setIsUserAllowedToSeeMessage("false");
 
-      let wsUrl =`${sessionStorage.getItem("userID")}-${chat.adverID}-${chat.initialSenderID}`;
-      sessionStorage.setItem("wsUrl", wsUrl);
-     
-      this.router.navigate([`/Messages/Inbox/Direct/${wsUrl}`])
+      let wsUrl =`${this._userService.getUserID()}-${chat.adverID}-${chat.initialSenderID}`;
+      wsUrl = wsUrl ? wsUrl.toString() : "";
+
+      this._userService.setWebsocketUrl(wsUrl);
+      this._router.navigate([`/Messages/Inbox/Direct/${wsUrl}`])
       
     }
     setToStorage(chat:any){
-      sessionStorage.setItem("adverID", chat.adverID)
-      sessionStorage.setItem("messageID", chat.messageID);
-      sessionStorage.setItem("initialSenderID", chat.initialSenderID)
-      sessionStorage.setItem("isSelected", JSON.stringify(this.isSelected));
+      this._userService.setAdverID(chat.adverID)
+      this._userService.setMessageID(chat.messageID);
+      this._userService.setInitialSenderID(chat.initialSenderID);
+      this._userService.setIsSelected(this.isSelected);
     }
  
 }

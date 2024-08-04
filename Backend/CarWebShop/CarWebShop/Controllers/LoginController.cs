@@ -58,7 +58,7 @@ namespace CarWebShop.Controllers
                         else
                         {
                             
-                            return NotFound(); 
+                            return NotFound("User with given credentials does not exist!"); 
                         }
                     }
                 }

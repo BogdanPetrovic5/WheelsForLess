@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MessagesService } from 'src/app/services/messages.service';
-import { Router, NavigationExtras,ActivatedRoute, NavigationEnd  } from '@angular/router';
+import { Router, NavigationExtras,ActivatedRoute, NavigationEnd, Route  } from '@angular/router';
 import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -8,6 +8,7 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 import { AllMessagesComponent } from '../all-messages.component';
 import { Subscription } from 'rxjs';
 import { DasboardComponent } from '../../dasboard/dasboard.component';
+import { UserSessionMenagmentService } from 'src/app/services/user-session-menagment.service';
 
 @Component({
   selector: 'app-user-to-user-messages',
@@ -15,39 +16,54 @@ import { DasboardComponent } from '../../dasboard/dasboard.component';
   styleUrls: ['./user-to-user-messages.component.scss']
 })
 export class UserToUserMessagesComponent implements OnInit{
-  messages: { message: string, receiverUsername:string, senderUsername:string, dateSent: Date, isNew:boolean, messageID?:number }[] = [];
+
+  adverID:number | null = null;
+  userID:number | null = null;
+  messageID:number | null = null;
+  initialSenderID:number | null = null;
+  newMessages:number | null = 0;
+
+  receiver:string | null = ""
+  currentUsername:string | null = null;
+  message:string | null = ""
+  wsQuery:string | null = ""
+  wsUrl:string | null = "";
+
+  messages: { 
+    message: string | null, 
+    receiverUsername:string | null, 
+    senderUsername:string | null, 
+    dateSent: Date, 
+    isNew:boolean, 
+    messageID?:number 
+  }[] = [];
+  
   currentChat:any;
-  private wsUrl:any;
-  private wsSub:any;
-  adverID:number | undefined
-  message = ""
-  receiver:string =""
-  currentUsername:string = "";
+
+
+  wsSub:Subscription | undefined;
   routerSub: Subscription | undefined;
-  newMessages:any = 0;
-  isSender:any;
-
-  userID:any
-  initialSenderID:any
-  wsQuery:any
+  
+  isSender:boolean | null = false;
   constructor(
-    private wsService:WebsocketMessagesService,
-    private messageService:MessagesService,
-    private router:Router,  
-    private route:ActivatedRoute,
+    private _wsService:WebsocketMessagesService,
+    private _messageService:MessagesService,
+    private _router:Router,  
+    private _route:ActivatedRoute,
     private parent:AllMessagesComponent,
-    private dasboardComponent:DasboardComponent
+    private _dasboardComponent:DasboardComponent,
+    private _userService:UserSessionMenagmentService
   ){
-
+   
   }
   @HostListener('window:beforeunload', ['$event'])
   handleUnload(event: Event) {
     this.reloadComponent();
   }
   ngOnInit(): void {
-    this.initilizeComponent();
+    this.initializeComponent();
   }
-  initilizeComponent(){
+  initializeComponent(){
     this.checkForRoutes();
     this.loadSetSession()
     this.connectToWebSocket();
@@ -55,7 +71,7 @@ export class UserToUserMessagesComponent implements OnInit{
     this.parent.isSelected = true
   }
   checkForRoutes(){
-    this.routerSub = this.router.events.subscribe(event => {
+    this.routerSub = this._router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.reloadComponent();
       }
@@ -63,36 +79,39 @@ export class UserToUserMessagesComponent implements OnInit{
   }
   
   loadSetSession(){
-    this.receiver = sessionStorage.getItem("receiverUsername") || "";
-    sessionStorage.setItem("direct", this.receiver)
-    this.currentUsername = sessionStorage.getItem("Username") || "";
+    this.userID = this._userService.getUserID() ?? null;
+    this.adverID = this._userService.getAdverID() ?? null;
+    this.initialSenderID = this._userService.getInitialSenderID() ?? null;
+    this.currentUsername = this._userService.getUsername() ?? null;
+    this.messageID = this._userService.getMessageID() ?? null
+
     this.messages = [];
+   
   }
   ngOnDestroy():void{
     this.removeFromSession();
     this.disconnectFromWebsocket();
     this.parent.isSelected = false
   }
-  validateMessage(message?:string):boolean{
+  validateMessage(message?:string | null):boolean{
     message = this.message;
-    return message.trim().length == 0
+    return message?.trim().length == 0
   }
   reloadComponent() {
     this.disconnectFromWebsocket();
     window.location.reload()
   }
   createUrlForWebsocket(){
-    let userID = sessionStorage.getItem("userID");
-    let adverID = sessionStorage.getItem("adverID");
-    let initialSenderID = sessionStorage.getItem("initialSenderID");
-    userID = userID ? userID.toString() : ""; 
-    adverID = adverID ? adverID.toString() : ""; 
+    const userID = this.userID ? this.userID?.toString() : ""; 
+    const adverID = this.adverID ? this.adverID?.toString() : ""; 
+    const initialSenderID = this.initialSenderID ? this.initialSenderID.toString() : "";
+
     let wsQuery = userID + "-" + adverID + "-" + initialSenderID;
     this.wsUrl = `${environment.wsUrl}?socketParameter=${wsQuery}`
   }
   connectToWebSocket(){
     this.createUrlForWebsocket();
-    this.wsSub = this.wsService.connect(this.wsUrl).subscribe(
+    this.wsSub = this._wsService.connect(this.wsUrl).subscribe(
       (data: any) => {
         this.messages.unshift({
           message: data.message,
@@ -112,18 +131,15 @@ export class UserToUserMessagesComponent implements OnInit{
     if (this.wsSub) {
       this.wsSub.unsubscribe();
     }
-    this.wsService.close();
+    this._wsService.close();
   }
   getAllMessages(){
-    
-    this.messageService.getUserToUserMessages(this.currentUsername)
+    this._messageService.getUserToUserMessages(this.currentUsername)
   }
   sendMessage(){
-    
-    let adverID = sessionStorage.getItem("adverID");
-    let receiver = sessionStorage.getItem("receiverUsername")
-    this.messageService.sendMessage(this.currentUsername, receiver,adverID,this.message).subscribe((response)=>{
-        
+    this.receiver = this._userService.getReceiver() || "";
+    sessionStorage.setItem("direct", this.receiver)
+    this._messageService.sendMessage(this.currentUsername, this.receiver,this.adverID,this.message).subscribe((response)=>{
         this.messages.unshift({message:this.message, receiverUsername:this.receiver, senderUsername:this.currentUsername, dateSent: new Date(), isNew:true});
         this.sortMessages();
         this.message = '';
@@ -132,7 +148,7 @@ export class UserToUserMessagesComponent implements OnInit{
     })
   }
   updateRoutesParameters(wsUrl?:string){
-    this.router.navigate([], { relativeTo: this.route, queryParams: { page: wsUrl } });
+    this._router.navigate([], { relativeTo: this._route, queryParams: { page: wsUrl } });
   }
 
   sortMessages(){
@@ -141,10 +157,10 @@ export class UserToUserMessagesComponent implements OnInit{
     });
   }
   removeFromSession(){
-    sessionStorage.removeItem("adverID");
-    sessionStorage.removeItem("messageID");
-    sessionStorage.removeItem("selectedChat")
-    sessionStorage.removeItem("direct");
+    this._userService.removeItemFromSessionStorage("adverID")
+    this._userService.removeItemFromSessionStorage("messageID")
+    this._userService.removeItemFromSessionStorage("selectedChat")
+    this._userService.removeItemFromSessionStorage("direct")
   }
 
 
@@ -152,14 +168,16 @@ export class UserToUserMessagesComponent implements OnInit{
   countNewMessages(){
     for(let i = 0; i < this.messages.length;i++){
       if(this.messages[i].isNew == true){
-        this.newMessages+= 1;
+        if(this.newMessages != null){
+          this.newMessages += 1;
+        }
       }else break;
     }
   }
-  messageOperation(messageID:any, username:any){
-    this.parent.markAsRead(messageID);
-    this.messageService.decrementUnreadMessages(this.newMessages);
-    this.messageService.openMessage(messageID, username, this.newMessages).
+  messageOperation(){
+    this.parent.markAsRead(this.messageID);
+    this._messageService.decrementUnreadMessages(this.newMessages);
+    this._messageService.openMessage(this.messageID, this.currentUsername, this.newMessages).
     subscribe(()=>{
     
     },(error:HttpErrorResponse)=>{
@@ -168,25 +186,22 @@ export class UserToUserMessagesComponent implements OnInit{
   }
 
   loadChat(){
-    let initialSenderID = sessionStorage.getItem("initialSenderID");
-    let messageID = sessionStorage.getItem("messageID")
-    if (messageID !== null) {
-      messageID = JSON.parse(messageID);
-    }
-    this.isSender  = sessionStorage.getItem("check");
-    this.isSender = JSON.parse(this.isSender)
-    let username = sessionStorage.getItem("Username");
     
-    this.messageService.getUserToUserMessages(0, initialSenderID,0).subscribe(response=>{
+   
+    this.isSender = this._userService.getIsUserAllowedToSeeMessage()
+    
+   
+    this._messageService.getUserToUserMessages(0, this.initialSenderID,0).subscribe(response=>{
       this.messages = response;
       console.log(response)
       this.sortMessages();
       this.countNewMessages();
       if(this.isSender){
-        this.messageOperation(messageID,username)
+        this.messageOperation()
       }
       let receiver = this.messages[0].senderUsername == this.currentUsername ? this.messages[0].receiverUsername : this.messages[0].senderUsername
-      sessionStorage.setItem("receiverUsername", receiver)
+      receiver = receiver ? receiver.toString() : "";
+      this._userService.setReceiver(receiver)
       
     })
   }

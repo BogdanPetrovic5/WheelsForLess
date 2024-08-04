@@ -45,6 +45,18 @@
       "PackagePath": "staticwebassets\\Photos\\Bogdan69\\45\\2022-volkswagen-golf-r-line-21.jpg"
     },
     {
+      "Id": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogdan69\\46\\2022-volkswagen-golf-r-line-21.jpg",
+      "PackagePath": "staticwebassets\\Photos\\Bogdan69\\46\\2022-volkswagen-golf-r-line-21.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogdan69\\47\\2022-volkswagen-golf-r-line-21.jpg",
+      "PackagePath": "staticwebassets\\Photos\\Bogdan69\\47\\2022-volkswagen-golf-r-line-21.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogdan69\\48\\yIDV5IEM.jpg",
+      "PackagePath": "staticwebassets\\Photos\\Bogdan69\\48\\yIDV5IEM.jpg"
+    },
+    {
       "Id": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Bogi5\\15\\kopija2.jpg",
       "PackagePath": "staticwebassets\\Photos\\Bogi5\\15\\kopija2.jpg"
     },
@@ -107,6 +119,10 @@
     {
       "Id": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\Nikola69\\22\\769bbebe56b9-1920x1080.jpg",
       "PackagePath": "staticwebassets\\Photos\\Nikola69\\22\\769bbebe56b9-1920x1080.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\William5\\49\\20101129144535_photo_0.jpg",
+      "PackagePath": "staticwebassets\\Photos\\William5\\49\\20101129144535_photo_0.jpg"
     },
     {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.CarWebShop.Microsoft.AspNetCore.StaticWebAssets.props",

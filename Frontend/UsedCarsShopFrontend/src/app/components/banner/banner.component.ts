@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserSessionMenagmentService } from 'src/app/services/user-session-menagment.service';
 
 @Component({
   selector: 'app-banner',
@@ -7,23 +8,24 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./banner.component.scss']
 })
 export class BannerComponent {
-  currentRoute:any;
-  year:any
+  currentRoute:string | null = ""
+  year:string | null = ""
   currentUser:string | null = ""
 
   constructor( 
-    private router:Router
-  ){}
+    private _router:Router,
+    private _userService:UserSessionMenagmentService
+  ){
+   
+  }
   ngOnInit():void{
-    this.currentRoute = sessionStorage.getItem("currentRoute");
+    this.currentRoute = this._userService.getCurrentRoute();
     this.year = sessionStorage.getItem("year")
-    if(sessionStorage.getItem("Username")){
-      this.currentUser = sessionStorage.getItem("Username");
-    }else this.currentUser = "Log in"
+    this.currentUser = this._userService.getUsername() ?? "Log in"
   }
   navigateToLogin(){
     if(this.currentUser === "Log in"){
-      this.router.navigate(['/Login'])
+      this._router.navigate(['/Login'])
     }
   }
 }

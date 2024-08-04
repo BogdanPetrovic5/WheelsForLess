@@ -22,7 +22,7 @@ export class FavoriteDashboardComponent implements OnInit{
       //Initilizing the component
       this.loadFavorites()
       sessionStorage.setItem("currentRoute", "Favorites")
-      sessionStorage.removeItem("year")
+      
       //Initilizing the component
   }
   loadFavorites(){

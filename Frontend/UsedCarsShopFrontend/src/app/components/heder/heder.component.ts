@@ -48,9 +48,9 @@ export class HederComponent implements OnInit{
       this._carBrandsWithModels = brandsWithModelsService;
   }
   ngOnInit():void{
-    this.initilizeComponent()
+    this.initializeComponent()
   }
-  initilizeComponent(){
+  initializeComponent(){
     this.username = sessionStorage.getItem("Username")
     this.loadOptions();
     this.currentRoute = sessionStorage.getItem("currentRoute");

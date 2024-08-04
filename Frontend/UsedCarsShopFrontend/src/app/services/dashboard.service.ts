@@ -23,7 +23,7 @@ export class DashboardService {
   public filteredResult:any;
   constructor(private http:HttpClient) { }
 
-  getAllAdvers(currentPage:any, pageSize: number = 16 ):Observable<any>{
+  getAllAdvers(currentPage:any, pageSize: number | null = 16 ):Observable<any>{
     return this.http.get<any>(`${environment.apiUrl}/api/Advertisement/GetAdvertisements?page=${currentPage}&maximumAdvers=${pageSize}`)
   }
   getUserId(username:any){
