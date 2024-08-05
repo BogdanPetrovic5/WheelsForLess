@@ -23,6 +23,13 @@ export class DashboardService {
   public filteredResult:any;
   constructor(private http:HttpClient) { }
 
+  getFilterOrSortItem(key:string):string | null{
+    let filter = sessionStorage.getItem(key)
+    return filter ? filter.toString() : ""
+  }
+  setFilterOrSortItem(key:string, filter:string){
+    sessionStorage.setItem(key, filter);
+  }
   getAllAdvers(currentPage:any, pageSize: number | null = 16 ):Observable<any>{
     return this.http.get<any>(`${environment.apiUrl}/api/Advertisement/GetAdvertisements?page=${currentPage}&maximumAdvers=${pageSize}`)
   }
@@ -67,7 +74,7 @@ export class DashboardService {
   loadNewMessages(username?:any):Observable<any>{
     return this.http.get<any>(`${environment.apiUrl}/api/User/GetNewMessages?username=${username}`)
   }
-  sortAdvertisements(sortParameter:string, brand?:string, model?:string,currentPage?:any):Observable<any>{
+  sortAdvertisements(sortParameter:string | null, brand?:string | null, model?:string | null,currentPage?:any):Observable<any>{
     let maximumAdvers = 16;
     console.log("Sort api: ", sortParameter, brand, model);
     let url = `${environment.apiUrl}/api/Advertisement/SortAdvertisements?sortParameter=${sortParameter}&page=${currentPage}&maximumAdvers=${maximumAdvers}`

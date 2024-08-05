@@ -6,11 +6,17 @@ import { Injectable } from '@angular/core';
 export class UserSessionMenagmentService {
 
   constructor() { }
+  clearSession(){
+    sessionStorage.clear()
+  }
   removeItemFromSessionStorage(item:string){
     sessionStorage.removeItem(item);
   }
   setWebsocketUrl(wsUrl:string){
     sessionStorage.setItem("wsUrl", wsUrl);
+  }
+  setUserID(userID:number | null){
+    sessionStorage.setItem("userID", JSON.stringify(userID))
   }
   setIsUserAllowedToSeeMessage(isAllowed:string){
       sessionStorage.setItem("check", isAllowed);

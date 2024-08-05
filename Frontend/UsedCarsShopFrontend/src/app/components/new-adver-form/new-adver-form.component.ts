@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./new-adver-form.component.scss']
 })
 export class NewAdverFormComponent {
-  AdverName:string = "";
+ 
   Brand:string = "";
   Model:string = "";
   Year:string = "";
@@ -46,7 +46,7 @@ export class NewAdverFormComponent {
   empty:boolean = false;
   published:boolean = false;
   unpublished:boolean = false;
-  
+  isDisabled:boolean = true;
   adverForm: FormGroup;
   constructor(
     private router:Router, 

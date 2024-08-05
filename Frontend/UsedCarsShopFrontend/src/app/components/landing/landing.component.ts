@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DashboardService } from 'src/app/services/dashboard.service';
+import { UserSessionMenagmentService } from 'src/app/services/user-session-menagment.service';
 
 @Component({
   selector: 'app-landing',
@@ -9,17 +10,18 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 })
 export class LandingComponent {
   constructor(
-    private router:Router, 
-    private dashService:DashboardService
+    private _router:Router, 
+    private _dashService:DashboardService,
+    private _userService:UserSessionMenagmentService
   ){
 
   }
   ngOnInit():void{
-    this.dashService.filterBrand = null
-    this.dashService.filterModel = null
-    sessionStorage.clear()
+    this._dashService.filterBrand = null
+    this._dashService.filterModel = null
+    this._userService.clearSession()
   }
   navigation(route:any){
-    this.router.navigate([`/${route}`])
+    this._router.navigate([`/${route}`])
   }
 }

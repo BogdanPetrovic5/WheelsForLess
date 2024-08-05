@@ -235,7 +235,7 @@ $boxShadow: -15px 0px 23px 3px rgb(235, 235, 235);
                     color: rgb(255, 255, 255);
                 }
             }
-            section{
+            form{
                 width: 90%;
                 height: 60%;
                 
@@ -285,6 +285,7 @@ $boxShadow: -15px 0px 23px 3px rgb(235, 235, 235);
                 cursor: pointer;
                 margin-top: 50px;
                 margin-bottom: 20px;
+                align-self: center;
                 h6{
                     font-size: 20px;
                     font-family: sans-serif;

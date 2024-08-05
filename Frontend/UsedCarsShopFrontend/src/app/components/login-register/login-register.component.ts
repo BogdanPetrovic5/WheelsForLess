@@ -4,76 +4,79 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoadingService } from 'src/app/services/loading.service';
 import { DashboardService } from 'src/app/services/dashboard.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-login-register',
   templateUrl: './login-register.component.html',
   styleUrls: ['./login-register.component.scss']
 })
 export class LoginRegisterComponent {
+  registerForm:FormGroup;
+  loginForm:FormGroup;
 
-
-
-  public RegisterFirstName:string = "";
-  public RegisterLastName:string = "";
-  public RegisterUserName:string = "";
-  public RegisterPhoneNumber:string = "";
-  public RegisterPassword:string = "";
-
-  public LoginPassword:string= "";
-  public LoginUserName:string = "";
-  
-  public registerForm:boolean = true;
-  public loginForm:boolean = false;
+  public isRegisterForm:boolean = true;
+  public isLoginForm:boolean = false;
   public warning:boolean = false;
   public alert:boolean = false;
   public warning_1: boolean = false;
 
-  public errorMessage = ""
+  public errorMessage:string = ""
   constructor(
-    private auth:AuthenticationService, 
-    private router:Router, 
-    private loadingService:LoadingService,
-    private dashService:DashboardService
-  ) {}
+    private _auth:AuthenticationService, 
+    private _router:Router, 
+    private _loadingService:LoadingService,
+    private _dashService:DashboardService,
+    private _formBuilder:FormBuilder
+  ) {
+    this.registerForm = this._formBuilder.group({
+      FirstName: ['', Validators.required],
+      LastName: ['', Validators.required],
+      UserName: ['', Validators.required],
+      PhoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      Password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+
+    this.loginForm = this._formBuilder.group({
+      UserName: ['', Validators.required],
+      Password: ['', Validators.required]
+    });
+  }
   ngOnInit():void{
-    this.dashService.filterBrand = null
-    this.dashService.filterModel = null
-    sessionStorage.clear()
+    
+    this._dashService.filterBrand = null
+    this._dashService.filterModel = null
+    this._dashService.setSortParameter = null
   }
 
   navigation(route:any){
-    this.router.navigate([`/${route}`])
+    this._router.navigate([`/${route}`])
   }
   emptyFields(){
-    this.RegisterFirstName = ""
-    this.RegisterLastName = ""
-    this.RegisterUserName = ""
-    this.RegisterPhoneNumber = ""
-    this.RegisterPassword = ""
+    this.registerForm.reset()
+    this.loginForm.reset()
   }
-  hasEmptyProperties(obj:any):boolean{
-    for (let key in obj) {
-      if (obj[key] === "" || obj[key] === null || obj[key] === undefined) {
-        return true;
+  hasEmptyControls(formGroup: FormGroup): boolean {
+    let hasEmpty = false;
+  
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      if (control && (control.value === '' || control.value === null || control.value === undefined)) {
+        hasEmpty = true;
       }
-    }
-    return false;
+    });
+  
+    return hasEmpty;
   }
   register(){
-    const user = {
-      FirstName:this.RegisterFirstName,
-      LastName:this.RegisterLastName,
-      UserName:this.RegisterUserName,
-      PhoneNumber:this.RegisterPhoneNumber,
-      Password:this.RegisterPassword
-    }
-    if(this.hasEmptyProperties(user)){
+  
+    if(this.hasEmptyControls(this.registerForm)){
       this.warning_1 = true;
       setTimeout(()=>{
         this.warning_1 = false
       }, 1500)
     }else{
-      this.auth.register(user).subscribe((repsonse) =>{
+      const user = this.registerForm.value
+      this._auth.register(user).subscribe((repsonse) =>{
         if (repsonse && repsonse.error) {
           console.log('Server returned an error:', repsonse.error);
         } else {
@@ -82,10 +85,11 @@ export class LoginRegisterComponent {
             this.alert = false
           }, 1500)
           this.emptyFields()
-          this.ChangeFormToLogin()
+          this.toggleForm()
         }
       },(error:HttpErrorResponse) =>{
-          if(error.status == 409){
+        console.log(error)    
+        if(error.status == 409){
             
             this.errorMessage = error.error
             this.warning = true
@@ -99,20 +103,18 @@ export class LoginRegisterComponent {
   
   }
   
-  Login() {
-    const user = {
-      UserName:this.LoginUserName,
-      Password:this.LoginPassword
-    }
-    if(this.hasEmptyProperties(user)){
+  login() {
+    if(this.hasEmptyControls(this.loginForm)){
       this.warning_1 = true;
       setTimeout(()=>{
         this.warning_1 = false
       }, 1500)
     }else{
-      this.auth.login(user).subscribe((token) =>{
-        this.router.navigate(["/Dashboard"])
+      const user = this.loginForm.value
+      this._auth.login(user).subscribe((token) =>{
+        this._router.navigate(["/Dashboard"])
       }, (error:HttpErrorResponse) =>{
+        console.log(error) 
         this.errorMessage = error.error
         this.warning = true
         setTimeout(()=>{
@@ -120,19 +122,11 @@ export class LoginRegisterComponent {
         }, 1500)
       })
     }
-   
   }
 
   toggleForm() {
-    this.registerForm = !this.registerForm;
-    this.loginForm = !this.loginForm;
+    this.isRegisterForm = !this.isRegisterForm;
+    this.isLoginForm = !this.isLoginForm;
   }
-  ChangeFormToLogin() {
-    this.registerForm = false;
-    this.loginForm = true;
-  }
-  ChangeFormToRegister() {
-    this.registerForm = true;
-    this.loginForm = false;
-  }
+
 }

@@ -187,15 +187,21 @@ namespace CarWebShop.Controllers
             }
         }
         [HttpGet("GetAdvertisements")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Advertisement>))]
-        public ActionResult<IEnumerable<Advertisement>> GetAdvertisements(int page = 1, int maximumAdvers = 6)
+        public IActionResult GetAdvertisements(int page = 1, int maximumAdvers = 16)
         {
-            var Advers = _repository
+            List<Advertisement> advertisements = new List<Advertisement>();
+            advertisements = _repository
                 .GetAdvertisements()
-                .OrderByDescending(ad=>ad.Date)
-                .Skip((page - 1) * maximumAdvers) 
-                .Take(maximumAdvers).ToList();
-            
+                .ToList();
+
+            advertisements = advertisements
+                .OrderByDescending(ad => ad.Date)
+                .ToList();
+            var result = advertisements
+                .Skip((page - 1) * maximumAdvers)
+                .Take(maximumAdvers)
+                .ToList();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -206,7 +212,7 @@ namespace CarWebShop.Controllers
                 ReferenceHandler = ReferenceHandler.Preserve
             };
 
-            return Json(Advers);
+            return Json(result);
         }
         [HttpGet("GetFavorites")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Advertisement>))]

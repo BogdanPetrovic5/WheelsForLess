@@ -11,7 +11,7 @@
                 <div>
                     <input type="text" autocomplete="off" name="text" class="input" placeholder="Advertisement Name"  formControlName="AdverName" >
                     <div class="car-options">
-                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Brand" formControlName="Brand" [disabled]="Brand != ''">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Brand" formControlName="Brand" [disabled]="isDisabled">
                         <span class="material-symbols-outlined" (click)="openOptionsBrands()">
                             arrow_drop_down
                         </span>

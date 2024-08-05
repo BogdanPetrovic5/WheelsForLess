@@ -12,12 +12,12 @@
                 </p>
                 <div class="login-register">
                     <h1> 
-                        <ng-container *ngIf="registerForm">Already Have An Account?</ng-container>
-                        <ng-container *ngIf="loginForm">Don't Have An Account?</ng-container>
+                        <ng-container *ngIf="isRegisterForm">Already Have An Account?</ng-container>
+                        <ng-container *ngIf="isLoginForm">Don't Have An Account?</ng-container>
                     </h1>
                     <button (click)="toggleForm()">
-                        <ng-container *ngIf="registerForm">Login</ng-container>
-                        <ng-container *ngIf="loginForm">Register</ng-container>
+                        <ng-container *ngIf="isRegisterForm">Login</ng-container>
+                        <ng-container *ngIf="isLoginForm">Register</ng-container>
                         <div class="arrow-wrapper">
                             <div class="arrow"></div>
                     
@@ -28,20 +28,22 @@
             </div>
         </div>
         <div class="form" >
-            <span><h1 *ngIf="registerForm">REGISTER</h1> <h1 *ngIf="loginForm">LOGIN</h1></span>
-            <section class="input-fields register-form" *ngIf="registerForm">
-                <input type="text" placeholder="Firstname"[(ngModel)] = "RegisterFirstName" required>
-                <input type="text" placeholder="Surname"[(ngModel)] = "RegisterLastName">
-                <input type="email"placeholder="Username"[(ngModel)] = "RegisterUserName">
-                <input type="email"placeholder="Phone number" [(ngModel)] = "RegisterPhoneNumber">
-                <input type="password"placeholder="Password" [(ngModel)] = "RegisterPassword">
-            </section>
-            <section class="input-fields login-form" *ngIf="loginForm">
-                <input type="email"placeholder="Username"[(ngModel)] = "LoginUserName">
-                <input type="password"placeholder="Password" [(ngModel)] = "LoginPassword">
-            </section>
-            <button (click)="register()"  *ngIf="registerForm"><h6>REGISTER</h6></button>
-            <button *ngIf="loginForm" (click) = "Login()"><h6 >LOGIN</h6></button>
+            <span><h1 *ngIf="isRegisterForm">REGISTER</h1> <h1 *ngIf="isLoginForm">LOGIN</h1></span>
+            <form class="input-fields register-form" *ngIf="isRegisterForm" [formGroup]="registerForm" (ngSubmit)="register()">
+                <input type="text" placeholder="FirstName" formControlName="FirstName">
+                <input type="text" placeholder="Surname" formControlName="LastName">
+                <input type="email"placeholder="Username" formControlName="UserName">
+                <input type="email"placeholder="Phone number" formControlName="PhoneNumber">
+                <input type="password"placeholder="Password" formControlName="Password">
+                <button  *ngIf="isRegisterForm" type="submit"><h6>REGISTER</h6></button>
+            </form>
+            <form class="input-fields login-form" *ngIf="isLoginForm" [formGroup]="loginForm" (ngSubmit)="login()">
+                <input type="email" placeholder="Username" formControlName="UserName">
+                <input type="password" placeholder="Password" formControlName="Password">
+                <button *ngIf="isLoginForm" type="submit"><h6 >LOGIN</h6></button>
+            </form>
+            
+            
             <button (click)="navigation('Dashboard')" class="change-form-bttn">Continue as guest</button>
         
         </div>

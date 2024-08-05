@@ -8,6 +8,7 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { WebsocketMessagesService } from 'src/app/services/websocket-messages.service';
 import { DasboardComponent } from '../dasboard/dasboard.component';
+import { UserSessionMenagmentService } from 'src/app/services/user-session-menagment.service';
 
 @Component({
   selector: 'app-heder',
@@ -18,54 +19,58 @@ export class HederComponent implements OnInit{
   selectedBrand: string | null = null;
   selectedModel: string | null = null;
   sortParameter: string |null = null;
-  public username:any
-  public dashboard = true
-  public adverForm = false
-  public adver = false
-  public options = false
-  public _messageService:MessagesService
-  public numberMessages:any
-  _carBrandsWithModels:CarDetails | undefined;
-  carBrandsWithModels:any
-  carModels: string[] = [];
+  username:string | null = null
+  currentRoute:string | null = null
+  
+  dashboard:boolean = true
+  adverForm:boolean = false
+  adver:boolean = false
+  options:boolean = false
   brands:boolean = false;
   models:boolean = false;
   bodyType:boolean = false
   filter:boolean = false;
-  currentRoute:any = ""
 
+  numberMessages:number | null = 0
+
+  _carBrandsWithModels:CarDetails | undefined;
+  carBrandsWithModels:any
+
+  carModels: string[] = [];
+
+  
   subscriptions: Subscription = new Subscription();
   constructor(
-    private router:Router, 
-    private wsService:WebsocketMessagesService, 
-    private messageService:MessagesService, 
-    private brandsWithModelsService:CarDetails, 
-    private dashService:DashboardService, 
-    private auth:AuthenticationService, 
-    private dashboardComponent:DasboardComponent
+    private _router:Router, 
+    private _wsService:WebsocketMessagesService, 
+    private _messageService:MessagesService, 
+    private _brandsWithModelsService:CarDetails, 
+    private _dashService:DashboardService, 
+    private _auth:AuthenticationService, 
+    private _dashboardComponent:DasboardComponent,
+    private _userService:UserSessionMenagmentService
   ){
-      this._messageService = messageService;
-      this._carBrandsWithModels = brandsWithModelsService;
+      
   }
   ngOnInit():void{
     this.initializeComponent()
   }
   initializeComponent(){
-    this.username = sessionStorage.getItem("Username")
+    this.username = this._userService.getUsername()
+    this.currentRoute = this._userService.getCurrentRoute();
     this.loadOptions();
-    this.currentRoute = sessionStorage.getItem("currentRoute");
     this.loadNewMessages();
     this.loadSubscriptions();
   }
   loadSubscriptions(){
     this.subscriptions.add(
-      this.messageService.unreadMessages$.subscribe((newMessages: number)=>{
-        this.numberMessages += newMessages
+      this._messageService.unreadMessages$.subscribe((newMessages: number)=>{
+        if(this.numberMessages) this.numberMessages += newMessages
       })
     )
     this.subscriptions.add(
-      this.messageService.unreadMessagesStep$.subscribe((step:number)=>{
-        this.numberMessages -= step;
+      this._messageService.unreadMessagesStep$.subscribe((step:number)=>{
+        if(this.numberMessages) this.numberMessages -= step;
       })
     )
   }
@@ -77,14 +82,14 @@ export class HederComponent implements OnInit{
     this.carBrandsWithModels = this._carBrandsWithModels?.getBrandsAndModles();
   }
   filterSearch(){
-    this.dashService.filterBrand = this.selectedBrand;
-    this.dashService.filterModel = this.selectedModel;
+    this._dashService.filterBrand = this.selectedBrand;
+    this._dashService.filterModel = this.selectedModel;
     sessionStorage.removeItem("model")
     sessionStorage.removeItem("brand")
   }
   loadNewMessages(){
     let username = sessionStorage.getItem("Username")
-    this.dashService.loadNewMessages(username).subscribe((response)=>{
+    this._dashService.loadNewMessages(username).subscribe((response)=>{
       this.numberMessages = response
       console.log(this.numberMessages)
     },(error:HttpErrorResponse)=>{
@@ -99,43 +104,43 @@ export class HederComponent implements OnInit{
   }
   chooseSort(){
     
-    this.dashService.setSortParameter = this.sortParameter
+    this._dashService.setSortParameter = this.sortParameter
   }
   isLoggedIn():boolean{
-    if(sessionStorage.getItem("Token")){
+    if(this._userService.getToken()){
       return true
     }else return false
   }
   navigateToFav() {
-    this.router.navigate(['/Favorites'])
+    this._router.navigate(['/Favorites'])
   }
   navigateToHome() {  
-    sessionStorage.removeItem("brand")
-    sessionStorage.removeItem("model")
-    this.dashService.filterBrand = null
-    this.dashService.filterModel = null
-    this.router.navigate(['/Dashboard'], { queryParams: { page: 1 } });
+    this._userService.removeItemFromSessionStorage("brand");
+    this._userService.removeItemFromSessionStorage("model");
+    this._dashService.filterBrand = null
+    this._dashService.filterModel = null
+    this._router.navigate(['/Dashboard'], { queryParams: { page: 1 } });
     
    
     
   }
   navigateToAdvertisement(card:any){
-    this.router.navigate(['/Advertisement']);
+    this._router.navigate(['/Advertisement']);
   }
 
   navigateToMessages(){
-    this.router.navigate(['/Messages/Inbox']);
+    this._router.navigate(['/Messages/Inbox']);
   }
   chooseModel(){
     this.filter = false;
   }
 
   sendMessage(){
-    this.router.navigate(['/NewMessage'])
+    this._router.navigate(['/NewMessage'])
   }
  
   changeToForm(){
-    this.router.navigate(['/New Adver'])
+    this._router.navigate(['/New Adver'])
   }
  
   showDropdown(){
@@ -147,12 +152,12 @@ export class HederComponent implements OnInit{
   }
 
   logout(){
-    if(this.wsService){
-      this.wsService.close()
+    if(this._wsService){
+      this._wsService.close()
     }
-    this.router.navigate(["/Login"]);
-    this.auth.logout()
-    this.dashboardComponent.closeConnection()
+    this._router.navigate(["/Login"]);
+    this._auth.logout()
+    this._dashboardComponent.closeConnection()
   }
 
  

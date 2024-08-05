@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/r4xQUxtdp/sk2dOd5n7u7YclnmqwwFrvPz7ehDFOp4=",
+  "Hash": "ufS6SZL/Ao/mnQ/VO7GMBbsrdc59qkJW9uqeZGhCD8s=",
   "Source": "CarWebShop",
   "BasePath": "_content/CarWebShop",
   "Mode": "Default",
@@ -338,6 +338,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Photos\\Bogi5\\19\\slika5.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\JohnJohn\\50\\2017-ford-mustang-in-depth-model-review-car-and-driver-photo-691676-s-original.jpg",
+      "SourceId": "CarWebShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
+      "BasePath": "_content/CarWebShop",
+      "RelativePath": "Photos/JohnJohn/50/2017-ford-mustang-in-depth-model-review-car-and-driver-photo-691676-s-original.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Photos\\JohnJohn\\50\\2017-ford-mustang-in-depth-model-review-car-and-driver-photo-691676-s-original.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\JohnJohn\\51\\maxresdefault (2).jpg",
+      "SourceId": "CarWebShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\",
+      "BasePath": "_content/CarWebShop",
+      "RelativePath": "Photos/JohnJohn/51/maxresdefault (2).jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Photos\\JohnJohn\\51\\maxresdefault (2).jpg"
     },
     {
       "Identity": "C:\\Users\\Bogdan\\Desktop\\UsedCarsShop\\Backend\\CarWebShop\\CarWebShop\\wwwroot\\Photos\\NestoNesto5\\23\\22f014bc7ddb-1920x1080.jpg",
