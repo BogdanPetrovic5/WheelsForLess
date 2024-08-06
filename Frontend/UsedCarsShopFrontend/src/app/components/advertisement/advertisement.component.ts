@@ -87,8 +87,8 @@ export class AdvertisementComponent implements OnInit{
       });
   }
   loadCurrentUserData(){
-    this.userID = this._userService.getUserID();
-    this.currentUsername = this._userService.getUsername();
+    this.userID = this._userService.getItem("userID");
+    this.currentUsername = this._userService.getItem("Username");
   }
   findIsWished(){
     if (!this.card || this.userID === null) return;
@@ -101,9 +101,9 @@ export class AdvertisementComponent implements OnInit{
 
   addToWish(){
     if (this.userID === null || !this.card) return;
-    let username = this._userService.getUsername()
-    let token = this._userService.getToken()
-    
+    let username = this._userService.getItem("Username")
+    let token = this._userService.getItem("Token")
+   
     this.isWished = this.card.favoritedByUserDto.find((favorite:any) => favorite.userID == this.userID) !== undefined;
     this._dashboardService.addToWish(this.card.adverID, username, token).subscribe(response =>{
       if(this.isWished == false){

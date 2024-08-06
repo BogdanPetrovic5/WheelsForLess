@@ -6,12 +6,15 @@ import { environment } from 'src/environments/environment';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserSessionMenagmentService } from './user-session-menagment.service';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(private http: HttpClient,private jwtHelper: JwtHelperService) { }
+  constructor(private http: HttpClient,
+    private jwtHelper: JwtHelperService, 
+    private _userService:UserSessionMenagmentService) { }
   register(user:any):Observable<any>{
       return this.http.post<any>(environment.apiUrl + "/api/Registration/Registration",user)
   }
@@ -21,24 +24,18 @@ export class AuthenticationService {
       tap(response => this.storeToken(response.value, user.UserName))
     );
   }
-
   logout(){
     sessionStorage.clear()
 
   }
-  getToken(){
-    return sessionStorage.getItem("Token");
-  }
-  getUsername(){
-    return sessionStorage.getItem("Username")
-  }
+
   isLoggedIn(): boolean {
-    const token = this.getToken();
+    const token = this._userService.getItem("Token")
     return token !== null && !this.jwtHelper.isTokenExpired(token);
   }
-  storeToken(token:any, username:any){
-    sessionStorage.setItem("Token", token);
-    sessionStorage.setItem("Username",username);
+  storeToken(token:string, username:string){
+   this._userService.setItem("Token", token);
+   this._userService.setItem("Username",username)
   }
   
 }

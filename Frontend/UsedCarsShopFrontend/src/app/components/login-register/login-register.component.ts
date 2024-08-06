@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LoadingService } from 'src/app/services/loading.service';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserSessionMenagmentService } from 'src/app/services/user-session-menagment.service';
 @Component({
   selector: 'app-login-register',
   templateUrl: './login-register.component.html',
@@ -26,7 +27,8 @@ export class LoginRegisterComponent {
     private _router:Router, 
     private _loadingService:LoadingService,
     private _dashService:DashboardService,
-    private _formBuilder:FormBuilder
+    private _formBuilder:FormBuilder,
+    private _userService:UserSessionMenagmentService
   ) {
     this.registerForm = this._formBuilder.group({
       FirstName: ['', Validators.required],
@@ -42,7 +44,7 @@ export class LoginRegisterComponent {
     });
   }
   ngOnInit():void{
-    
+    this._userService.clearSession()
     this._dashService.filterBrand = null
     this._dashService.filterModel = null
     this._dashService.setSortParameter = null

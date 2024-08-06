@@ -197,6 +197,7 @@ namespace CarWebShop.Controllers
             advertisements = advertisements
                 .OrderByDescending(ad => ad.Date)
                 .ToList();
+
             var result = advertisements
                 .Skip((page - 1) * maximumAdvers)
                 .Take(maximumAdvers)
@@ -207,10 +208,6 @@ namespace CarWebShop.Controllers
                 return BadRequest(ModelState);
             }
 
-            var options = new JsonSerializerOptions
-            {
-                ReferenceHandler = ReferenceHandler.Preserve
-            };
 
             return Json(result);
         }

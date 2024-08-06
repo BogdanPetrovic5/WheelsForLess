@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
+import { UserSessionMenagmentService } from './user-session-menagment.service';
 @Injectable({
   providedIn: 'root'
 })
 export class AutoLogoutService {
   private checkInterval = 20000;
   private timer:any;
-  constructor(private auth:AuthenticationService, private jwtHelper:JwtHelperService, private router:Router) { 
+  constructor(
+    private _userService:UserSessionMenagmentService, 
+    private _jwtHelper:JwtHelperService,
+    private _router:Router,private _auth:AuthenticationService) { 
     
   }
  
@@ -18,13 +22,13 @@ export class AutoLogoutService {
     }, this.checkInterval);
   }
   private checkTokenExpiration(): void {
-    const token = this.auth.getToken();
+    const token = this._userService.getItem("Token");
     
-    if (token && this.jwtHelper.isTokenExpired(token)) {
+    if (token && this._jwtHelper.isTokenExpired(token)) {
       alert("Session expired!")
       console.log('Session expired. Logging out.');
-      this.router.navigate(['/Login'])
-      this.auth.logout(); 
+      this._router.navigate(['/Get started'])
+      this._auth.logout(); 
       clearInterval(this.timer); 
     }
   }

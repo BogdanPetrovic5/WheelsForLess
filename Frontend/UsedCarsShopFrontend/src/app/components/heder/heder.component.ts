@@ -56,9 +56,9 @@ export class HederComponent implements OnInit{
     this.initializeComponent()
   }
   initializeComponent(){
-    this.username = this._userService.getUsername()
-    this.currentRoute = this._userService.getCurrentRoute();
-    this.loadOptions();
+    this.username = this._userService.getItem("Username")
+    this.currentRoute = this._userService.getItem("currentRoute")
+   
     this.loadNewMessages();
     this.loadSubscriptions();
   }
@@ -76,25 +76,30 @@ export class HederComponent implements OnInit{
   }
   showOptions(){
     this.brands = !this.brands
+    this.loadOptions();
     if(this.models) this.models = false
   }
   loadOptions(){
-    this.carBrandsWithModels = this._carBrandsWithModels?.getBrandsAndModles();
+
+    this.carBrandsWithModels = this._brandsWithModelsService?.getBrandsAndModles();
+    console.log(this.carBrandsWithModels)
   }
   filterSearch(){
     this._dashService.filterBrand = this.selectedBrand;
     this._dashService.filterModel = this.selectedModel;
-    sessionStorage.removeItem("model")
-    sessionStorage.removeItem("brand")
+    this._userService.removeItemFromSessionStorage("brand")
+    this._userService.removeItemFromSessionStorage("model")
   }
   loadNewMessages(){
-    let username = sessionStorage.getItem("Username")
-    this._dashService.loadNewMessages(username).subscribe((response)=>{
-      this.numberMessages = response
-      console.log(this.numberMessages)
-    },(error:HttpErrorResponse)=>{
-      console.log(error)
-    })
+    if(this.username){
+      this._dashService.loadNewMessages(this.username).subscribe((response)=>{
+        this.numberMessages = response
+        console.log(this.numberMessages)
+      },(error:HttpErrorResponse)=>{
+        console.log(error)
+      })
+    }
+    
   }
   loadModels(){
    this.selectedModel = null;
@@ -107,7 +112,7 @@ export class HederComponent implements OnInit{
     this._dashService.setSortParameter = this.sortParameter
   }
   isLoggedIn():boolean{
-    if(this._userService.getToken()){
+    if(this._userService.getItem("Token")){
       return true
     }else return false
   }
@@ -155,7 +160,7 @@ export class HederComponent implements OnInit{
     if(this._wsService){
       this._wsService.close()
     }
-    this._router.navigate(["/Login"]);
+    this._router.navigate(['/Get started'], { queryParams: {} });
     this._auth.logout()
     this._dashboardComponent.closeConnection()
   }

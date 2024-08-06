@@ -190,7 +190,7 @@ export class NewAdverFormComponent {
         formData.append("selectedImages", this.selectedFiles[i]);
     }
    
-    this.token = this._userService.getToken();
+    this.token = this._userService.getItem("Token");
     if(!check){
       this._dashboard.placeAdvertisement(this.token, formData).subscribe(response =>{
         this.emptyFields()

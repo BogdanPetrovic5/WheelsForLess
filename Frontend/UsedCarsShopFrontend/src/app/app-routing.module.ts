@@ -16,7 +16,7 @@ import { LandingComponent } from './components/landing/landing.component';
 const routes: Routes = [
   {path:'', redirectTo:"/Landing", pathMatch:"full"},
   {path:"Landing", component:LandingComponent,canActivate:[LoginGuard]},
-  {path:"Login", component:LoginRegisterComponent, canActivate:[LoginGuard]},
+  {path:"Get started", component:LoginRegisterComponent, canActivate:[LoginGuard]},
   {path:"Dashboard", component:DasboardComponent},
   {path:"Advertisement", component:AdvertisementComponent},
   {path:"New Adver", component:NewAdverFormComponent, canActivate:[AuthGuard]},

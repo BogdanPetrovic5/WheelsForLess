@@ -79,11 +79,11 @@ export class UserToUserMessagesComponent implements OnInit{
   }
   
   loadSetSession(){
-    this.userID = this._userService.getUserID() ?? null;
-    this.adverID = this._userService.getAdverID() ?? null;
-    this.initialSenderID = this._userService.getInitialSenderID() ?? null;
-    this.currentUsername = this._userService.getUsername() ?? null;
-    this.messageID = this._userService.getMessageID() ?? null
+    this.userID = this._userService.getItem("userID") ?? null;
+    this.adverID = this._userService.getItem("adverID") ?? null;
+    this.initialSenderID = this._userService.getItem("initialSenderID") ?? null;
+    this.currentUsername = this._userService.getItem("Username") ?? null;
+    this.messageID = this._userService.getItem("messageID") ?? null
 
     this.messages = [];
    
@@ -137,8 +137,8 @@ export class UserToUserMessagesComponent implements OnInit{
     this._messageService.getUserToUserMessages(this.currentUsername)
   }
   sendMessage(){
-    this.receiver = this._userService.getReceiver() || "";
-    sessionStorage.setItem("direct", this.receiver)
+    this.receiver = this._userService.getItem("receiverUsername") || "";
+    if(this.receiver) sessionStorage.setItem("direct", this.receiver)
     this._messageService.sendMessage(this.currentUsername, this.receiver,this.adverID,this.message).subscribe((response)=>{
         this.messages.unshift({message:this.message, receiverUsername:this.receiver, senderUsername:this.currentUsername, dateSent: new Date(), isNew:true});
         this.sortMessages();
@@ -188,7 +188,7 @@ export class UserToUserMessagesComponent implements OnInit{
   loadChat(){
     
    
-    this.isSender = this._userService.getIsUserAllowedToSeeMessage()
+    this.isSender = this._userService.getItem("check")
     
    
     this._messageService.getUserToUserMessages(0, this.initialSenderID,0).subscribe(response=>{
@@ -201,7 +201,7 @@ export class UserToUserMessagesComponent implements OnInit{
       }
       let receiver = this.messages[0].senderUsername == this.currentUsername ? this.messages[0].receiverUsername : this.messages[0].senderUsername
       receiver = receiver ? receiver.toString() : "";
-      this._userService.setReceiver(receiver)
+      this._userService.setItem("receiverUsername", receiver)
       
     })
   }

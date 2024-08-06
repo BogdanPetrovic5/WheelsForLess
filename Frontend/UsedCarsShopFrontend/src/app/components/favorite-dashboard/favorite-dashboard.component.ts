@@ -22,7 +22,7 @@ export class FavoriteDashboardComponent implements OnInit{
   }
   ngOnInit(): void {
       this.loadFavorites()
-      this._userService.setCurrentRoute("Favorites");
+      this._userService.setItem("currentRoute", "Favorites");
   }
   loadFavorites(){
     this._dashboardService.getFavorites().subscribe(response=>{
@@ -37,7 +37,7 @@ export class FavoriteDashboardComponent implements OnInit{
     this._router.navigate(['/Advertisement']);
     let currentRoute = card.carDto.brand + " " + card.carDto.model
     let carYear = card.carDto.year
-    this._userService.setCurrentRoute(currentRoute);
+    this._userService.setItem("currentRoute", currentRoute);
     sessionStorage.setItem("year", carYear)
     this._dashboardService.setCard(card);
   }

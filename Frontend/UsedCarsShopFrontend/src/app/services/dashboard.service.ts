@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { UserSessionMenagmentService } from './user-session-menagment.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,22 +22,26 @@ export class DashboardService {
   private currentFilterModel: any | null = null;
 
   public filteredResult:any;
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private _userService:UserSessionMenagmentService) { }
 
-  getFilterOrSortItem(key:string):string | null{
-    let filter = sessionStorage.getItem(key)
-    return filter ? filter.toString() : ""
+  
+  setFilterBrand(key:string, filter:string){
+    this._userService.setItem(key, filter);
   }
-  setFilterOrSortItem(key:string, filter:string){
-    sessionStorage.setItem(key, filter);
+  setFilterModel(key:string, filter:string){
+    this._userService.setItem(key, filter);
   }
-  getAllAdvers(currentPage:any, pageSize: number | null = 16 ):Observable<any>{
-    return this.http.get<any>(`${environment.apiUrl}/api/Advertisement/GetAdvertisements?page=${currentPage}&maximumAdvers=${pageSize}`)
+  setSortItem(key:string, filter:string){
+    this._userService.setItem(key, filter);
+  }
+  getAllAdvers(currentPage:number | null, pageSize: number | null = 16 ):Observable<any>{
+    let url = `${environment.apiUrl}/api/Advertisement/GetAdvertisements?page=${currentPage}&maximumAdvers=${pageSize}`
+    return this.http.get(url)
   }
   getUserId(username:any){
       return this.http.get<any>(`${environment.apiUrl}/api/User/GetID?username=${username}`)
   }
-  addToWish(adverId:any, username:any, Token:any){
+  addToWish(adverId:number, username:string, Token:string){
       const httpHeaders = new HttpHeaders({
         Authorization: `Bearer ${Token}`
       });
@@ -52,7 +57,7 @@ export class DashboardService {
     this.filterBrandSubject.next(brand);
   }
 
-  set filterModel(model: any | null) {
+  set filterModel(model: string | null) {
     this.filterModelSubject.next(model);
   }
   get currentBrand(): any | null {
@@ -71,7 +76,7 @@ export class DashboardService {
   }
 
 
-  loadNewMessages(username?:any):Observable<any>{
+  loadNewMessages(username?:string):Observable<any>{
     return this.http.get<any>(`${environment.apiUrl}/api/User/GetNewMessages?username=${username}`)
   }
   sortAdvertisements(sortParameter:string | null, brand?:string | null, model?:string | null,currentPage?:any):Observable<any>{
@@ -86,7 +91,7 @@ export class DashboardService {
     }
     return this.http.get(url)
   }
-  filterAdvertisements(selectedBrand?:any, selectedModel?:any, currentPage?:any):Observable<any>{
+  filterAdvertisements(selectedBrand?:string | null, selectedModel?:string | null, currentPage?:number | 0):Observable<any>{
     let page = currentPage;
     let maximumAdvers = 16;
     let url = `${environment.apiUrl}/api/Advertisement/FilterAdvertisement?CarBrand=${selectedBrand}&page=${currentPage}&maximumAdvers=${maximumAdvers}`

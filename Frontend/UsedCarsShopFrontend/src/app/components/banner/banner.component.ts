@@ -19,13 +19,13 @@ export class BannerComponent {
    
   }
   ngOnInit():void{
-    this.currentRoute = this._userService.getCurrentRoute();
+    this.currentRoute = this._userService.getItem("currentRoute");
     this.year = sessionStorage.getItem("year")
-    this.currentUser = this._userService.getUsername() ?? "Log in"
+    this.currentUser = this._userService.getItem("Username") ?? "Log in"
   }
   navigateToLogin(){
     if(this.currentUser === "Log in"){
-      this._router.navigate(['/Login'])
+      this._router.navigate(['/Get started'])
     }
   }
 }

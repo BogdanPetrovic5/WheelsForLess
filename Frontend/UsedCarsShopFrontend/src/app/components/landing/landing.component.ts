@@ -19,6 +19,7 @@ export class LandingComponent {
   ngOnInit():void{
     this._dashService.filterBrand = null
     this._dashService.filterModel = null
+    
     this._userService.clearSession()
   }
   navigation(route:any){
