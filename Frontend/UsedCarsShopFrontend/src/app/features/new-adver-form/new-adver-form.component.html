@@ -1,0 +1,317 @@
+
+<div class="content">
+    <app-heder></app-heder>
+    <div class="form-content">
+        <app-banner></app-banner>
+        <form class="form-wrap" [formGroup]="adverForm" (ngSubmit)="placeAdver()">
+            <div class="form">
+                <h1>
+                    Place new advertisement!
+                </h1>
+                <div>
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Advertisement Name"  formControlName="AdverName" >
+                    <div class="car-options">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Brand" formControlName="Brand" [disabled]="isDisabled">
+                        <span class="material-symbols-outlined" (click)="openOptionsBrands()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options" *ngIf="brands">
+                            <div class="options-select" *ngFor="let brand of carBrandsWithModels">
+                                <div>
+                                    <input type="radio" [value]="brand.brand" id="{{ brand.brand }}" name="selectedBrands" (change)="selectBrand(brand.brand)">
+                                    <label for="{{ brand.brand }}">{{ brand.brand }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div>
+                    <div class="car-options">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Model" formControlName="Model" >
+                        <span class="material-symbols-outlined" (click)="openOptionsModels()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options" *ngIf="models && Brand != ''">
+                            <div class="options-select" *ngFor="let model of carModels">
+                                <div>
+                                    <input type="radio" [value]="model" id="{{ model }}" name="selectedModel" (change)="selectModel(model)">
+                                    <label for="{{ model }}">{{ model }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Year" formControlName="Year" [(ngModel)]="adverForm.value.Year">
+                </div>
+                <div>
+                    <div class="car-options">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Body Type" formControlName="Type" >
+                        <span class="material-symbols-outlined" (click)="openBodyTypes()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options body-type" *ngIf="body">
+                            <div class="options-select" *ngFor="let type of bodyTypes">
+                                <div>
+                                    <input type="radio" [value]="type" id="{{ type }}" name="selectedModel" (change)="selectBodyType(type)">
+                                    <label for="{{ type }}">{{ type }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-options">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Fuel Type" formControlName="FuelType">
+                        <span class="material-symbols-outlined" (click)="openFuelTypes()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options body-type" *ngIf="fuel">
+                            <div class="options-select" *ngFor="let type of fuelTypes">
+                                <div>
+                                    <input type="radio" [value]="type" id="{{ type }}" name="selectedModel" (change)="selectFuelType(type)">
+                                    <label for="{{ type }}">{{ type }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div>
+                   
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Price in euros" formControlName="Price" [(ngModel)]="adverForm.value.Price">
+                    
+                    
+                    
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Engine Volume in cubic centimeters" formControlName="EngineVolume" [(ngModel)]="adverForm.value.EngineVolume">
+                       
+                   
+                   
+                </div>
+                <div>
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Horse Power in ks" formControlName="HorsePower" [(ngModel)]="adverForm.value.HorsePower">
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Mileage in km/h" formControlName="Mileage" [(ngModel)]="adverForm.value.Mileage">
+                </div>
+                <div>
+                    <div class="car-options ">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Propulsion" formControlName="Propulsion">
+                        <span class="material-symbols-outlined" (click)="openPropulsionTypes()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options propulsion" *ngIf="propulsion">
+                            <div class="options-select" *ngFor="let type of propulsionTypes">
+                                <div>
+                                    <input type="radio" [value]="type" id="{{ type }}" name="selectedModel" (change)="selectPropulsionType(type)">
+                                    <label for="{{ type }}">{{ type }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="file-type" (change)="onFileSelected($event)">
+                        <label> 
+                            Select files!
+                        </label>
+                        <input type="file" class="file" id="file" >
+                    </div>
+                    
+                    
+                </div>
+               
+                <div class="images-div">
+                    <div class="images" *ngFor="let img of selectedFiles">
+                        <div class="image">
+                            <img src="/assets/images/jpg (1).png" alt="" srcset="">
+                        </div>
+                        <div class="details">
+                            <p>
+                                {{img.name}} <br>
+                                {{img.size}}B
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button  type="submit" class="place-adver">PLACE AN ADVERTISEMENT</button>
+            </div>
+        </form>
+        <div class="info" *ngIf="published">
+            <div class="info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z"></path></svg>
+            </div>
+            <div class="info__title">Published! Check dashboard!</div>
+            
+        </div>
+        <div class="info_1" *ngIf="empty">
+            <div class="info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z"></path></svg>
+            </div>
+            <div class="info__title">Please, fill all fields!</div>
+            
+        </div>
+    </div>
+    
+</div>
+
+
+
+<!--  
+ <div class="content">
+    <app-heder></app-heder>
+    <div class="form-content">
+        <app-banner></app-banner>
+        <div class="form-wrap">
+            <div class="form">
+                <h1>
+                    Place new advertisement!
+                </h1>
+                <div>
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Advertisement Name" [(ngModel)]="AdverName">
+                    <div class="car-options">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Brand" [(ngModel)]="Brand" [disabled]="Brand != ''">
+                        <span class="material-symbols-outlined" (click)="openOptionsBrands()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options" *ngIf="brands">
+                            <div class="options-select" *ngFor="let brand of carBrandsWithModels">
+                                <div>
+                                    <input type="radio" [value]="brand.brand" id="{{ brand.brand }}" name="selectedBrands" (change)="selectBrand(brand.brand)">
+                                    <label for="{{ brand.brand }}">{{ brand.brand }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div>
+                    <div class="car-options">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Model" [(ngModel)]="Model" [disabled]="Model != ''">
+                        <span class="material-symbols-outlined" (click)="openOptionsModels()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options" *ngIf="models && Brand != ''">
+                            <div class="options-select" *ngFor="let model of carModels">
+                                <div>
+                                    <input type="radio" [value]="model" id="{{ model }}" name="selectedModel" (change)="selectModel(model)">
+                                    <label for="{{ model }}">{{ model }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Year" [(ngModel)]="Year">
+                </div>
+                <div>
+                    <div class="car-options">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Body Type" [(ngModel)]="BodyType" [disabled]="BodyType != ''">
+                        <span class="material-symbols-outlined" (click)="openBodyTypes()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options body-type" *ngIf="body">
+                            <div class="options-select" *ngFor="let type of bodyTypes">
+                                <div>
+                                    <input type="radio" [value]="type" id="{{ type }}" name="selectedModel" (change)="selectBodyType(type)">
+                                    <label for="{{ type }}">{{ type }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-options">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Fuel Type" [(ngModel)]="FuelType">
+                        <span class="material-symbols-outlined" (click)="openFuelTypes()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options body-type" *ngIf="fuel">
+                            <div class="options-select" *ngFor="let type of fuelTypes">
+                                <div>
+                                    <input type="radio" [value]="type" id="{{ type }}" name="selectedModel" (change)="selectFuelType(type)">
+                                    <label for="{{ type }}">{{ type }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div>
+                   
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Price in euros" [(ngModel)]="Price">
+                    
+                    
+                    
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Engine Volume in cubic centimeters" [(ngModel)]="EngineVolume">
+                       
+                   
+                   
+                </div>
+                <div>
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Horse Power in ks" [(ngModel)]="HorsePower">
+                    <input type="text" autocomplete="off" name="text" class="input" placeholder="Mileage in km/h" [(ngModel)]="Mileage">
+                </div>
+                <div>
+                    <div class="car-options ">
+                        <input type="text" autocomplete="off" name="text" class="input" placeholder="Propulsion" [(ngModel)]="Propulsion">
+                        <span class="material-symbols-outlined" (click)="openPropulsionTypes()">
+                            arrow_drop_down
+                        </span>
+                        <div class="options propulsion" *ngIf="propulsion">
+                            <div class="options-select" *ngFor="let type of propulsionTypes">
+                                <div>
+                                    <input type="radio" [value]="type" id="{{ type }}" name="selectedModel" (change)="selectPropulsionType(type)">
+                                    <label for="{{ type }}">{{ type }}</label>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="file-type" (change)="onFileSelected($event)">
+                        <label> 
+                            Select files!
+                        </label>
+                        <input type="file" class="file" id="file" >
+                    </div>
+                    
+                    
+                </div>
+               
+                <div class="images-div">
+                    <div class="images" *ngFor="let img of selectedFiles">
+                        <div class="image">
+                            <img src="/assets/images/jpg (1).png" alt="" srcset="">
+                        </div>
+                        <div class="details">
+                            <p>
+                                {{img.name}} <br>
+                                {{img.size}}B
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            
+                <button (click)="placeAdver()" class="place-adver">PLACE AN ADVERTISEMENT</button>
+            </div>
+        </div>
+        <div class="info" *ngIf="published">
+            <div class="info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z"></path></svg>
+            </div>
+            <div class="info__title">Published! Check dashboard!</div>
+            
+        </div>
+        <div class="info_1" *ngIf="empty">
+            <div class="info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z"></path></svg>
+            </div>
+            <div class="info__title">Please, fill all fields!</div>
+            
+        </div>
+    </div>
+    
+</div> -->

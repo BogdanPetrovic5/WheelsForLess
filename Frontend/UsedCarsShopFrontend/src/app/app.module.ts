@@ -4,23 +4,23 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginRegisterComponent } from './components/login-register/login-register.component';
+import { LoginRegisterComponent } from './features/login-register/login-register.component';
 
-import { DasboardComponent } from './components/dasboard/dasboard.component';
-import { NewAdverFormComponent } from './components/new-adver-form/new-adver-form.component';
-import { AdvertisementComponent } from './components/advertisement/advertisement.component';
-import { HederComponent } from './components/heder/heder.component';
-import { FavoriteDashboardComponent } from './components/favorite-dashboard/favorite-dashboard.component';
-import { UserToUserMessagesComponent } from './components/all-messages/user-to-user-messages/user-to-user-messages.component';
-import { LoadingComponent } from './components/loading/loading.component';
-import { LoadingService } from './services/loading.service';
-import { AllMessagesComponent } from './components/all-messages/all-messages.component';
-import { BannerComponent } from './components/banner/banner.component';
-import { AutoLogoutService } from './services/auto-logout.service';
+import { DasboardComponent } from './features/dasboard/dasboard.component';
+import { NewAdverFormComponent } from './features/new-adver-form/new-adver-form.component';
+import { AdvertisementComponent } from './features/advertisement/advertisement.component';
+import { HederComponent } from './shared/components/heder/heder.component';
+import { FavoriteDashboardComponent } from './features/favorite-dashboard/favorite-dashboard.component';
+import { UserToUserMessagesComponent } from './features/all-messages/user-to-user-messages/user-to-user-messages.component';
+import { LoadingComponent } from './shared/components/loading/loading.component';
+import { LoadingService } from './core/services/loading.service';
+import { AllMessagesComponent } from './features/all-messages/all-messages.component';
+import { BannerComponent } from './shared/components/banner/banner.component';
+import { AutoLogoutService } from './core/services/auto-logout.service';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
-import { AuthenticationService } from './services/authentication.service';
+import { AuthenticationService } from './core/services/authentication.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LandingComponent } from './components/landing/landing.component';
+import { LandingComponent } from './features/landing/landing.component';
 export function jwtOptionsFactory() {
   return {
     tokenGetter: () => {

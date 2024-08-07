@@ -1,0 +1,301 @@
+
+<div class="container">
+    <app-heder></app-heder>
+    <div class="about-car">
+        <app-banner></app-banner>
+        <div class="about-car-information">
+            <div class="about-car-information-content">
+                <div class="advertisement-information">
+                    <div class="images">
+                        <img src="https://localhost:7169/Photos/{{card.imagePaths[0].imagePath}}"/>
+
+                    </div>
+                    <div class="contact">
+                        <span class="material-symbols-sharp" (click)="addToWish()" [ngClass]="isWished ? 'wished':'not-wished'">
+                            favorite 
+                        </span>
+                        <h1 class="fav-counter">{{card.favoritedByUserDto.length}}</h1>
+                        <div class="contact-header">
+                            <h1>
+                                Contact seller
+                            </h1>
+                        </div>
+                        <div class="contact-info">
+                            <p> <span>Price: </span>  {{ card.price | currency: 'EUR' }}</p>
+                            <p>
+                                <span>Seller: </span> {{card.userDto.userName}}
+                            </p>
+                            <p>
+                                <span>Call: </span> {{card.userDto.phoneNumber}}
+                            </p>
+                            <p>
+                              <span>Name: </span>{{card.userDto.firstName}} {{card.userDto.lastName}}
+                            </p>
+                        </div>
+                        <div class="message" *ngIf="card.userDto.userName != currentUsername">
+                            <h1> 
+                                Contact seller:
+                            </h1>
+                            <input [(ngModel)]="message" type="text" placeholder="Type your message..."/>
+                            <button (click)="sendMessage()">
+                                Send <img src="/assets/images/message.png">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="characteristics">
+                    <div class="characteristics-header">
+                        <h1>Characteristics</h1>
+                    </div>
+                    <div class="spec">
+                        <div>
+                            <img src="/assets/images/mile.png">
+                            <p>{{card.carDto.mileage}}km</p>
+                        </div>
+                        <div class="vr">
+
+                        </div>
+                        <div>
+                            <img src="/assets/images/propulsion.png">
+                            <p>{{card.carDto.propulsion}} propulsion</p>
+                        </div>
+                        <div class="vr">
+
+                        </div>
+                        <div>
+                            <img src="/assets/images/enginevolume.png">
+                            <p>{{card.carDto.engineVolume}} ㎤</p>
+                        </div>
+                        <div class="vr">
+
+                        </div>
+                        <div>
+                            <img src="/assets/images/fuel.png">
+                            <p>{{card.carDto.fuelType}}</p>
+                        </div>
+                        <div class="vr">
+
+                        </div>
+                        <div>
+                            <img src="/assets/images/horse-power.png">
+                            <p> {{card.carDto.horsePower}} ks</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="info_2" *ngIf="empty">
+            <div class="info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z"></path></svg>
+            </div>
+            <div class="info__title">Please type message!</div>
+            
+        </div>
+        <div class="info" *ngIf="sent">
+            <div class="info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z"></path></svg>
+            </div>
+            <div class="info__title">Message sent!</div>
+            
+        </div>
+        <div class="info_1" *ngIf="wishlistAdded">
+            <div class="info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z"></path></svg>
+            </div>
+            <div class="info__title">Wishlist added!</div>
+            
+        </div>
+        <div class="info_2" *ngIf="wishlistRemoved">
+            <div class="info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z"></path></svg>
+            </div>
+            <div class="info__title">Wishlist removed</div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- <section class="container">
+    <app-heder></app-heder>
+    <div class="about-car">
+        <app-banner></app-banner>
+        <div class="container-basics">
+            <section class="images">
+                <div class="adver-name">
+                    <h1>
+                        {{card.adverName}}
+                    </h1>
+                    <h2>
+                        {{card.carDto.year}}
+                        godiste
+                    </h2>
+                </div>
+                <div class="adver-img">
+                    <img src="https://localhost:7169/Photos/{{card.imagePaths[0].imagePath}}" alt="">
+                </div>
+            </section>
+            <section class="basic-info">
+                <section class="brand-model-price">
+                    <h1>
+                       {{card.carDto.brand}} {{card.carDto.model}}
+                        
+                    </h1>
+                    <p>
+                        {{ card.price | currency: 'EUR' }}
+                    </p>
+                </section>
+                <div class="sellers-info">
+                    <div class="username">
+                        <h1>
+                           Oglasivac: {{card.userDto.userName}}
+                        </h1>
+                    </div>
+                    <div class="more-advers">
+                        <button class="first">
+                            Pogledaj ostale oglase korisnika!
+                        </button>
+                        <button class="second" (click)="openChatBox()" *ngIf="currentUsername != card.userDto.userName">
+                            Posalji poruku!
+                        </button>
+                    </div>
+                    <div class="ratings">
+    
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <div class="car-info">
+            <div class="car-info-likes">
+                <span (click)="addToWish()" [ngClass]="isWished ? 'wished':'not-wished'">
+                    ♥
+                </span>
+            </div>
+            <h1>
+                Opste informacije
+            </h1>
+            <div class="car-info-table">
+                <div class="first-column">
+               
+                    <div class="property">
+                        <div class="key">
+                            <h1>Marka</h1>
+                        </div>
+                        <div class="value">
+                            <h1>
+                                {{card.carDto.brand}}
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="property">
+                        
+                        <div class="key">
+                            <h1>Model</h1>
+                        </div>
+                        <div class="value">
+                            <h1>
+                                {{card.carDto.model}}
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="property">
+                        <div class="key">
+                            <h1>Godiste</h1>
+                        </div>
+                        <div class="value">
+                            <h1>
+                                {{card.carDto.year}}
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="property">
+                        <div class="key">
+                            <h1>Gorivo</h1>
+                        </div>
+                        <div class="value">
+                            <h1>
+                                {{card.carDto.fuelType}}
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="property">
+                        <div class="key">
+                            <h1>Karoserija</h1>
+                        </div>
+                        <div class="value">
+                            <h1>
+                                {{card.carDto.type}}
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="second-column">
+                    <div class="property">
+                        <div class="key">
+                            <h1>Pogon</h1>
+                        </div>
+                        <div class="value">
+                            <h1>
+                                {{card.carDto.propulsion}}
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="property">
+                        
+                        <div class="key">
+                            <h1>Kubikaza</h1>
+                        </div>
+                        <div class="value">
+                            <h1>
+                                {{card.carDto.engineVolume}}
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="property">
+                        <div class="key">
+                            <h1>Snaga</h1>
+                        </div>
+                        <div class="value">
+                            <h1>
+                                {{card.carDto.horsePower}}
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="property">
+                        <div class="key">
+                            <h1>Kilometraza</h1>
+                        </div>
+                        <div class="value">
+                            <h1>
+                                {{card.carDto.mileage}}
+                            </h1>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+        <div class="error" *ngIf="wishlistRemoved">
+            <div class="error__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z"></path></svg>
+            </div>
+            <div class="error__title">Adver removed from wishlist</div>
+            
+        </div>
+        <div class="info" *ngIf="wishlistAdded">
+            <div class="info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z"></path></svg>
+            </div>
+            <div class="info__title">Adver added to wishlist</div>
+            
+        </div>
+    </div>
+    
+</section> -->
