@@ -23,6 +23,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LandingComponent } from './features/landing/landing.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { AdvertisementCardComponent } from './shared/components/advertisement-card/advertisement-card.component';
 export function jwtOptionsFactory() {
   return {
     tokenGetter: () => {
@@ -45,6 +46,7 @@ export function jwtOptionsFactory() {
     AllMessagesComponent,
     BannerComponent,
     LandingComponent,
+    AdvertisementCardComponent,
    
     
   ],

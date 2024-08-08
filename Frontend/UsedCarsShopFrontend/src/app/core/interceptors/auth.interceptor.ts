@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserSessionMenagmentService } from '../services/user-session-menagment.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -15,7 +16,11 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this._userService.getItem("Token");
-    if(token){
+    const protectedUrls = [
+      `${environment.apiUrl}/api/Messages/SendMessage`,
+      `${environment.apiUrl}/api/Advertisement/MarkAsFavorite`
+    ]
+    if(token && protectedUrls.includes(request.url)){
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`

@@ -9,7 +9,7 @@
                 <h1>No results :( </h1>
             </div>
             <div class="items-content">
-                <div class="card" *ngFor="let card of advertisementObject.Advertisements; trackBy: trackById" (click)="navigateToAdvertisement(card)">
+                <!-- <div class="card" *ngFor="let card of advertisementObject.Advertisements; trackBy: trackById" (click)="navigateToAdvertisement(card)">
                     <div class="elemental-info">
                         <div>
                             <p>
@@ -43,7 +43,12 @@
                     <div class="price">
                         <h1> {{ card.price | currency: 'EUR' }}</h1> <button>More</button>
                     </div>
-                </div>
+                </div> -->
+                <app-advertisement-card 
+                    *ngFor="let card of advertisementObject.Advertisements; trackBy: trackById"
+                    [card]="card"
+                    (cardClick)="navigateToAdvertisement($event)">
+              </app-advertisement-card>
             </div>
             <div class="navigation-buttons">
                 <button (click)="prevPage()" [disabled]="currentPage == 1" [ngClass]="currentPage == 1 ?'disable':''">prev</button>

@@ -1,0 +1,26 @@
+<div class="card" (click)="onCardClick()">
+    <div class="elemental-info">
+      <div>
+        <p>{{ card.date | date:'EEEE, MMMM d' }}</p>
+        <h1>{{ card.carDto.brand }} {{ card.carDto.model }} <span>{{ card.carDto.year }}</span></h1>
+      </div>
+    </div>
+    <div class="card-image">
+      <img *ngIf="card.imagePaths.length > 0" src="https://localhost:7169/Photos/{{ card.imagePaths[0].imagePath }}" loading="lazy">
+      <img class="no-img" *ngIf="card.imagePaths.length == 0" src="/assets/images/photo.png">
+    </div>
+    <div class="info">
+      <div>
+        <p>Engine volume: {{ card.carDto.engineVolume }} ㎤</p>
+        <p>Horse power: {{ card.carDto.horsePower }} ks</p>
+      </div>
+      <div>
+        <p>Fuel: {{ card.carDto.fuelType }}</p>
+        <p>Mileage: {{ card.carDto.mileage }}</p>
+      </div>
+    </div>
+    <div class="price">
+      <h1>{{ card.price | currency: 'EUR' }}</h1>
+      <button>More</button>
+    </div>
+  </div>
