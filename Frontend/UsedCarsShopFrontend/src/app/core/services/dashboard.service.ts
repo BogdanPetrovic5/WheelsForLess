@@ -108,14 +108,10 @@ export class DashboardService {
     return this.http.post<any>(environment.apiUrl + "/api/Advertisement/PublishAdvertisement",data, {headers:httpHeaders});
   }
   addToWish(adverId:number, username:string, Token:string){
-    const httpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${Token}`
-    });
+  
     return this.http.post<any>(environment.apiUrl + "/api/Advertisement/MarkAsFavorite",{
       adverID:adverId,
       userName:username
-    },{
-      headers:httpHeaders
     })
   }
 

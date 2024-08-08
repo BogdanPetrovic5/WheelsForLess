@@ -21,6 +21,8 @@ import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthenticationService } from './core/services/authentication.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LandingComponent } from './features/landing/landing.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 export function jwtOptionsFactory() {
   return {
     tokenGetter: () => {
@@ -69,7 +71,12 @@ export function jwtOptionsFactory() {
     AutoLogoutService,
     JwtHelperService,
     AuthenticationService,
-    DasboardComponent
+    DasboardComponent,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

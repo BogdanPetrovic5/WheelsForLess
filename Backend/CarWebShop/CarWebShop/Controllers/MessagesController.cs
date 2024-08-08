@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 using CarWebShop.Repository;
 using CarWebShop.Interfaces;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarWebShop.Controllers
 {
@@ -63,6 +64,7 @@ namespace CarWebShop.Controllers
         }   
       
         [HttpPost("SendMessage")]
+        [Authorize]
         public async Task<IActionResult> sendMessage(MessageDto messageDto)
         {
             int receiverID = _userUtility.GetUserIdByUsername(messageDto.ReceiverUsername);
