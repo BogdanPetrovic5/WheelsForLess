@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { DashboardService } from 'src/app/core/services/dashboard.service';
-import { UserSessionMenagmentService } from 'src/app/core/services/user-session-menagment.service';
+import { DashboardService } from 'src/app/core/services/dashboard/dashboard.service';
+import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
 
 @Component({
   selector: 'app-landing',

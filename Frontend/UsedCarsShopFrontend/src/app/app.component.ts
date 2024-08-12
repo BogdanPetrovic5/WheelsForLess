@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AutoLogoutService } from './core/services/auto-logout.service';
+import { AutoLogoutService } from './core/services/authentication/auto-logout.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

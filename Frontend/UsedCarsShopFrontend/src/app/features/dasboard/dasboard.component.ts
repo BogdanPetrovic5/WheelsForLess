@@ -1,13 +1,16 @@
 import { Component, OnInit, HostListener} from '@angular/core';
-import { DashboardService } from 'src/app/core/services/dashboard.service';
+import { DashboardService } from 'src/app/core/services/dashboard/dashboard.service';
 import { Router, NavigationExtras,ActivatedRoute, NavigationEnd  } from '@angular/router';
 import { Advertisement } from 'src/app/Data Transfer Objects/Advertisements';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import { WebsocketMessagesService } from 'src/app/core/services/websocket-messages.service';
+import { LoadingService } from 'src/app/core/services/dashboard/loading.service';
+import { WebsocketMessagesService } from 'src/app/core/services/websocket/websocket-messages.service';
 import { environment } from 'src/environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
-import { combineLatest, debounceTime, Subscription } from 'rxjs';
-import { UserSessionMenagmentService } from 'src/app/core/services/user-session-menagment.service';
+import { combineLatest, debounceTime, Observable, Subscription } from 'rxjs';
+import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
+import { select, Store } from '@ngrx/store';
+import { AdvertisementState } from 'src/app/store/advertisement-store/advertisement.reducer';
+import { selectAdvertisements } from 'src/app/store/advertisement-store/advertisement.selector';
 
 @Component({
   selector: 'app-dasboard',
@@ -18,7 +21,7 @@ export class DasboardComponent {
 
    
     advertisementObject: Advertisement  
-
+    // advertisements$:Observable<any[]>
     public dashboard:boolean = true
     public adverForm:boolean = false
     public adver:boolean = false
@@ -49,10 +52,11 @@ export class DasboardComponent {
       private _route:ActivatedRoute, 
       private _loadingService:LoadingService,
       private _wsService:WebsocketMessagesService,
-      private _userService:UserSessionMenagmentService
+      private _userService:UserSessionMenagmentService,
+      private store: Store<{ advertisements: AdvertisementState}>
     ){
       this.advertisementObject = new Advertisement();
-      
+      // this.advertisements$ = this.store.pipe(select(selectAdvertisements));
     }
     
   ngOnDestroy():void{
@@ -60,7 +64,11 @@ export class DasboardComponent {
   
   }
   ngOnInit(){
+    
     this.initializeComponent()
+    // this.advertisements$.subscribe(advertisement => {
+    //   console.log('Current Advertisements:', advertisement);
+    // });
   }
   initializeComponent(){
     this.loadSession();
@@ -87,6 +95,7 @@ export class DasboardComponent {
       combineLatest([
         this._dashService.filterBrand$,
         this._dashService.filterModel$
+       
       ]).pipe(
         debounceTime(300)
       ).subscribe(([brand, model]) => {
@@ -138,6 +147,7 @@ export class DasboardComponent {
   // }
  
   applySort(){
+    
     this.loadFilterAndSortParameters()
     if(this.sort != null){
       console.log("Bad request", this.sort, this.brand, this.model);
@@ -157,7 +167,7 @@ export class DasboardComponent {
       this.updateUrlWithFilters(this.brand,this.model);
       this._dashService.filterAdvertisements(this.brand, this.model, this.currentPage).subscribe((response)=>{
         this.advertisementObject.Advertisements = response
-        
+       
       },(error:HttpErrorResponse)=>{
         console.log(error);
       })
@@ -250,7 +260,7 @@ export class DasboardComponent {
     this.brand = this._dashService.currentBrand || this._userService.getItem("brand")
     this.model = this._dashService.currentModel || this._userService.getItem("model")
     this.sort = this._dashService.getSortParameter || this._userService.getItem("sort")
-
+    console.log(this.brand, this.model, this.sort)
 
     if(this.brand) this._dashService.setFilterBrand("brand", this.brand)
     if( this.model) this._dashService.setFilterModel("model",  this.model)

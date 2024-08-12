@@ -12,7 +12,7 @@
            
         </section>
         <div class="options">
-            <button (click)="navigateToMessages()"><img src="/assets/images/mssgs.png" > Messages <span *ngIf="isLoggedIn()">{{numberMessages}}</span></button>
+            <button (click)="navigateToMessages()"><img src="/assets/images/mssgs.png" > Messages <span *ngIf="isLoggedIn()">{{numberMessages}} {{messageCount$ | async}}</span></button>
             <button (click)="navigateToFav()"><img src="/assets/images/wishlist.png"> Wishlist</button>
             <button (click)="changeToForm()"><img src="/assets/images/mega.png" > Place an adver</button>
             <div class="hr">
@@ -37,6 +37,7 @@
                 <button class="filter-button" *ngIf="selectedBrand != null && brands" (click)="filterSearch()" [disabled] = "filter">
                     FILTER
                 </button>
+                
             </div>
             <div class="filter-second-section section">
                 <button><img src="/assets/images/sort.png"> Sort by</button>
@@ -64,6 +65,7 @@
                 <button *ngIf="sortParameter" class="filter-button" (click)="chooseSort()">
                     Apply Sort
                 </button>
+               
             </div>
         </div>
     </section>

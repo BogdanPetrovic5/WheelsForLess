@@ -1,14 +1,16 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MessagesService } from 'src/app/core/services/messages.service';
+import { MessagesService } from 'src/app/core/services/messages/messages.service';
 import { Router, NavigationExtras,ActivatedRoute, NavigationEnd, Route  } from '@angular/router';
-import { WebsocketMessagesService } from 'src/app/core/services/websocket-messages.service';
+import { WebsocketMessagesService } from 'src/app/core/services/websocket/websocket-messages.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { DashboardService } from 'src/app/core/services/dashboard.service';
+import { DashboardService } from 'src/app/core/services/dashboard/dashboard.service';
 import { AllMessagesComponent } from '../all-messages.component';
 import { Subscription } from 'rxjs';
 
-import { UserSessionMenagmentService } from 'src/app/core/services/user-session-menagment.service';
+import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
+import { Store } from '@ngrx/store';
+import { decrementMessages } from 'src/app/store/messages-store/messages.actions';
 
 @Component({
   selector: 'app-user-to-user-messages',
@@ -51,7 +53,7 @@ export class UserToUserMessagesComponent implements OnInit{
     private _router:Router,  
     private _route:ActivatedRoute,
     private parent:AllMessagesComponent,
-    
+    private _store:Store,
     private _userService:UserSessionMenagmentService
   ){
    
@@ -177,6 +179,8 @@ export class UserToUserMessagesComponent implements OnInit{
   messageOperation(){
     this.parent.markAsRead(this.messageID);
     this._messageService.decrementUnreadMessages(this.newMessages);
+
+    this._store.dispatch(decrementMessages({amount:this.newMessages}))
     this._messageService.openMessage(this.messageID, this.currentUsername, this.newMessages).
     subscribe(()=>{
     

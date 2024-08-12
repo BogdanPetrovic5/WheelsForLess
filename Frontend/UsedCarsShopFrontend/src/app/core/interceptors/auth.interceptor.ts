@@ -6,7 +6,7 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserSessionMenagmentService } from '../services/user-session-menagment.service';
+import { UserSessionMenagmentService } from '../services/session/user-session-menagment.service';
 import { environment } from 'src/environments/environment';
 
 @Injectable()

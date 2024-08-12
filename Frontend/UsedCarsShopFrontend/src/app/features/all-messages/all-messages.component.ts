@@ -4,11 +4,11 @@ import { Component, DoCheck, HostListener, OnChanges, OnDestroy, OnInit, ViewChi
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Messages } from 'src/app/Data Transfer Objects/Messages';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import { MessagesService } from 'src/app/core/services/messages.service';
-import { WebsocketMessagesService } from 'src/app/core/services/websocket-messages.service';
+import { LoadingService } from 'src/app/core/services/dashboard/loading.service';
+import { MessagesService } from 'src/app/core/services/messages/messages.service';
+import { WebsocketMessagesService } from 'src/app/core/services/websocket/websocket-messages.service';
 import { DasboardComponent } from 'src/app/features/dasboard/dasboard.component';
-import { UserSessionMenagmentService } from 'src/app/core/services/user-session-menagment.service';
+import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
 
 ;
 @Component({

@@ -1,14 +1,17 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { AuthenticationService } from 'src/app/core/services/authentication.service';
-import { CarDetails } from 'src/app/core/services/car-details.service';
-import { DashboardService } from 'src/app/core/services/dashboard.service';
-import { MessagesService } from 'src/app/core/services/messages.service';
-import { WebsocketMessagesService } from 'src/app/core/services/websocket-messages.service';
+import { Observable, Subscription } from 'rxjs';
+import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
+import { CarDetails } from 'src/app/core/services/data-specific/car-details.service';
+import { DashboardService } from 'src/app/core/services/dashboard/dashboard.service';
+import { MessagesService } from 'src/app/core/services/messages/messages.service';
+import { WebsocketMessagesService } from 'src/app/core/services/websocket/websocket-messages.service';
 import { DasboardComponent } from '../../../features/dasboard/dasboard.component';
-import { UserSessionMenagmentService } from 'src/app/core/services/user-session-menagment.service';
+import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
+import { select, Store } from '@ngrx/store';
+import { applyFilters, updateBrandFilter, updateModelFilter } from 'src/app/store/filter-store/filter.action';
+import { selectMessageCount } from 'src/app/store/messages-store/message.selector';
 
 @Component({
   selector: 'app-heder',
@@ -38,7 +41,7 @@ export class HederComponent implements OnInit{
 
   carModels: string[] = [];
 
-  
+  messageCount$: Observable<number>;
   subscriptions: Subscription = new Subscription();
   constructor(
     private _router:Router, 
@@ -48,31 +51,43 @@ export class HederComponent implements OnInit{
     private _dashService:DashboardService, 
     private _auth:AuthenticationService, 
     private _dashboardComponent:DasboardComponent,
-    private _userService:UserSessionMenagmentService
+    private _userService:UserSessionMenagmentService,
+    private _store:Store
   ){
-      
+    this.messageCount$ = this._store.pipe(select(selectMessageCount));
+    this.subscriptions.add(
+      this._messageService.unreadMessagesIncrement$.subscribe((step: number | null)=>{
+        console.log(step)
+        if(this.numberMessages != null && step != null) {
+          this.numberMessages += step
+        }
+      })
+    )
+    this.subscriptions.add(
+      this._messageService.unreadMessagesDecrement$.subscribe((step:number | null)=>{
+        if(this.numberMessages != null && step != null) this.numberMessages -= step;
+      })
+    )
   }
   ngOnInit():void{
+   
     this.initializeComponent()
+    this.loadSubscriptions();
+  }
+  ngOnDestroy():void{
+    this.subscriptions.unsubscribe()
   }
   initializeComponent(){
     this.username = this._userService.getItem("Username")
     this.currentRoute = this._userService.getItem("currentRoute")
-   
+  
+    
     this.loadNewMessages();
-    this.loadSubscriptions();
+    
   }
+  
   loadSubscriptions(){
-    this.subscriptions.add(
-      this._messageService.unreadMessages$.subscribe((newMessages: number)=>{
-        if(this.numberMessages) this.numberMessages += newMessages
-      })
-    )
-    this.subscriptions.add(
-      this._messageService.unreadMessagesStep$.subscribe((step:number)=>{
-        if(this.numberMessages) this.numberMessages -= step;
-      })
-    )
+    
   }
   showOptions(){
     this.brands = !this.brands
@@ -87,14 +102,17 @@ export class HederComponent implements OnInit{
   filterSearch(){
     this._dashService.filterBrand = this.selectedBrand;
     this._dashService.filterModel = this.selectedModel;
+
+    // this._store.dispatch(updateBrandFilter({brand:this.selectedBrand || null}));
+    // this._store.dispatch(updateModelFilter({model:this.selectedModel || null}));
+    // this._store.dispatch(applyFilters())
     this._userService.removeItemFromSessionStorage("brand")
     this._userService.removeItemFromSessionStorage("model")
   }
   loadNewMessages(){
     if(this.username){
       this._dashService.loadNewMessages(this.username).subscribe((response)=>{
-        this.numberMessages = response
-        console.log(this.numberMessages)
+       
       },(error:HttpErrorResponse)=>{
         console.log(error)
       })

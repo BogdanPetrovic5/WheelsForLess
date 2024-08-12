@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import { DashboardService } from 'src/app/core/services/dashboard.service';
+import { LoadingService } from 'src/app/core/services/dashboard/loading.service';
+import { DashboardService } from 'src/app/core/services/dashboard/dashboard.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserSessionMenagmentService } from 'src/app/core/services/user-session-menagment.service';
+import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
 @Component({
   selector: 'app-login-register',
   templateUrl: './login-register.component.html',

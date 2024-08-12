@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
-import { DashboardService } from 'src/app/core/services/dashboard.service';
+import { DashboardService } from 'src/app/core/services/dashboard/dashboard.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MessagesService } from 'src/app/core/services/messages.service';
+import { MessagesService } from 'src/app/core/services/messages/messages.service';
 import { filter, Subject } from 'rxjs';
-import { UserSessionMenagmentService } from 'src/app/core/services/user-session-menagment.service';
+import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
 @Component({
   selector: 'app-advertisement',
   templateUrl: './advertisement.component.html',

@@ -1,11 +1,11 @@
 import { Component, Type } from '@angular/core';
 import { Router } from '@angular/router';
-import { DashboardService } from 'src/app/core/services/dashboard.service';
+import { DashboardService } from 'src/app/core/services/dashboard/dashboard.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CarDetails } from 'src/app/core/services/car-details.service';
+import { CarDetails } from 'src/app/core/services/data-specific/car-details.service';
 import { Form, FormControl } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserSessionMenagmentService } from 'src/app/core/services/user-session-menagment.service';
+import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
 @Component({
   selector: 'app-new-adver-form',
   templateUrl: './new-adver-form.component.html',

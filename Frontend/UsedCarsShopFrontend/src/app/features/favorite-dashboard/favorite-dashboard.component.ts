@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DashboardService } from 'src/app/core/services/dashboard.service';
+import { DashboardService } from 'src/app/core/services/dashboard/dashboard.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FavoiriteAdvertisement } from 'src/app/Data Transfer Objects/FavoritesAdvertisements';
 import { Router } from '@angular/router';
-import { UserSessionMenagmentService } from 'src/app/core/services/user-session-menagment.service';
+import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
 
 @Component({
   selector: 'app-favorite-dashboard',
