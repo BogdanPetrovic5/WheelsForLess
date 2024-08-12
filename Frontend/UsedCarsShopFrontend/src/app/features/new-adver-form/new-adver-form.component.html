@@ -12,7 +12,7 @@
                     <input type="text" autocomplete="off" name="text" class="input" placeholder="Advertisement Name"  formControlName="AdverName" >
                     <div class="car-options">
                         <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Brand" formControlName="Brand" [disabled]="isDisabled">
-                        <span class="material-symbols-outlined" (click)="openOptionsBrands()">
+                        <span class="material-symbols-outlined" (click)="toggleDropdown('brands')">
                             arrow_drop_down
                         </span>
                         <div class="options" *ngIf="brands">
@@ -30,7 +30,7 @@
                 <div>
                     <div class="car-options">
                         <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Model" formControlName="Model" >
-                        <span class="material-symbols-outlined" (click)="openOptionsModels()">
+                        <span class="material-symbols-outlined" (click)="toggleDropdown('models')">
                             arrow_drop_down
                         </span>
                         <div class="options" *ngIf="models && Brand != ''">
@@ -49,7 +49,7 @@
                 <div>
                     <div class="car-options">
                         <input type="text" autocomplete="off" name="text" class="input" placeholder="Car's Body Type" formControlName="Type" >
-                        <span class="material-symbols-outlined" (click)="openBodyTypes()">
+                        <span class="material-symbols-outlined" (click)="toggleDropdown('body')">
                             arrow_drop_down
                         </span>
                         <div class="options body-type" *ngIf="body">
@@ -64,7 +64,7 @@
                     </div>
                     <div class="car-options">
                         <input type="text" autocomplete="off" name="text" class="input" placeholder="Fuel Type" formControlName="FuelType">
-                        <span class="material-symbols-outlined" (click)="openFuelTypes()">
+                        <span class="material-symbols-outlined" (click)="toggleDropdown('fuel')">
                             arrow_drop_down
                         </span>
                         <div class="options body-type" *ngIf="fuel">
@@ -97,7 +97,7 @@
                 <div>
                     <div class="car-options ">
                         <input type="text" autocomplete="off" name="text" class="input" placeholder="Propulsion" formControlName="Propulsion">
-                        <span class="material-symbols-outlined" (click)="openPropulsionTypes()">
+                        <span class="material-symbols-outlined" (click)="toggleDropdown('propulsion')">
                             arrow_drop_down
                         </span>
                         <div class="options propulsion" *ngIf="propulsion">

@@ -73,27 +73,6 @@ export class NewAdverFormComponent {
     this.loadOptions()
   }
 
-  openOptionsBrands() {
-    this.toggleDropdown('brands');
-  }
-  
-  openOptionsModels() {
-    this.toggleDropdown('models');
-  }
-  
-  openBodyTypes() {
-    this.toggleDropdown('body');
-  }
-  
-  openFuelTypes() {
-    this.toggleDropdown('fuel');
-  }
-  
-  openPropulsionTypes() {
-    this.toggleDropdown('propulsion');
-  }
-
-
   toggleDropdown(type: 'brands' | 'models' | 'body' | 'fuel' | 'propulsion') {
     this[type] = !this[type];
   }
