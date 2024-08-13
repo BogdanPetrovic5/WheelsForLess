@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MessagesService } from 'src/app/core/services/messages/messages.service';
-import { Router, NavigationExtras,ActivatedRoute, NavigationEnd, Route  } from '@angular/router';
+import { Router, NavigationExtras,ActivatedRoute, NavigationEnd, Route, NavigationStart  } from '@angular/router';
 import { WebsocketMessagesService } from 'src/app/core/services/websocket/websocket-messages.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -66,6 +66,7 @@ export class UserToUserMessagesComponent implements OnInit{
     this.initializeComponent();
   }
   initializeComponent(){
+    
     this.checkForRoutes();
     this.loadSetSession()
     this.connectToWebSocket();
@@ -86,9 +87,7 @@ export class UserToUserMessagesComponent implements OnInit{
     this.initialSenderID = this._userService.getItem("initialSenderID") ?? null;
     this.currentUsername = this._userService.getItem("Username") ?? null;
     this.messageID = this._userService.getItem("messageID") ?? null
-
     this.messages = [];
-   
   }
   ngOnDestroy():void{
     this.removeFromSession();
@@ -163,6 +162,7 @@ export class UserToUserMessagesComponent implements OnInit{
     this._userService.removeItemFromSessionStorage("messageID")
     this._userService.removeItemFromSessionStorage("selectedChat")
     this._userService.removeItemFromSessionStorage("direct")
+    this._userService.setItem("chatUrl", "")
   }
 
 
@@ -190,11 +190,7 @@ export class UserToUserMessagesComponent implements OnInit{
   }
 
   loadChat(){
-    
-   
     this.isSender = this._userService.getItem("check")
-   
-   
     this._messageService.getUserToUserMessages(0, this.initialSenderID,0).subscribe(response=>{
       this.messages = response;
       console.log(response)
@@ -206,7 +202,6 @@ export class UserToUserMessagesComponent implements OnInit{
       let receiver = this.messages[0].senderUsername == this.currentUsername ? this.messages[0].receiverUsername : this.messages[0].senderUsername
       receiver = receiver ? receiver.toString() : "";
       this._userService.setItem("receiverUsername", receiver)
-      
     })
   }
 }

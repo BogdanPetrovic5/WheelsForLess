@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Inject,Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserSessionMenagmentService {
 
-  constructor() { }
+  constructor(@Inject(CookieService) private _cookieService: CookieService) { }
   clearSession(){
     sessionStorage.clear()
   }
@@ -25,5 +27,10 @@ export class UserSessionMenagmentService {
       return value.toString();
     }
   }
- 
+  getFromCookie(){
+   return this._cookieService.get("jwtToken")
+  }
+  setToCookie(token:any){
+    this._cookieService.set("jwtToken", token)
+  }
 }

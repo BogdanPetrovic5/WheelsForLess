@@ -15,7 +15,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private _userService:UserSessionMenagmentService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const token = this._userService.getItem("Token");
+    const token = this._userService.getFromCookie();
     const protectedUrls = [
       `${environment.apiUrl}/api/Messages/SendMessage`,
       `${environment.apiUrl}/api/Advertisement/MarkAsFavorite`

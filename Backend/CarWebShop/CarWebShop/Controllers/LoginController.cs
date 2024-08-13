@@ -39,6 +39,7 @@ namespace CarWebShop.Controllers
                     command.Parameters.AddWithValue("@Password", user.Password);
 
                     connection.Open();
+                   
                     var encodedPassword = _passwordEncoder.EncodePassword(user.Password);
                     bool passwordCheck = _passwordEncoder.VerifyPassword(user.Password, encodedPassword);
                     using (SqlDataReader reader = command.ExecuteReader())

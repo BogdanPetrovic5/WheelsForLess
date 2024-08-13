@@ -179,7 +179,7 @@ export class DasboardComponent {
    
   connectToWebsocket(): void {
    
-    let token = this._userService.getItem("Token");
+    let token = this._userService.getFromCookie();
     let userID = this._userService.getItem("userID");
 
     if (token && userID) {

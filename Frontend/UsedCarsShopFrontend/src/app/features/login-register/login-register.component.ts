@@ -6,6 +6,7 @@ import { LoadingService } from 'src/app/core/services/dashboard/loading.service'
 import { DashboardService } from 'src/app/core/services/dashboard/dashboard.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-login-register',
   templateUrl: './login-register.component.html',
@@ -22,13 +23,15 @@ export class LoginRegisterComponent {
   public warning_1: boolean = false;
 
   public errorMessage:string = ""
+
   constructor(
     private _auth:AuthenticationService, 
     private _router:Router, 
     private _loadingService:LoadingService,
     private _dashService:DashboardService,
     private _formBuilder:FormBuilder,
-    private _userService:UserSessionMenagmentService
+    private _userService:UserSessionMenagmentService,
+    
   ) {
     this.registerForm = this._formBuilder.group({
       FirstName: ['', Validators.required],

@@ -32,6 +32,7 @@ import { advertisementReducer } from './store/advertisement-store/advertisement.
 import { reduce } from 'rxjs';
 import { AdvertisementEffects } from './store/advertisement-store/advertisement.effects';
 import { messageReducer } from './store/messages-store/messages.reducer';
+import { CookieService } from 'ngx-cookie-service';
 export function jwtOptionsFactory() {
   return {
     tokenGetter: () => {
@@ -84,16 +85,19 @@ export function jwtOptionsFactory() {
     
   ],
   providers: [
+    CookieService,
+    DasboardComponent,
     UserToUserMessagesComponent,
     AutoLogoutService,
     JwtHelperService,
     AuthenticationService,
-    DasboardComponent,
+   
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+   
   ],
   bootstrap: [AppComponent]
 })

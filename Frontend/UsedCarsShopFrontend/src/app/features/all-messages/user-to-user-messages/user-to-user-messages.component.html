@@ -2,11 +2,14 @@
 <div class="container">
     <div class="container-messages-wrap">
         <div class="messages-conversation-wrap">
-            <div class="message-wrap" *ngFor="let message of messages; let i = index">
-                <div [ngClass]="message.senderUsername == currentUsername ? 'align-right' : 'align-left'">
-                  {{message.message}}
+            <div class="messages-conversation-wrap-center">
+                <div class="message-wrap" *ngFor="let message of messages; let i = index">
+                    <div [ngClass]="message.senderUsername == currentUsername ? 'align-right' : 'align-left'">
+                      {{message.message}}
+                    </div>
                 </div>
             </div>
+           
         </div>
         <div class="compose-messages">
             <input [(ngModel)] = "message" placeholder="Enter your message here">

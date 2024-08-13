@@ -20,6 +20,8 @@ export class MessagesService {
   private unreadMessagesDecrementSubject = new BehaviorSubject<number | null>(0);
   unreadMessagesDecrement$ = this.unreadMessagesDecrementSubject.asObservable()
 
+
+  
   public unreadMessages:number = 0
   constructor(
     private http:HttpClient,

@@ -9,6 +9,8 @@ import { MessagesService } from 'src/app/core/services/messages/messages.service
 import { WebsocketMessagesService } from 'src/app/core/services/websocket/websocket-messages.service';
 import { DasboardComponent } from 'src/app/features/dasboard/dasboard.component';
 import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
+import { Store } from '@ngrx/store';
+import { setNewChat } from 'src/app/store/chat-store/chat.action';
 
 ;
 @Component({
@@ -22,7 +24,7 @@ export class AllMessagesComponent implements OnInit, OnDestroy{
     
     currentUsername:string | null = null;
     currentUrl:string | null = null;
-
+    url:string | null = null;
     messageObject:Messages;
 
     isSelectedValue = sessionStorage.getItem("isSelected") || null;
@@ -35,7 +37,8 @@ export class AllMessagesComponent implements OnInit, OnDestroy{
       private _messageService:MessagesService,
       private _router:Router,
       private _dashboard:DasboardComponent,
-      private _userService:UserSessionMenagmentService
+      private _userService:UserSessionMenagmentService,
+      private _store:Store
     ){
  
         this.messageObject = new Messages();
@@ -97,11 +100,20 @@ export class AllMessagesComponent implements OnInit, OnDestroy{
       this._router.navigate([`/Messages/Inbox/Direct/${wsUrl}`])
       
     }
+    constructInboxUrl(brand:string | null, model:string | null, year:string | null){
+      let url = "-" + " " +brand + " " + model + " " + year
+      return url ?? null;
+    }
     setToStorage(chat:any){
       this._userService.setItem("adverID", chat.adverID)
       this._userService.setItem("messageID", chat.messageID)
       this._userService.setItem("initialSenderID", chat.initialSenderID)
       this._userService.setItem("isSelected", this.isSelected)
+
+      this.url = this.constructInboxUrl(chat.advertisement.carDto.brand,chat.advertisement.carDto.model, chat.advertisement.carDto.year )
+      
+      this._userService.setItem("chatUrl", this.url);
+      this._store.dispatch(setNewChat({url:this.url}))
     }
  
 }

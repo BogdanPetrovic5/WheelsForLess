@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { HttpHeaders} from '@angular/common/http';
 import { Observable, first } from 'rxjs';
@@ -7,6 +7,8 @@ import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserSessionMenagmentService } from '../session/user-session-menagment.service';
+import { CookieService } from 'ngx-cookie-service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +16,9 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient,
     private jwtHelper: JwtHelperService, 
-    private _userService:UserSessionMenagmentService) { }
+    private _userService:UserSessionMenagmentService,
+    @Inject(CookieService) private _cookieService: CookieService
+) { }
   register(user:any):Observable<any>{
       return this.http.post<any>(environment.apiUrl + "/api/Registration/Registration",user)
   }
@@ -34,8 +38,9 @@ export class AuthenticationService {
     return token !== null && !this.jwtHelper.isTokenExpired(token);
   }
   storeToken(token:string, username:string){
-   this._userService.setItem("Token", token);
-   this._userService.setItem("Username",username)
+    this._userService.setToCookie(token)
+    this._userService.setItem("Username",username)
+    
   }
   
 }

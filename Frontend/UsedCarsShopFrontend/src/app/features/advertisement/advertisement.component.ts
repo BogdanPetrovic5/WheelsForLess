@@ -102,7 +102,7 @@ export class AdvertisementComponent implements OnInit{
   addToWish(){
     if (this.userID === null || !this.card) return;
     let username = this._userService.getItem("Username")
-    let token = this._userService.getItem("Token")
+    let token = this._userService.getFromCookie()
    
     this.isWished = this.card.favoritedByUserDto.find((favorite:any) => favorite.userID == this.userID) !== undefined;
     this._dashboardService.addToWish(this.card.adverID, username, token).subscribe(response =>{

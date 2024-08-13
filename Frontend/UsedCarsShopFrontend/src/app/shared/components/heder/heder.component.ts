@@ -130,7 +130,7 @@ export class HederComponent implements OnInit{
     this._dashService.setSortParameter = this.sortParameter
   }
   isLoggedIn():boolean{
-    if(this._userService.getItem("Token")){
+    if(this._userService.getFromCookie()){
       return true
     }else return false
   }
