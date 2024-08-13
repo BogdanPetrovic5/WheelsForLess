@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { DashboardService } from 'src/app/core/services/dashboard/dashboard.service';
 import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
-import { selectUrl } from 'src/app/store/chat-store/chat.selector';
+
 
 @Component({
   selector: 'app-banner',
@@ -19,14 +19,14 @@ export class BannerComponent {
   number:any
 
 
-  inboxUrl$:Observable<string>
+
   constructor( 
     private _router:Router,
     private _userService:UserSessionMenagmentService,
     private _dashService:DashboardService,
     private _store:Store
   ){
-    this.inboxUrl$ = this._store.pipe(select(selectUrl))
+    
   }
   ngOnInit():void{
    this.checkRoutes()

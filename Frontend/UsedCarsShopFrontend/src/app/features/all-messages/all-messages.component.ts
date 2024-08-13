@@ -10,7 +10,7 @@ import { WebsocketMessagesService } from 'src/app/core/services/websocket/websoc
 import { DasboardComponent } from 'src/app/features/dasboard/dasboard.component';
 import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
 import { Store } from '@ngrx/store';
-import { setNewChat } from 'src/app/store/chat-store/chat.action';
+
 
 ;
 @Component({
@@ -113,7 +113,7 @@ export class AllMessagesComponent implements OnInit, OnDestroy{
       this.url = this.constructInboxUrl(chat.advertisement.carDto.brand,chat.advertisement.carDto.model, chat.advertisement.carDto.year )
       
       this._userService.setItem("chatUrl", this.url);
-      this._store.dispatch(setNewChat({url:this.url}))
+     
     }
  
 }

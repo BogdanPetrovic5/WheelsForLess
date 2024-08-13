@@ -17,7 +17,7 @@ export class AdvertisementEffects {
                 return loadAdvertisementsSuccess({ advertisements });
               }),
               catchError(error => {
-                console.error('Error Occurred:', error);  // Ensure errors are logged
+                console.error('Error Occurred:', error); 
                 return of(loadAdvertisementsFailure({ error }));
               })
             )
