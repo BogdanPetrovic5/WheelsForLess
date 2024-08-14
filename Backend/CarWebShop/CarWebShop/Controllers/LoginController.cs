@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace CarWebShop.Controllers
 {
@@ -36,31 +37,39 @@ namespace CarWebShop.Controllers
                 {
                     
                     command.Parameters.AddWithValue("@UserName", user.UserName);
-                    command.Parameters.AddWithValue("@Password", user.Password);
+                   
 
                     connection.Open();
                    
-                    var encodedPassword = _passwordEncoder.EncodePassword(user.Password);
-                    bool passwordCheck = _passwordEncoder.VerifyPassword(user.Password, encodedPassword);
+                   
+                     //Checks if hashed stored password is same as the provided password from the user on login.
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        if (reader.HasRows && passwordCheck)
+                        if (reader.Read())
                         {
-                            var token = Generate(user);
-                            var cookieOptions = new CookieOptions
+                            string hashedPassword = reader["Password"].ToString();
+                            bool passwordCheck = _passwordEncoder.VerifyPassword(user.Password, hashedPassword);
+                            if (passwordCheck)
                             {
-                                HttpOnly = true,
-                                Expires = DateTime.Now.AddMinutes(30)
-                            };
-                            Response.Cookies.Append("jwtToken", token, cookieOptions);
+                                var token = Generate(user);
+                                var cookieOptions = new CookieOptions
+                                {
+                                    HttpOnly = true,
+                                    Expires = DateTime.Now.AddMinutes(30)
+                                };
+                                Response.Cookies.Append("jwtToken", token, cookieOptions);
 
-                            return Ok(Json(token));
+                                return Ok(Json(token));
+                            }
+                            else return NotFound("Password is incorrect!");
+                            
                         }
                         else
                         {
-                            
-                            return NotFound("User with given credentials does not exist!"); 
+
+                            return NotFound("User with given credentials does not exist!");
                         }
+
                     }
                 }
             }
