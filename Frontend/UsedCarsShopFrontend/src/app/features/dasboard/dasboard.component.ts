@@ -122,11 +122,14 @@ export class DasboardComponent {
     this._userService.setItem("currentRoute", "Dashboard")
   }
   establishConnectionWithSocekt(){
-    this._dashService.getUserId(this.username).subscribe(response =>{
-      this.userID = response;
-      this._userService.setItem("userID", this.userID);
-      this.connectToWebsocket();
-    })
+    if(this._userService.getFromCookie()){
+      this._dashService.getUserId(this.username).subscribe(response =>{
+        this.userID = response;
+        this._userService.setItem("userID", this.userID);
+        this.connectToWebsocket();
+      })
+    }
+    
   }
   // setupSubscriptionsForFilterAndSort(){
   //   this.subscriptionsFilter.add(

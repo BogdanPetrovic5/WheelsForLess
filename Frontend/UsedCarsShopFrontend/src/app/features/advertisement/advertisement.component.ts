@@ -26,7 +26,7 @@ export class AdvertisementComponent implements OnInit{
 
   currentUsername:string | null = null;
   message:string = ""
-  error:string | null = null;
+  // error:string | null = null;
   
   subscriptions: Subscription = new Subscription();
 
@@ -40,22 +40,27 @@ export class AdvertisementComponent implements OnInit{
     private _userService:UserSessionMenagmentService,
     private _stateMenagmentService:StateMenagmentService
   ){
+    this.subscriptions.add(
       this._stateMenagmentService.httpIsError$.subscribe((isError:boolean | null) =>{
         this.alert = isError
         setTimeout(()=>{
-          this.alert = false
-        }, 1500)
+        this.alert = false
+        }, 2000)
       })
+    )
+      
   }
   ngOnInit():void{
     this.initializeComponent()
-    this.subscriptions
+   
   }
   ngOnDestroy():void{
     this._dashboardService.setCard(this.card)
     sessionStorage.setItem("year", "");
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    this.subscriptions.unsubscribe()
+    this._stateMenagmentService.setIsError(false)
   }
   initializeComponent(){
     this.loadCurrentUserData()
@@ -115,9 +120,11 @@ export class AdvertisementComponent implements OnInit{
   }
 
   addToWish(){
-    if (this.userID === null || !this.card) return;
-    let username = this._userService.getItem("Username")
-    let token = this._userService.getFromCookie()
+    
+    if(this.userID != this.card.userDto.userID){
+      
+      let username = this._userService.getItem("Username")
+      let token = this._userService.getFromCookie()
    
     this.isWished = this.card.favoritedByUserDto.find((favorite:any) => favorite.userID == this.userID) !== undefined;
     this._dashboardService.addToWish(this.card.adverID, username, token).subscribe(response =>{
@@ -139,8 +146,15 @@ export class AdvertisementComponent implements OnInit{
       this.findIsWished();
       
     }, (error:HttpErrorResponse) =>{
-      this.alert = true
+      
     })    
+    }else{
+      console.log("sad")
+      this._stateMenagmentService.setError("You can't wish your advertisement")
+
+      this._stateMenagmentService.setIsError(true)
+    }
+    
   }
   showNotification(type: 'wishlistAdded' | 'wishlistRemoved'): void {
     this[type] = true;

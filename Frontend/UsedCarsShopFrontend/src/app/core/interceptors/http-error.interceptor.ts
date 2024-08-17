@@ -31,6 +31,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   setStates(errorMessage:string){
     this._stateMenagmentService.setError(errorMessage)
     this._stateMenagmentService.setIsError(true);
-    this._stateMenagmentService.setIsExpired(true);
+    if(errorMessage !== 'Not logged in!') this._stateMenagmentService.setIsExpired(true);
   }
 }
