@@ -1,5 +1,6 @@
 using CarWebShop.Data;
 using CarWebShop.Interfaces;
+using CarWebShop.Middleware;
 using CarWebShop.Repository;
 using CarWebShop.Security;
 using CarWebShop.Services;
@@ -14,6 +15,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,9 +29,10 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<AdverUtility>();
 builder.Services.AddScoped<UserUtility>();
 builder.Services.AddScoped<PasswordEncoder>();
-
+builder.Services.AddScoped<TokenGenerator>();
 builder.Services.AddScoped<PasswordHasher<string>>();
 builder.Services.AddSingleton<WebSocketConnectionManager>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -41,7 +44,15 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader()
                .AllowAnyMethod();
     });
+
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
 });
+
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -61,25 +72,46 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = builder.Configuration["Jwt:Issuer"],
                         ValidAudience = builder.Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+        
+                        ClockSkew = TimeSpan.Zero
+
                     };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                context.Response.StatusCode = 401;
+                                context.Response.ContentType = "application/json";
+                                var result = JsonSerializer.Serialize(new { error = "Session expired. Please login again!" });
+                                return context.Response.WriteAsync(result);
+                            }
+                            context.Response.StatusCode = 401;
+                            context.Response.ContentType = "application/json";
+                            var genericResult = JsonSerializer.Serialize(new { error = "Token Invalid!" });
+                            return context.Response.WriteAsync(genericResult);
+                        }
+                    };
+
                 }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
-                    options.LoginPath = "/Account/Login";
+                    options.LoginPath = "/Get Started";
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                     options.SlidingExpiration = true; 
                 });
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.IdleTimeout = TimeSpan.FromMinutes(10); 
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 }); 
 
 var app = builder.Build();
 
-
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 
 // Configure the HTTP request pipeline.
@@ -88,11 +120,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
+app.UseAuthentication();
 
 app.UseAuthorization();
-
 app.UseCors();
 
 app.UseStaticFiles();

@@ -16,20 +16,5 @@ export class AutoLogoutService {
     
   }
  
-  public initTokenCheck(): void {
-    this.timer = setInterval(() => {
-      this.checkTokenExpiration();
-    }, this.checkInterval);
-  }
-  private checkTokenExpiration(): void {
-    const token = this._userService.getItem("Token");
-    
-    if (token && this._jwtHelper.isTokenExpired(token)) {
-      alert("Session expired!")
-      console.log('Session expired. Logging out.');
-      this._router.navigate(['/Get started'])
-      this._auth.logout(); 
-      clearInterval(this.timer); 
-    }
-  }
+ 
 }

@@ -31,7 +31,7 @@ export class LoginRegisterComponent {
     private _dashService:DashboardService,
     private _formBuilder:FormBuilder,
     private _userService:UserSessionMenagmentService,
-    
+    private _cookieService:CookieService
   ) {
     this.registerForm = this._formBuilder.group({
       FirstName: ['', Validators.required],
@@ -51,6 +51,7 @@ export class LoginRegisterComponent {
     this._dashService.filterBrand = null
     this._dashService.filterModel = null
     this._dashService.setSortParameter = null
+    this._cookieService.delete("jwtToken")
   }
 
   navigation(route:any){

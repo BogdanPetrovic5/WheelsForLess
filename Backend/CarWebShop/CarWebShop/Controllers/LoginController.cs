@@ -16,10 +16,12 @@ namespace CarWebShop.Controllers
     {
         private readonly PasswordEncoder _passwordEncoder;
         private readonly IConfiguration _configuration;
-        public LoginController(IConfiguration configuration, PasswordEncoder password)
+        private readonly TokenGenerator _tokenGenerator;
+        public LoginController(IConfiguration configuration, PasswordEncoder password, TokenGenerator tokenGenerator)
         {
             _configuration = configuration;
             _passwordEncoder = password;
+            _tokenGenerator = tokenGenerator;
         }
 
         [HttpPost]
@@ -42,16 +44,16 @@ namespace CarWebShop.Controllers
                     connection.Open();
                    
                    
-                     //Checks if hashed stored password is same as the provided password from the user on login.
+                    
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
                             string hashedPassword = reader["Password"].ToString();
-                            bool passwordCheck = _passwordEncoder.VerifyPassword(user.Password, hashedPassword);
+                            bool passwordCheck = _passwordEncoder.VerifyPassword(user.Password, hashedPassword);  //Checks if hashed stored password is same as the provided password from the user on login.
                             if (passwordCheck)
                             {
-                                var token = Generate(user);
+                                var token = _tokenGenerator.Generate(user.UserName);
                                 var cookieOptions = new CookieOptions
                                 {
                                     HttpOnly = true,
@@ -75,7 +77,7 @@ namespace CarWebShop.Controllers
             }
 
         }
-        [ApiExplorerSettings(IgnoreApi = true)]
+        /*[ApiExplorerSettings(IgnoreApi = true)]
         public string Generate(LoginRequestDto user)
         {
             var securutyKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -94,6 +96,6 @@ namespace CarWebShop.Controllers
                 signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
 
-        }
+        }*/
     }
 }

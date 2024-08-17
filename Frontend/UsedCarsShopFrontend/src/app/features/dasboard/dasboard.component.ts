@@ -39,8 +39,8 @@ export class DasboardComponent {
     public model: string | null = null
     public sort: string | null = null
     public errorMessage:string | null = null;
-    subscriptionsFilter: Subscription = new Subscription();
-    subscriptionsSort: Subscription = new Subscription()
+    // subscriptionsFilter: Subscription = new Subscription();
+    // subscriptionsSort: Subscription = new Subscription()
     subscriptions: Subscription[] = [];
 
    

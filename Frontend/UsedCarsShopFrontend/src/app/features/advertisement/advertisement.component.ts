@@ -3,8 +3,9 @@ import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { DashboardService } from 'src/app/core/services/dashboard/dashboard.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessagesService } from 'src/app/core/services/messages/messages.service';
-import { filter, Subject } from 'rxjs';
+import { filter, Observable, Subject, Subscription } from 'rxjs';
 import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
+import { StateMenagmentService } from 'src/app/core/services/state-menagment/state-menagment.service';
 @Component({
   selector: 'app-advertisement',
   templateUrl: './advertisement.component.html',
@@ -15,15 +16,19 @@ export class AdvertisementComponent implements OnInit{
   temp:any
   card:any
   adverID:number | null = null;
-
+ 
   isWished:boolean = false;
   wishlistRemoved:boolean = false;
   wishlistAdded:boolean = false;
   sent:boolean = false;
   empty:boolean = false;
+  alert:boolean | null = false;
 
   currentUsername:string | null = null;
   message:string = ""
+  error:string | null = null;
+  
+  subscriptions: Subscription = new Subscription();
 
 
   private unsubscribe$ = new Subject<void>();
@@ -32,12 +37,19 @@ export class AdvertisementComponent implements OnInit{
     private _dashboardService:DashboardService, 
     private _router:Router, 
     private _messageService:MessagesService,
-    private _userService:UserSessionMenagmentService
+    private _userService:UserSessionMenagmentService,
+    private _stateMenagmentService:StateMenagmentService
   ){
- 
+      this._stateMenagmentService.httpIsError$.subscribe((isError:boolean | null) =>{
+        this.alert = isError
+        setTimeout(()=>{
+          this.alert = false
+        }, 1500)
+      })
   }
   ngOnInit():void{
     this.initializeComponent()
+    this.subscriptions
   }
   ngOnDestroy():void{
     this._dashboardService.setCard(this.card)
@@ -50,6 +62,9 @@ export class AdvertisementComponent implements OnInit{
     this.checkForRoutes()
     this.loadCard();
     this.loadQueryParams()
+  }
+  showAlert(){
+    
   }
   checkForRoutes(){
     this._router.events.pipe(
@@ -124,8 +139,8 @@ export class AdvertisementComponent implements OnInit{
       this.findIsWished();
       
     }, (error:HttpErrorResponse) =>{
-      console.log(error)
-    })
+      this.alert = true
+    })    
   }
   showNotification(type: 'wishlistAdded' | 'wishlistRemoved'): void {
     this[type] = true;

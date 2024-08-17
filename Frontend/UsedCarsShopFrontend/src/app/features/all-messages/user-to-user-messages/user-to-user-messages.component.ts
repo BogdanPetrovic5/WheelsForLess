@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { UserSessionMenagmentService } from 'src/app/core/services/session/user-session-menagment.service';
 import { Store } from '@ngrx/store';
 import { decrementMessages } from 'src/app/store/messages-store/messages.actions';
+import { StateMenagmentService } from 'src/app/core/services/state-menagment/state-menagment.service';
 
 @Component({
   selector: 'app-user-to-user-messages',
@@ -47,6 +48,7 @@ export class UserToUserMessagesComponent implements OnInit{
   routerSub: Subscription | undefined;
   
   isSender:boolean | null = false;
+  isAlert:boolean | null = false
   constructor(
     private _wsService:WebsocketMessagesService,
     private _messageService:MessagesService,
@@ -54,9 +56,15 @@ export class UserToUserMessagesComponent implements OnInit{
     private _route:ActivatedRoute,
     private parent:AllMessagesComponent,
     private _store:Store,
-    private _userService:UserSessionMenagmentService
+    private _userService:UserSessionMenagmentService,
+    private _stateMenagmentService:StateMenagmentService
   ){
-   
+    this._stateMenagmentService.httpIsError$.subscribe((isError:boolean | null) =>{
+      this.isAlert = isError
+      setTimeout(()=>{
+        this.isAlert = false
+      }, 1500)
+    })
   }
   @HostListener('window:beforeunload', ['$event'])
   handleUnload(event: Event) {

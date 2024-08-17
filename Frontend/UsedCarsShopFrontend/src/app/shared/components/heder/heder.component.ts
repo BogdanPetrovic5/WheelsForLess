@@ -73,6 +73,7 @@ export class HederComponent implements OnInit{
    
     this.initializeComponent()
     this.loadSubscriptions();
+    this.loadNewMessages();
   }
   ngOnDestroy():void{
     this.subscriptions.unsubscribe()
@@ -82,7 +83,7 @@ export class HederComponent implements OnInit{
     this.currentRoute = this._userService.getItem("currentRoute")
   
     
-    this.loadNewMessages();
+    
     
   }
   
@@ -112,7 +113,7 @@ export class HederComponent implements OnInit{
   loadNewMessages(){
     if(this.username){
       this._dashService.loadNewMessages(this.username).subscribe((response)=>{
-       
+        this.numberMessages = response
       },(error:HttpErrorResponse)=>{
         console.log(error)
       })
@@ -175,10 +176,7 @@ export class HederComponent implements OnInit{
   }
 
   logout(){
-    if(this._wsService){
-      this._wsService.close()
-    }
-    this._router.navigate(['/Get started'], { queryParams: {} });
+   
     this._auth.logout()
     this._dashboardComponent.closeConnection()
   }

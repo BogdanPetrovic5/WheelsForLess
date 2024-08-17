@@ -33,6 +33,9 @@ import { reduce } from 'rxjs';
 import { AdvertisementEffects } from './store/advertisement-store/advertisement.effects';
 import { messageReducer } from './store/messages-store/messages.reducer';
 import { CookieService } from 'ngx-cookie-service';
+import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
+import { AlertComponent } from './shared/components/alert/alert.component';
+import { SessionExpiredModalComponent } from './shared/components/session-expired-modal/session-expired-modal.component';
 export function jwtOptionsFactory() {
   return {
     tokenGetter: () => {
@@ -56,6 +59,8 @@ export function jwtOptionsFactory() {
     BannerComponent,
     LandingComponent,
     AdvertisementCardComponent,
+    AlertComponent,
+    SessionExpiredModalComponent,
    
     
   ],
@@ -95,6 +100,11 @@ export function jwtOptionsFactory() {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor, 
       multi: true
     },
    
