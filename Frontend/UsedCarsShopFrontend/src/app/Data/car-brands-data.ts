@@ -1,3 +1,4 @@
+//For easier and faster implementation and testing of filtering by model and brand I've decided to keep all available brands and models on fronend in separate folder and file. But It would be better to keep it in database.
 export const carBrandsAndModels = [
     { brand: 'Toyota', models: ['Camry', 'Corolla', 'Prius', 'Highlander', 'RAV4', 'Tacoma', 'Tundra', 'Avalon', 'Sienna', '4Runner'] },
     { brand: 'Honda', models: ['Civic', 'Accord', 'CR-V', 'Pilot', 'Fit', 'HR-V', 'Odyssey', 'Ridgeline', 'Passport', 'Insight'] },
