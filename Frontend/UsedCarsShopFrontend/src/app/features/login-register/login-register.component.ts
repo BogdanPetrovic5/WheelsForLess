@@ -27,7 +27,6 @@ export class LoginRegisterComponent {
   constructor(
     private _auth:AuthenticationService, 
     private _router:Router, 
-    private _loadingService:LoadingService,
     private _dashService:DashboardService,
     private _formBuilder:FormBuilder,
     private _userService:UserSessionMenagmentService,

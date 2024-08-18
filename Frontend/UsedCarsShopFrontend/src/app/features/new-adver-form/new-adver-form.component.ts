@@ -31,11 +31,11 @@ export class NewAdverFormComponent {
   _propulsionTypes:CarDetails | undefined
   propulsionTypes:any
 
-  brands:boolean = false
-  models:boolean = false
-  body:boolean = false
-  fuel:boolean = false
-  propulsion:boolean = false
+  brands:boolean = false;
+  models:boolean = false;
+  body:boolean = false;
+  fuel:boolean = false;
+  propulsion:boolean = false;
   empty:boolean = false;
   published:boolean = false;
   unpublished:boolean = false;
@@ -69,8 +69,8 @@ export class NewAdverFormComponent {
     });
   }
   ngOnInit():void{
-    sessionStorage.setItem("currentRoute", "New adver")
-    this.loadOptions()
+    sessionStorage.setItem("currentRoute", "New adver");
+    this.loadOptions();
   }
 
   toggleDropdown(type: 'brands' | 'models' | 'body' | 'fuel' | 'propulsion') {
@@ -78,7 +78,7 @@ export class NewAdverFormComponent {
   }
   selectBrand(brand: any) {
     this.adverForm.patchValue({ Brand: brand });
-    this.Brand = brand
+    this.Brand = brand;
     this.loadModels();
     this.brands = false;
   }
@@ -86,7 +86,7 @@ export class NewAdverFormComponent {
   selectModel(model: any) {
     this.adverForm.patchValue({ Model: model });
     this.models = false;
-    this.Model = model
+    this.Model = model;
   }
 
   selectBodyType(type: any) {
@@ -127,9 +127,6 @@ export class NewAdverFormComponent {
   
   }
 
-  convertToMB(){
-    
-  }
   isEmpty(formData:any){
     for (let pair of formData.entries()) {
       if (!pair[1]) { 
@@ -141,13 +138,13 @@ export class NewAdverFormComponent {
 
   emptyFields(){
    this.adverForm.reset()
-   this.selectedFiles = []
+   this.selectedFiles = [];
   }
   appendToForm(formData: FormData) {
     for(const key of Object.keys(this.adverForm.controls)){
       const control = this.adverForm.controls[key];
       if(control instanceof FormControl){
-        formData.append(key, control.value)
+        formData.append(key, control.value);
       }
     }
   }
@@ -162,7 +159,7 @@ export class NewAdverFormComponent {
     console.log(this.adverForm)
     this.adverForm.patchValue({ UserName: sessionStorage.getItem("Username") });
     var formData = new FormData();
-    this.appendToForm(formData)
+    this.appendToForm(formData);
    
     let check = this.isEmpty(formData)
     for (let i = 0; i < this.selectedFiles.length; i++) {
@@ -172,7 +169,7 @@ export class NewAdverFormComponent {
     this.token = this._userService.getItem("Token");
     if(!check){
       this._dashboard.placeAdvertisement(this.token, formData).subscribe(response =>{
-        this.emptyFields()
+        this.emptyFields();
         this.showNotification('published');
       }, (error:HttpErrorResponse) =>{
         console.log(error);

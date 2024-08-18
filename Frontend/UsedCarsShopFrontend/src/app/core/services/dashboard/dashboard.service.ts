@@ -19,7 +19,11 @@ export class DashboardService {
 
   public filteredResult:any;
   public number = 0;
-  constructor(private http:HttpClient, private _userService:UserSessionMenagmentService) { }
+
+  constructor(
+    private _http:HttpClient, 
+    private _userService:UserSessionMenagmentService
+  ) { }
 
   
   setFilterBrand(key:string, filter:string){
@@ -38,20 +42,20 @@ export class DashboardService {
   set filterBrand(brand: any | null) {
     this.filterBrandSubject.next(brand);
   }
-
   set filterModel(model: string | null) {
     this.filterModelSubject.next(model);
   }
+  set setSortParameter(sort:any | null){
+    this.sortParameterSubject.next(sort)
+  }
+  
+
+
   get currentBrand(): any | null {
     return this.filterBrandSubject?.getValue();
   }
-
   get currentModel(): any | null {
     return this.filterModelSubject?.getValue();
-  }
-
-  set setSortParameter(sort:any | null){
-    this.sortParameterSubject.next(sort)
   }
   get getSortParameter():any |null{
     return this.sortParameterSubject?.getValue();
@@ -60,14 +64,14 @@ export class DashboardService {
 
 
   getUserId(username:any){
-    return this.http.get<any>(`${environment.apiUrl}/api/User/GetID?username=${username}`)
+    return this._http.get<any>(`${environment.apiUrl}/api/User/GetID?username=${username}`)
   }
   getAllAdvers(currentPage:number | null, pageSize: number | null = 16 ):Observable<any>{
     let url = `${environment.apiUrl}/api/Advertisement/GetAdvertisements?page=${currentPage}&maximumAdvers=${pageSize}`
-    return this.http.get(url)
+    return this._http.get(url)
   }
   loadNewMessages(username?:string):Observable<any>{
-    return this.http.get<any>(`${environment.apiUrl}/api/User/GetNewMessages?username=${username}`)
+    return this._http.get<any>(`${environment.apiUrl}/api/User/GetNewMessages?username=${username}`)
   }
   sortAdvertisements(sortParameter:string | null, brand?:string | null, model?:string | null,currentPage?:any):Observable<any>{
     let maximumAdvers = 16;
@@ -79,7 +83,7 @@ export class DashboardService {
     if(model != null){
       url += `&CarModel=${model}`
     }
-    return this.http.get(url)
+    return this._http.get(url)
   }
   filterAdvertisements(selectedBrand?:string | null, selectedModel?:string | null, currentPage?:number | 0):Observable<any>{
     let maximumAdvers = 16;
@@ -89,16 +93,12 @@ export class DashboardService {
       
       url+=`&CarModel=${selectedModel}`
     }
-    return this.http.get<any>(url)
+    return this._http.get<any>(url)
   }
   getFavorites(){
     let username = this._userService.getItem("Username")
-    return this.http.get<any>(`${environment.apiUrl}/api/Advertisement/GetFavorites?username=${username}`)
+    return this._http.get<any>(`${environment.apiUrl}/api/Advertisement/GetFavorites?username=${username}`)
   }
-
-
-
-
   placeAdvertisement(Token: string,data:FormData): Observable<any> {
     const httpHeaders = new HttpHeaders({
       Authorization: `Bearer ${Token}`
@@ -106,16 +106,15 @@ export class DashboardService {
 
     httpHeaders.set('Content-Type', 'multipart/form-data');
 
-    return this.http.post<any>(environment.apiUrl + "/api/Advertisement/PublishAdvertisement",data, {headers:httpHeaders});
+    return this._http.post<any>(environment.apiUrl + "/api/Advertisement/PublishAdvertisement",data, {headers:httpHeaders});
   }
   addToWish(adverId:number, username:string, Token:string){
   
-    return this.http.post<any>(environment.apiUrl + "/api/Advertisement/MarkAsFavorite",{
+    return this._http.post<any>(environment.apiUrl + "/api/Advertisement/MarkAsFavorite",{
       adverID:adverId,
       userName:username
     })
   }
-
   setCard(card:any){
     this._userService.setItem(this.storageKey, card);
 

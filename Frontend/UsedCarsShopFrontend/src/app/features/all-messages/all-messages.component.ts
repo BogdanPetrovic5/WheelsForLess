@@ -38,7 +38,7 @@ export class AllMessagesComponent implements OnInit, OnDestroy{
       private _router:Router,
       private _dashboard:DasboardComponent,
       private _userService:UserSessionMenagmentService,
-      private _store:Store
+    
     ){
  
         this.messageObject = new Messages();

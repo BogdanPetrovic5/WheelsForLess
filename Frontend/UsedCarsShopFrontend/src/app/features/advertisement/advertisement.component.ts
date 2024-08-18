@@ -52,7 +52,6 @@ export class AdvertisementComponent implements OnInit{
   }
   ngOnInit():void{
     this.initializeComponent()
-   
   }
   ngOnDestroy():void{
     this._dashboardService.setCard(this.card)

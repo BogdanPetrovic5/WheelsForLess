@@ -19,7 +19,9 @@ export class WebsocketMessagesService {
   private subject: Subject<MessageEvent> | undefined;
   private ws: WebSocket | undefined;
 
-  constructor(private messagesService: MessagesService, private _store:Store) {}
+  constructor(
+    private _messagesService: MessagesService, 
+    private _store:Store) {}
 
   public connect(url: string | null): Subject<MessageEvent> {
     if (!this.subject) {
@@ -48,7 +50,7 @@ export class WebsocketMessagesService {
           isNew: data.isNew
         } as MessageEvent);
         if(sessionStorage.getItem("Username") !== data.SenderUsername && sessionStorage.getItem("direct") == null){
-          this.messagesService.incrementUnreadMessages(1);
+          this._messagesService.incrementUnreadMessages(1);
           this._store.dispatch(incrementMessages())
         }
        

@@ -7,14 +7,16 @@ import { AuthenticationService } from '../services/authentication/authentication
   providedIn: 'root'
 })
 export class LoginGuard implements CanActivate {
-  constructor(private auth:AuthenticationService, private router:Router){}
+  
+  constructor(private _auth:AuthenticationService, private _router:Router){}
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.auth.isLoggedIn()){
-       this.router.navigate(['/Dashboard'])
+    if(this._auth.isLoggedIn()){
+       this._router.navigate(['/Dashboard'])
        return false
-    }else return true;
+    }return true;
   }
   
 }

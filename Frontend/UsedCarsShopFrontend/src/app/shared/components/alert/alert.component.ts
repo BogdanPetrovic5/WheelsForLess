@@ -8,14 +8,14 @@ import { StateMenagmentService } from 'src/app/core/services/state-menagment/sta
   styleUrls: ['./alert.component.scss']
 })
 export class AlertComponent {
-  public subscriptions:Subscription = new Subscription()
-  public alert:string | null = null
-  public alertClass:boolean = false
+  public subscriptions:Subscription = new Subscription();
+  public alert:string | null = null;
+  public alertClass:boolean = false;
   constructor(private _stateMenagmentService:StateMenagmentService){
     this.subscriptions.add(
       this._stateMenagmentService.httpError$.subscribe((error)=>{
         this.alertClass = true;
-        this.alert = error
+        this.alert = error;
       })
     )
   }

@@ -12,11 +12,11 @@ import { UserSessionMenagmentService } from 'src/app/core/services/session/user-
   styleUrls: ['./banner.component.scss']
 })
 export class BannerComponent {
-  currentRoute:string | null = ""
-  chatUrl:string | null = ""
-  year:string | null = ""
-  currentUser:string | null = ""
-  number:any
+  currentRoute:string | null = "";
+  chatUrl:string | null = "";
+  year:string | null = "";
+  currentUser:string | null = "";
+  number:any;
 
 
 
@@ -24,25 +24,25 @@ export class BannerComponent {
     private _router:Router,
     private _userService:UserSessionMenagmentService,
     private _dashService:DashboardService,
-    private _store:Store
+
   ){
     
   }
   ngOnInit():void{
-   this.checkRoutes()
+   this.checkRoutes();
    
-    this.year = sessionStorage.getItem("year")
-    this.currentUser = this._userService.getItem("Username") ?? "Log in"
-    this.number = this._dashService.number
+    this.year = sessionStorage.getItem("year");
+    this.currentUser = this._userService.getItem("Username") ?? "Log in";
+    this.number = this._dashService.number;
   }
   ngDoCheck():void{
-    this.checkRoutes()
+    this.checkRoutes();
   }
   checkRoutes(){
     this.currentRoute = this._userService.getItem("currentRoute");
-    this.chatUrl = this._userService.getItem("chatUrl")
+    this.chatUrl = this._userService.getItem("chatUrl");
     if(this.currentRoute != null && this.chatUrl != null){
-      this.currentRoute += this.chatUrl
+      this.currentRoute += this.chatUrl;
     }
   }
   navigateToLogin(){

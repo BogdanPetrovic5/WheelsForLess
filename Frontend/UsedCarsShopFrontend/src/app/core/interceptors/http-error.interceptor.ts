@@ -6,7 +6,9 @@ import { StateMenagmentService } from '../services/state-menagment/state-menagme
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
+  
   constructor(private _stateMenagmentService:StateMenagmentService){}
+
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {

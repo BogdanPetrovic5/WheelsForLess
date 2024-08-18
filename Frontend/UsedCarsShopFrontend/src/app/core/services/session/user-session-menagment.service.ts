@@ -7,7 +7,10 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class UserSessionMenagmentService {
 
-  constructor(@Inject(CookieService) private _cookieService: CookieService) { }
+  constructor(
+    @Inject(CookieService) private _cookieService: CookieService
+  ) { }
+
   clearSession(){
     sessionStorage.clear()
   }

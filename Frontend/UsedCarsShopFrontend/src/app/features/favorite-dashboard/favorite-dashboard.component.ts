@@ -21,24 +21,24 @@ export class FavoriteDashboardComponent implements OnInit{
     this.favorites = new FavoiriteAdvertisement();
   }
   ngOnInit(): void {
-      this.loadFavorites()
+      this.loadFavorites();
       this._userService.setItem("currentRoute", "Favorites");
   }
   loadFavorites(){
     this._dashboardService.getFavorites().subscribe(response=>{
           
-      this.favorites.Advertisements = response
-      console.log("Favorites: ", this.favorites)
+      this.favorites.Advertisements = response;
+      console.log("Favorites: ", this.favorites);
   },(error:HttpErrorResponse)=>{
-    console.log(error)
+    console.log(error);
   })
   }
   navigateToAdvertisement(card:any){
     this._router.navigate(['/Advertisement']);
-    let currentRoute = card.carDto.brand + " " + card.carDto.model
-    let carYear = card.carDto.year
+    let currentRoute = card.carDto.brand + " " + card.carDto.model;
+    let carYear = card.carDto.year;
     this._userService.setItem("currentRoute", currentRoute);
-    sessionStorage.setItem("year", carYear)
+    sessionStorage.setItem("year", carYear);
     this._dashboardService.setCard(card);
   }
 }

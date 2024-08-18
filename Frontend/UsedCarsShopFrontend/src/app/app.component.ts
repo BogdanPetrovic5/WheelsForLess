@@ -9,16 +9,16 @@ import { StateMenagmentService } from './core/services/state-menagment/state-men
 export class AppComponent implements OnInit {
   title = 'UsedCarsShopFrontend';
   isExpired:boolean | null = false
-  private readonly _authLogout:AutoLogoutService;
-  constructor(private autoLogout:AutoLogoutService, 
+
+  constructor(private _autoLogout:AutoLogoutService, 
     private _stateMenagmentService:StateMenagmentService
   ){
-    this._authLogout = autoLogout;
+    
     this._stateMenagmentService.isSessionExpired$.subscribe((isExpired)=>{
       this.isExpired = isExpired;
     })
   }
   ngOnInit():void{
-    // this._authLogout.initTokenCheck();
+    // this._autoLogout.initTokenCheck();
   }
 }

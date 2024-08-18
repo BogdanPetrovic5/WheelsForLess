@@ -57,9 +57,9 @@ export class HederComponent implements OnInit{
     this.messageCount$ = this._store.pipe(select(selectMessageCount));
     this.subscriptions.add(
       this._messageService.unreadMessagesIncrement$.subscribe((step: number | null)=>{
-        console.log(step)
+        console.log(step);
         if(this.numberMessages != null && step != null) {
-          this.numberMessages += step
+          this.numberMessages += step;
         }
       })
     )
@@ -71,32 +71,24 @@ export class HederComponent implements OnInit{
   }
   ngOnInit():void{
    
-    this.initializeComponent()
-    this.loadSubscriptions();
+    this.initializeComponent();
+  
     this.loadNewMessages();
   }
   ngOnDestroy():void{
-    this.subscriptions.unsubscribe()
+    this.subscriptions.unsubscribe();
   }
   initializeComponent(){
-    this.username = this._userService.getItem("Username")
-    this.currentRoute = this._userService.getItem("currentRoute")
-  
-    
-    
-    
+    this.username = this._userService.getItem("Username");
+    this.currentRoute = this._userService.getItem("currentRoute");
   }
-  
-  loadSubscriptions(){
-    
-  }
+
   showOptions(){
     this.brands = !this.brands
     this.loadOptions();
     if(this.models) this.models = false
   }
   loadOptions(){
-
     this.carBrandsWithModels = this._brandsWithModelsService?.getBrandsAndModles();
     console.log(this.carBrandsWithModels)
   }
@@ -107,8 +99,8 @@ export class HederComponent implements OnInit{
     // this._store.dispatch(updateBrandFilter({brand:this.selectedBrand || null}));
     // this._store.dispatch(updateModelFilter({model:this.selectedModel || null}));
     // this._store.dispatch(applyFilters())
-    this._userService.removeItemFromSessionStorage("brand")
-    this._userService.removeItemFromSessionStorage("model")
+    this._userService.removeItemFromSessionStorage("brand");
+    this._userService.removeItemFromSessionStorage("model");
   }
   loadNewMessages(){
     if(this.username){
@@ -160,25 +152,25 @@ export class HederComponent implements OnInit{
   }
 
   sendMessage(){
-    this._router.navigate(['/NewMessage'])
+    this._router.navigate(['/NewMessage']);
   }
  
   changeToForm(){
-    this._router.navigate(['/New Adver'])
+    this._router.navigate(['/New Adver']);
   }
  
   showDropdown(){
-    this.options = true
+    this.options = true;
   }
 
   closeDropdown(){
-    this.options = false
+    this.options = false;
   }
 
   logout(){
    
-    this._auth.logout()
-    this._dashboardComponent.closeConnection()
+    this._auth.logout();
+    this._dashboardComponent.closeConnection();
   }
 
  

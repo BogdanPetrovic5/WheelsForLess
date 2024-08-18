@@ -9,10 +9,12 @@ import { UserSessionMenagmentService } from '../session/user-session-menagment.s
 export class AutoLogoutService {
   private checkInterval = 20000;
   private timer:any;
+  
   constructor(
     private _userService:UserSessionMenagmentService, 
     private _jwtHelper:JwtHelperService,
-    private _router:Router,private _auth:AuthenticationService) { 
+    private _router:Router,
+    private _auth:AuthenticationService) { 
     
   }
  

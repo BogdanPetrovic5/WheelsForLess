@@ -53,7 +53,6 @@ export class DasboardComponent {
       private _loadingService:LoadingService,
       private _wsService:WebsocketMessagesService,
       private _userService:UserSessionMenagmentService,
-      private store: Store<{ advertisements: AdvertisementState}>
     ){
       this.advertisementObject = new Advertisement();
       // this.advertisements$ = this.store.pipe(select(selectAdvertisements));

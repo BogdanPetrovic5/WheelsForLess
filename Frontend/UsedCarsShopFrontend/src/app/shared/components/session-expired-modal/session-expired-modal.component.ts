@@ -10,23 +10,24 @@ import { StateMenagmentService } from 'src/app/core/services/state-menagment/sta
 })
 export class SessionExpiredModalComponent {
   refreshedToken:string | null= null;
-  constructor(private _authService:AuthenticationService,
+  constructor(
+    private _authService:AuthenticationService,
     private _stateMenagmentService:StateMenagmentService,
     private _userService:UserSessionMenagmentService
   ){
 
   }
   logout(){
-    this._authService.logout()
-    this._stateMenagmentService.setIsExpired(false)
+    this._authService.logout();
+    this._stateMenagmentService.setIsExpired(false);
   }
   refreshSession(){
     this._authService.refreshSession().subscribe((response)=>{
-      this.refreshedToken = response
-      console.log(this.refreshedToken)
-      const username = this._userService.getItem("Username")
-      this._authService.storeToken(this.refreshedToken, username)
-      this._stateMenagmentService.setIsExpired(false)
+      this.refreshedToken = response;
+      console.log(this.refreshedToken);
+      const username = this._userService.getItem("Username");
+      this._authService.storeToken(this.refreshedToken, username);
+      this._stateMenagmentService.setIsExpired(false);
     })
   }
 }

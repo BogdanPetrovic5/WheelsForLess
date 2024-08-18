@@ -15,18 +15,19 @@ import { Router } from '@angular/router';
 })
 export class AuthenticationService {
 
-  constructor(private http: HttpClient,
-    private jwtHelper: JwtHelperService, 
+  constructor(
+    private _http: HttpClient,
+    private _jwtHelper: JwtHelperService, 
     private _userService:UserSessionMenagmentService,
     @Inject(CookieService) private _cookieService: CookieService,
     private _router:Router
 ) { }
   register(user:any):Observable<any>{
-      return this.http.post<any>(environment.apiUrl + "/api/Registration/Registration",user)
+      return this._http.post<any>(environment.apiUrl + "/api/Registration/Registration",user)
   }
   
   login(user:any):Observable<any>{
-    return this.http.post<any>(environment.apiUrl + "/api/Login/Login",user).pipe(
+    return this._http.post<any>(environment.apiUrl + "/api/Login/Login",user).pipe(
       tap(response => this.storeToken(response.value, user.UserName))
     );
   }
@@ -38,7 +39,7 @@ export class AuthenticationService {
 
   isLoggedIn(): boolean {
     const token = this._userService.getFromCookie()
-    return token !== null && !this.jwtHelper.isTokenExpired(token);
+    return token !== null && !this._jwtHelper.isTokenExpired(token);
   }
   storeToken(token:string | null, username?:any){
     this._userService.setToCookie(token)
@@ -48,7 +49,7 @@ export class AuthenticationService {
   refreshSession():Observable<any>{
     const username = this._userService.getItem("Username")
     const url = `${environment.apiUrl}/api/Token/RefreshToken?username=${username}`
-    return this.http.get(url)
+    return this._http.get(url)
   }
   
 }

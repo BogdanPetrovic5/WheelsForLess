@@ -24,19 +24,19 @@ export class MessagesService {
   
   public unreadMessages:number = 0
   constructor(
-    private http:HttpClient,
+    private _http:HttpClient,
     private _userService:UserSessionMenagmentService
   ) {
   }
   // updateUsers(username:any, step:number):Observable<any>{
-  //   return this.http.put<any>(`${environment.apiUrl}/api/User/UpdateNewMessages`,{
+  //   return this._http.put<any>(`${environment.apiUrl}/api/User/UpdateNewMessages`,{
   //     username:username,
   //     step:step
   //   });
   // }
   openMessage(messageID:number | null, username:string | null, newMessages:number | null):Observable<any>{
     const url = `${environment.apiUrl}/api/Messages/OpenMessage`;
-    return this.http.put<any>(url,{
+    return this._http.put<any>(url,{
       MessageID:messageID,
       UserName:username,
       UnreadMessages:newMessages
@@ -45,18 +45,18 @@ export class MessagesService {
   getUserMessages(cuurentUsername:string | null):Observable<any>{
       const url = `${environment.apiUrl}/api/Messages/GetMessages/${cuurentUsername}`;
       console.log(`Fetching messages from URL: ${url}`);
-      return this.http.get<any>(url);
+      return this._http.get<any>(url);
   
   }
   getUserToUserMessages(currentUserID?:any,initialSenderID?:any ,adverID?:any){
       adverID = this._userService.getItem("adverID");
       currentUserID = this._userService.getItem("userID")
       
-      return this.http.get<any>(`${environment.apiUrl}/api/Messages/GetMessages/${currentUserID}/${initialSenderID}/${adverID}`)
+      return this._http.get<any>(`${environment.apiUrl}/api/Messages/GetMessages/${currentUserID}/${initialSenderID}/${adverID}`)
   }
  
   sendMessage(senderUsername?:string | null, receiverUsername?:string | null, adverID?:number | null, message?:string | null):Observable<any>{
-    return this.http.post<any>(`${environment.apiUrl}/api/Messages/SendMessage`,{
+    return this._http.post<any>(`${environment.apiUrl}/api/Messages/SendMessage`,{
       Message:message,
       SenderUsername:senderUsername,
       ReceiverUsername:receiverUsername,
