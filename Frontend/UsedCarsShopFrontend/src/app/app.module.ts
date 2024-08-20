@@ -23,19 +23,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LandingComponent } from './features/landing/landing.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-import { AdvertisementCardComponent } from './shared/components/advertisement-card/advertisement-card.component';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { filterReducer } from './store/filter-store/filter.reducer';
 import { advertisementReducer } from './store/advertisement-store/advertisement.reducer';
-import { reduce } from 'rxjs';
 import { AdvertisementEffects } from './store/advertisement-store/advertisement.effects';
 import { messageReducer } from './store/messages-store/messages.reducer';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
-import { AlertComponent } from './shared/components/alert/alert.component';
-import { SessionExpiredModalComponent } from './shared/components/session-expired-modal/session-expired-modal.component';
+import { DasboardModule } from './features/dasboard/dasboard.module';
+import { SharedModule } from './shared/shared.module';
 export function jwtOptionsFactory() {
   return {
     tokenGetter: () => {
@@ -48,19 +47,18 @@ export function jwtOptionsFactory() {
   declarations: [
     AppComponent,
     LoginRegisterComponent,
-    DasboardComponent,
+    
     NewAdverFormComponent,
     AdvertisementComponent,
-    HederComponent,
+   
     FavoriteDashboardComponent,
     UserToUserMessagesComponent,
-    LoadingComponent,
+   
     AllMessagesComponent,
-    BannerComponent,
+   
     LandingComponent,
-    AdvertisementCardComponent,
-    AlertComponent,
-    SessionExpiredModalComponent,
+    
+  
    
     
   ],
@@ -70,6 +68,9 @@ export function jwtOptionsFactory() {
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    DasboardModule,
+    SharedModule,
+   
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
@@ -83,7 +84,8 @@ export function jwtOptionsFactory() {
     StoreModule.forFeature('filters',filterReducer),
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+   
   ],schemas: [
     NO_ERRORS_SCHEMA,
     CUSTOM_ELEMENTS_SCHEMA

@@ -11,13 +11,14 @@ import { AllMessagesComponent } from './features/all-messages/all-messages.compo
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoginGuard } from './core/guards/login.guard';
 import { LandingComponent } from './features/landing/landing.component';
+import { DasboardModule } from './features/dasboard/dasboard.module';
 
 
 const routes: Routes = [
   {path:'', redirectTo:"/Landing", pathMatch:"full"},
   {path:"Landing", component:LandingComponent,canActivate:[LoginGuard]},
   {path:"Get started", component:LoginRegisterComponent, canActivate:[LoginGuard]},
-  {path:"Dashboard", component:DasboardComponent},
+  {path:"Dashboard", loadChildren: () => import('./features/dasboard/dasboard.module').then(m => m.DasboardModule)},
   {path:"Advertisement", component:AdvertisementComponent},
   {path:"New Adver", component:NewAdverFormComponent, canActivate:[AuthGuard]},
   {path:'Favorites', component:FavoriteDashboardComponent, canActivate:[AuthGuard]},
